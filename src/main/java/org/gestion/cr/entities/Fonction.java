@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name="Fonctions")
 
@@ -34,6 +36,7 @@ public class Fonction implements Serializable
 	@Column(name="ID_FONCTION")
 	private long idFonction;
 	
+	@NotEmpty
 	private String labelle;
 	
 	//mappedBy reference une propriété de l'entité cible
@@ -48,10 +51,20 @@ public class Fonction implements Serializable
 	
 	
 	//generation du guetteurs et du setteurs
+	
+	public long getIdFonction() 
+	{
+		return idFonction;
+	}
+	public void setIdFonction(long idFonction) 
+	{
+		this.idFonction = idFonction;
+	}
 	public String getLabelle()
 	{
 		return labelle;
 	}
+	
 	public void setLabelle(String labelle) 
 	{
 		this.labelle = labelle;

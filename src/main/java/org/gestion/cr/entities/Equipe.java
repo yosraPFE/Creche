@@ -15,6 +15,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name="Equipes")
 
@@ -44,11 +46,15 @@ public class Equipe extends Personnage implements Serializable
 	 * @author YOSRA
 	 *
 	 */
-	
+	@NotEmpty
 	private Date dateNaissance;
+	@NotEmpty
 	private String lieuNaissance;
+	
 	private String sexe;
+	@NotEmpty
 	private String adresseDomicile;
+	
 	private String nomUtilisateur;
 	private String motPasse;
 	
@@ -109,12 +115,10 @@ public class Equipe extends Personnage implements Serializable
 		super();
 		
 	}
-	
 	//generateur du constructeur avec parametres
-	public Equipe(String nom, String prenom, byte[] photo, Date dateNaissance,
-			String lieuNaissance, String sexe, String adresseDomicile,
-			String nomUtilisateur, String motPasse) {
-		super(nom, prenom, photo);
+	public Equipe(Date dateNaissance, String lieuNaissance, String sexe,
+			String adresseDomicile, String nomUtilisateur, String motPasse) {
+		super();
 		this.dateNaissance = dateNaissance;
 		this.lieuNaissance = lieuNaissance;
 		this.sexe = sexe;
@@ -122,6 +126,8 @@ public class Equipe extends Personnage implements Serializable
 		this.nomUtilisateur = nomUtilisateur;
 		this.motPasse = motPasse;
 	}
+	
+
 	
 	
 	

@@ -14,6 +14,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="AccompagnateurAbsences")
@@ -27,10 +30,14 @@ public class Accompagnateur extends Personnage implements Serializable
 	 * @author YOSRA
 	 *
 	 */
-	
+	@NotEmpty
 	private String cin;
+	
+	@NotEmpty
 	private String description;
+	@NotEmpty
 	private String telephonePortable;
+	
 	
 	/*pour l'annotation ManyToMany on declare un table de jointure qui contient les deux clé etranger
 	 * de deux tables associative AccompagnateurAbsence et Enfant
@@ -67,6 +74,7 @@ public class Accompagnateur extends Personnage implements Serializable
 	}
 	
 	
+	
 	//generateur du constructeur sans parametres
 	public Accompagnateur() 
 	{
@@ -81,14 +89,15 @@ public class Accompagnateur extends Personnage implements Serializable
 	{
 		this.enfants = enfants;
 	}
-	
 	//generateur du constructeur avec parametres
 	public Accompagnateur(String nom, String prenom, byte[] photo,
-			String cin, String description, String telephonePortable) {
-		super(nom, prenom, photo);
+			String nomPhoto, String cin, String description,
+			String telephonePortable) {
+		super(nom, prenom, photo, nomPhoto);
 		this.cin = cin;
 		this.description = description;
 		this.telephonePortable = telephonePortable;
+		
 	}
 	
 	

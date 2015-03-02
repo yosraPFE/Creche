@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name="Menus")
 public class Menus implements Serializable
@@ -33,8 +35,11 @@ public class Menus implements Serializable
 	@Column(name="ID_MENUS")
 	private long idMenu;
 	
+	@NotEmpty
 	private String nom;
-	private float prix;
+	@NotEmpty
+	private double prix;
+	@NotEmpty
 	private Date date;
 	
 	@ManyToOne
@@ -42,18 +47,28 @@ public class Menus implements Serializable
 	private Tarif tarif;
 	
 	//generateur du guetteurs et du setteurs
+	
+	public long getIdMenu() 
+	{
+		return idMenu;
+	}
+	public void setIdMenu(long idMenu)
+	{
+		this.idMenu = idMenu;
+	}
 	public String getNom() {
 		return nom;
 	}
+	
 	public void setNom(String nom) 
 	{
 		this.nom = nom;
 	}
-	public float getPrix() 
+	public double getPrix() 
 	{
 		return prix;
 	}
-	public void setPrix(float prix) 
+	public void setPrix(double prix) 
 	{
 		this.prix = prix;
 	}
@@ -83,7 +98,7 @@ public class Menus implements Serializable
 	}
 	//generateur du constructeurs avec parametres
 	
-	public Menus(String nom, float prix, Date date) 
+	public Menus(String nom, double prix, Date date) 
 	{
 		super();
 		this.nom = nom;

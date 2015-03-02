@@ -12,6 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name="NomClasses")
 public class NomClass implements Serializable 
@@ -33,6 +35,7 @@ public class NomClass implements Serializable
 	@Column(name="ID_NOM_CLASSES")
 	private long idNomClass;
 	
+	@NotEmpty	
 	private String labelle;
 	
 	
@@ -42,14 +45,26 @@ public class NomClass implements Serializable
 	
 	
 	//generateur du guetteurs et du setteurs
-	public String getLabelle() 
+	
+	public long getIdNomClass() 
 	{
-		return labelle;
+		return idNomClass;
+	}
+	public void setIdNomClass(long idNomClass) 
+	{
+		this.idNomClass = idNomClass;
 	}
 	public void setLabelle(String labelle) 
 	{
 		this.labelle = labelle;
 	}
+	
+	public String getLabelle() 
+	{
+		return labelle;
+	}
+	
+	
 	public Classe getClasse() 
 	{
 		return classe;

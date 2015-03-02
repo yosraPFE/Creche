@@ -63,15 +63,20 @@ public class EquipeSanitaire extends Equipe implements Serializable
 		super();
 		
 	}
-	
 	//generateur du constructeur avec parametres
 
-	public EquipeSanitaire(String nom, String prenom, byte[] photo,
-			Date dateNaissance, String lieuNaissance, String sexe,
-			String adresseDomicile, String nomUtilisateur, String motPasse) {
-		super(nom, prenom, photo, dateNaissance, lieuNaissance, sexe,
-				adresseDomicile, nomUtilisateur, motPasse);
+
+	public EquipeSanitaire(Date dateNaissance, String lieuNaissance,
+			String sexe, String adresseDomicile, String nomUtilisateur,
+			String motPasse) {
+		super(dateNaissance, lieuNaissance, sexe, adresseDomicile,
+				nomUtilisateur, motPasse);
 	}
+
+	
+	
+	
+	
 	
 		
 

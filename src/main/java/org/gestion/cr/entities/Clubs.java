@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name="Clubs")
 
@@ -35,6 +37,7 @@ public class Clubs implements Serializable
 	@Column(name="ID_CLUB")
 	private long idClub;
 	
+	@NotEmpty
 	private String nom;	
 	
 	/*puisque la classe "Clubs" a une collection de "CategorieClub" qui a
@@ -51,10 +54,20 @@ public class Clubs implements Serializable
 	private Tarif tarif;
 	
 	//generation du guetteurs et du setteurs
+	public long getIdClub() 
+	{
+		return idClub;
+	}
+	public void setIdClub(long idClub)
+	{
+		this.idClub = idClub;
+	}
+	
 	public String getNom() 
 	{
 		return nom;
 	}
+	
 	public void setNom(String nom) 
 	{
 		this.nom = nom;

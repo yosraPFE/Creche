@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.crypto.Data;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 //la notation table est pa obligatoire car par defaut il va prendre le nom de la classe
 @Table(name="CategoriesClubs")
@@ -37,8 +39,11 @@ public class CategorieClub implements Serializable
 	@Column(name="ID_CATEG_CLUB")
 	private long idCateg;
 	
+	@NotEmpty
 	private String labelle;
-	private float prix;
+	@NotEmpty
+	private double prix;
+	@NotEmpty
 	private Date date;
 	
 	@ManyToOne
@@ -46,19 +51,29 @@ public class CategorieClub implements Serializable
 	private Clubs clubs;
 	
 	//generateur du guetteurs et du setteurs
+	public long getIdCateg()
+	{
+		return idCateg;
+	}
+	public void setIdCateg(long idCateg) 
+	{
+		this.idCateg = idCateg;
+	}
+	
 	public String getLabelle() 
 	{
 		return labelle;
 	}
+	
 	public void setLabelle(String labelle)
 	{
 		this.labelle = labelle;
 	}
-	public float getPrix() 
+	public double getPrix() 
 	{
 		return prix;
 	}
-	public void setPrix(float prix) 
+	public void setPrix(double prix) 
 	{
 		this.prix = prix;
 	}
@@ -90,7 +105,7 @@ public class CategorieClub implements Serializable
 	
 	//generateur du constructeur avec parametres
 	
-	public CategorieClub(String labelle, float prix, Date date) 
+	public CategorieClub(String labelle, double prix, Date date) 
 	{
 		super();
 		this.labelle = labelle;

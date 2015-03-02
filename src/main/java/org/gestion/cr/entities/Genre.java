@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name="Genres")
 
@@ -34,6 +36,7 @@ public class Genre implements Serializable
 	@Column(name="ID_GENRE")
 	private long idGenre;
 	
+	@NotEmpty
 	private String labelle;
 	
 	//mappedBy reference une propriété de l'entité cible
@@ -41,10 +44,20 @@ public class Genre implements Serializable
 	private Collection<Parent> parents;
 	
 	//generation du guetteurs et du setteurs
+	
+	public long getIdGenre()
+	{
+		return idGenre;
+	}
+	public void setIdGenre(long idGenre) 
+	{
+		this.idGenre = idGenre;
+	}
 	public String getLabelle() 
 	{
 		return labelle;
 	}
+	
 	public void setLabelle(String labelle) 
 	{
 		this.labelle = labelle;

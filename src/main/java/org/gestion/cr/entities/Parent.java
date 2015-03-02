@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name="Parents")
 //classe heritante de la classe mere Personnage
@@ -34,16 +36,22 @@ public class Parent  extends Personnage implements Serializable
 	 * GenerationType.TABLE :attribuer les clés primaires pour l'entité en utilisant une table de base de données sous-jacente pour garantir l'unicité
 	 */
 	
+	@NotEmpty
 	private String cin;
+	@NotEmpty
 	private String profession;
+	@NotEmpty
 	private String adresseDomicile;
+	
 	private String telephoneDomicile;
+	
 	private String telephonePortable;
 	private String email;
 	private String lieuTravail;
 	private String telephoneTravail;
 	private String nomUtilisateur;
 	private String motPasse;
+	
 	
 	@ManyToOne
 	//pour la jointure on doit identifier une colonne qui contient le clé etranger
@@ -155,20 +163,19 @@ public class Parent  extends Personnage implements Serializable
 	}
 	
 	
+	
 	//generateur du constructeurs sans parametres
 	public Parent() 
 	{
 		super();
 		
 	}
-	
 	//generateur du constructeur avec parametres
-	public Parent(String nom, String prenom, byte[] photo, String cin,
-			String profession, String adresseDomicile,
+	public Parent(String cin, String profession, String adresseDomicile,
 			String telephoneDomicile, String telephonePortable, String email,
 			String lieuTravail, String telephoneTravail, String nomUtilisateur,
 			String motPasse) {
-		super(nom, prenom, photo);
+		super();
 		this.cin = cin;
 		this.profession = profession;
 		this.adresseDomicile = adresseDomicile;
@@ -179,13 +186,8 @@ public class Parent  extends Personnage implements Serializable
 		this.telephoneTravail = telephoneTravail;
 		this.nomUtilisateur = nomUtilisateur;
 		this.motPasse = motPasse;
+		
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 

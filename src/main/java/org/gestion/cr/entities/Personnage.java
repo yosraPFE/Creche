@@ -11,7 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="Personnages")
@@ -50,16 +54,35 @@ public class Personnage implements Serializable
 	@Column(name="ID_PERSONNAGE")
 	private long idPerson;
 	
+	@NotEmpty
+	@Size(min=4,max=20)
 	private String nom;
+	
+	@NotEmpty
+	@Size(min=4,max=20)
 	private String prenom;
+	
+	private String nomPhoto;
 	//byte[]:entier compri entre -128 jusqua 127
+	@Lob
 	private byte[] photo;
 	
+	
 	//generateur du guetteurs et du setteurs
+	public long getIdPerson() 
+	{
+		return idPerson;
+	}
+	public void setIdPerson(long idPerson) 
+	{
+		this.idPerson = idPerson;
+	}
+	
 	public String getNom() 
 	{
 		return nom;
 	}
+	
 	public void setNom(String nom) 
 	{
 		this.nom = nom;
@@ -81,6 +104,16 @@ public class Personnage implements Serializable
 	{
 		this.photo = photo;
 	}
+	
+	
+	public String getNomPhoto() 
+	{
+		return nomPhoto;
+	}
+	public void setNomPhoto(String nomPhoto) 
+	{
+		this.nomPhoto = nomPhoto;
+	}
 	//generateur du constructeur sans parametres
 	public Personnage() 
 	{
@@ -88,13 +121,15 @@ public class Personnage implements Serializable
 		
 	}
 	//generateur du constructeur avec parametres
-	public Personnage(String nom, String prenom, byte[] photo) 
+	public Personnage(String nom, String prenom, byte[] photo, String nomPhoto) 
 	{
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
 		this.photo = photo;
+		this.nomPhoto = nomPhoto;
 	}
+	
 	
 	
 	

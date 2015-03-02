@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name="PlanningHorraires")
 public class PlanningHorraires implements Serializable
@@ -34,8 +36,10 @@ public class PlanningHorraires implements Serializable
 	@Column(name="ID_PLANNING_HORRAIRES")
 	private long idPlanning;
 	
+	@NotEmpty
 	private String type;
-	private float prix;
+	@NotEmpty
+	private double prix;
 	
 	
 	//mappedBy reference une propriété de l'entité cible
@@ -43,19 +47,29 @@ public class PlanningHorraires implements Serializable
 	private Collection<Tarif> tarifs;
 	
 	//generation du guetteurs et du setteurs
+	public long getIdPlanning() 
+	{
+		return idPlanning;
+	}
+	public void setIdPlanning(long idPlanning)
+	{
+		this.idPlanning = idPlanning;
+	}
+	
 	public String getType() 
 	{
 		return type;
 	}
+	
 	public void setType(String type) 
 	{
 		this.type = type;
 	}
-	public float getPrix() 
+	public double getPrix() 
 	{
 		return prix;
 	}
-	public void setPrix(float prix) 
+	public void setPrix(double prix) 
 	{
 		this.prix = prix;
 	}
@@ -77,7 +91,7 @@ public class PlanningHorraires implements Serializable
 	}
 	
 	//generation du constructeur avec parametres
-	public PlanningHorraires(String type, float prix) 
+	public PlanningHorraires(String type, double prix) 
 	{
 		super();
 		this.type = type;

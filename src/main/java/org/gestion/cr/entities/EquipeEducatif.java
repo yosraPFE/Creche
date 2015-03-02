@@ -31,6 +31,8 @@ public class EquipeEducatif extends Equipe implements Serializable
 	@JoinColumn(name="ID_FONCTION")
 	private Fonction fonction;
 	
+	
+	
 	@ManyToMany
 	@JoinTable(name="EQEDU_CLASS",joinColumns=@JoinColumn(name="ID_EQ_EDU"),
 	inverseJoinColumns=@JoinColumn(name="ID_CLASSE"))
@@ -56,6 +58,9 @@ public class EquipeEducatif extends Equipe implements Serializable
 		this.classes = classes;
 	}
 	
+	
+
+	
 
 	//generateur du constructeur sans parametres
 	public EquipeEducatif() 
@@ -63,16 +68,15 @@ public class EquipeEducatif extends Equipe implements Serializable
 		super();
 		
 	}
-	
-    //generateur du constructeur avec parametres
-	public EquipeEducatif(String nom, String prenom, byte[] photo,
-			Date dateNaissance, String lieuNaissance, String sexe,
-			String adresseDomicile, String nomUtilisateur, String motPasse) {
-		super(nom, prenom, photo, dateNaissance, lieuNaissance, sexe,
-				adresseDomicile, nomUtilisateur, motPasse);
+	  //generateur du constructeur avec parametres
+
+	public EquipeEducatif(Date dateNaissance, String lieuNaissance,
+			String sexe, String adresseDomicile, String nomUtilisateur,
+			String motPasse) {
+		super(dateNaissance, lieuNaissance, sexe, adresseDomicile,
+				nomUtilisateur, motPasse);
+		
 	}
-
-
 	
-
+	
 }

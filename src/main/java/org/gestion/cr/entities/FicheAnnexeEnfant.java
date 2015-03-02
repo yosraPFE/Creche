@@ -43,10 +43,20 @@ public class FicheAnnexeEnfant implements Serializable
 	private Enfant enfant;
 	
 	//generateur du guetteurs et du setteurs
+	
+	public long getIdFiche()
+	{
+		return idFiche;
+	}
+	public void setIdFiche(long idFiche) 
+	{
+		this.idFiche = idFiche;
+	}
 	public float getPoids() 
 	{
 		return poids;
 	}
+	
 	public void setPoids(float poids)
 	{
 		this.poids = poids;

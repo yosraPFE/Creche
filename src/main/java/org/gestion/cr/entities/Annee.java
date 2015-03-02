@@ -1,6 +1,8 @@
 package org.gestion.cr.entities;
 
 import java.io.Serializable;
+
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -10,10 +12,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="Annees")
@@ -37,36 +44,45 @@ public class Annee implements Serializable
 	@Column(name="ID_ANNEE")
 	private long idAnnee;
 	
+	@NotEmpty
 	private String annee;
 	
 	
-	@ManyToOne
-	@JoinColumn(name="ID_ENFANT")
-	private Enfant enfant;
+	@ManyToMany(mappedBy="annees") 
+    private Collection<Classe> classes;
 	
+
+	@ManyToMany
+	@JoinTable(name="class_ann_enf",joinColumns=@JoinColumn(name="ID_ANNEE")
+	,inverseJoinColumns=@JoinColumn(name="ID_ENFANT"))
+	private Collection<Enfant> enfants;
+
 	
-    //generateur de guetteures et des setteurs
-	public String getAnnee() 
-	{
+
+	
+	public String getAnnee() {
 		return annee;
 	}
 
-	public void setAnnee(String annee) 
-	{
+	public void setAnnee(String annee) {
 		this.annee = annee;
 	}
-	
 
-	public Enfant getEnfant() 
-	{
-		return enfant;
+	public Collection<Classe> getClasses() {
+		return classes;
 	}
 
-	public void setEnfant(Enfant enfant)
-	{
-		this.enfant = enfant;
+	public void setClasses(Collection<Classe> classes) {
+		this.classes = classes;
 	}
-	//generateur de constructeur sans parametres
+
+	public Collection<Enfant> getEnfants() {
+		return enfants;
+	}
+
+	public void setEnfants(Collection<Enfant> enfants) {
+		this.enfants = enfants;
+	}
 
 	public Annee() 
 	{

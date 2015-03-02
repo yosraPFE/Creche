@@ -63,10 +63,20 @@ public class Creche implements Serializable
 	
 	
 	//generation du guetteurs et du setteurs
+	public long getIdCreche() 
+	{
+		return idCreche;
+	}
+	public void setIdCreche(long idCreche) 
+	{
+		this.idCreche = idCreche;
+	}
+	
 	public String getNom() 
 	{
 		return nom;
 	}
+	
 	public void setNom(String nom) 
 	{
 		this.nom = nom;

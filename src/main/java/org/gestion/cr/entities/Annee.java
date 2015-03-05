@@ -58,29 +58,45 @@ public class Annee implements Serializable
 	private Collection<Enfant> enfants;
 
 	
-
+ 
 	
-	public String getAnnee() {
+	public long getIdAnnee()
+	{
+		return idAnnee;
+	}
+
+	public void setIdAnnee(long idAnnee) 
+	{
+		this.idAnnee = idAnnee;
+	}
+
+	public String getAnnee()
+	{
 		return annee;
 	}
 
-	public void setAnnee(String annee) {
+	public void setAnnee(String annee)
+	{
 		this.annee = annee;
 	}
 
-	public Collection<Classe> getClasses() {
+	public Collection<Classe> getClasses() 
+	{
 		return classes;
 	}
 
-	public void setClasses(Collection<Classe> classes) {
+	public void setClasses(Collection<Classe> classes)
+	{
 		this.classes = classes;
 	}
 
-	public Collection<Enfant> getEnfants() {
+	public Collection<Enfant> getEnfants()
+	{
 		return enfants;
 	}
 
-	public void setEnfants(Collection<Enfant> enfants) {
+	public void setEnfants(Collection<Enfant> enfants) 
+	{
 		this.enfants = enfants;
 	}
 

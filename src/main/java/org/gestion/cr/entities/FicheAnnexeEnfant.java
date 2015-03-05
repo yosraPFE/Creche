@@ -12,6 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name="FcheAnnexeEnfants")
 
@@ -33,6 +35,8 @@ public class FicheAnnexeEnfant implements Serializable
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_FICHE_ANNEXE")
 	private long idFiche;
+	
+	
 	
 	private float poids;
 	private float taille;

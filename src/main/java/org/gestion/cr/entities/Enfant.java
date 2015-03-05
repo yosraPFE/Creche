@@ -33,7 +33,7 @@ public class  Enfant extends Personnage implements Serializable
 	private String lieuNaissance;
 	@NotEmpty
 	private String langue;
-	@Size(min=8)
+	@Size(min=4)
 	private String antecedantsMedicaux;
 	@NotEmpty
 	private String situationParentale;
@@ -44,6 +44,7 @@ public class  Enfant extends Personnage implements Serializable
 	private boolean autorisationPrisePhoto;
 	
 	private String nomPrenomPediatre;
+	
 	private String telephonePortablePediatre;
 	private int nombreFreres;
 	private int nombreSoeur;
@@ -73,7 +74,7 @@ public class  Enfant extends Personnage implements Serializable
 	
 	//mappedBy reference une propriété de l'entité cible
 	@ManyToMany(mappedBy="enfants") 
-    private Collection<Accompagnateur> accompagnateurAbsences;
+    private Collection<Accompagnateur> accompagnateurs;
 	
 	@ManyToMany(mappedBy="enfants")
 	private Collection<Parent> parents;
@@ -183,13 +184,7 @@ public class  Enfant extends Personnage implements Serializable
 	public void setTarif(Tarif tarif) {
 		this.tarif = tarif;
 	}
-	public Collection<Accompagnateur> getAccompagnateurAbsences() {
-		return accompagnateurAbsences;
-	}
-	public void setAccompagnateurAbsences(
-			Collection<Accompagnateur> accompagnateurAbsences) {
-		this.accompagnateurAbsences = accompagnateurAbsences;
-	}
+	
 	public Collection<Parent> getParents() {
 		return parents;
 	}
@@ -214,6 +209,18 @@ public class  Enfant extends Personnage implements Serializable
 	public void setAnnees(Collection<Annee> annees) {
 		this.annees = annees;
 	}
+	
+	public Collection<Accompagnateur> getAccompagnateurs() 
+	{
+		return accompagnateurs;
+	}
+	public void setAccompagnateurs(Collection<Accompagnateur> accompagnateurs)
+	{
+		this.accompagnateurs = accompagnateurs;
+	}
+	
+	
+	//generateur du constructeur sans parametres
 	public Enfant()
 	{
 		super();

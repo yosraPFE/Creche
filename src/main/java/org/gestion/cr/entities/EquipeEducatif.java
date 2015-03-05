@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name="EquipeEducatifs")
 @DiscriminatorValue("EQ_EDU")
@@ -29,6 +31,7 @@ public class EquipeEducatif extends Equipe implements Serializable
 	 */
 	@ManyToOne
 	@JoinColumn(name="ID_FONCTION")
+	
 	private Fonction fonction;
 	
 	

@@ -31,9 +31,11 @@ public class Accompagnateur extends Personnage implements Serializable
 	 *
 	 */
 	@NotEmpty
+	
 	private String cin;
 	
 	@NotEmpty
+	@Size(min=5)
 	private String description;
 	@NotEmpty
 	private String telephonePortable;

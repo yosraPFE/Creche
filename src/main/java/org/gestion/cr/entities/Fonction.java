@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -37,6 +38,7 @@ public class Fonction implements Serializable
 	private long idFonction;
 	
 	@NotEmpty
+	@Size(min=4)
 	private String labelle;
 	
 	//mappedBy reference une propriété de l'entité cible

@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 //chaque classe est une entité pour realiser la persistance on utilisant les anntation JPA
 @Entity
 @Table(name="Creches")
@@ -38,10 +40,15 @@ public class Creche implements Serializable
 	@Column(name="ID_CRECHE")
 	private long idCreche;
 	
+	@NotEmpty
 	private String nom;
+	@NotEmpty
 	private String adresse;
+	@NotEmpty
 	private String siteWeb;
+	@NotEmpty
 	private String ville;
+	@NotEmpty
 	private String telephone;
 	
 	/*puisque la classe Creche a une collection de EquipeTechnique  et dansla classe "EquipeTechnique" 
@@ -58,6 +65,7 @@ public class Creche implements Serializable
 	
 	
 	//cascade=CascadeType.REMOVE:fonctionnement en cascade remove
+	
 	@OneToMany(mappedBy="creche",cascade=CascadeType.REMOVE)
 	private Collection<Classe> classes;
 	

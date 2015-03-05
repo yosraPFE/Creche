@@ -58,6 +58,8 @@ public class Classe implements Serializable
 	private int nombrePlaces;
 	
 	
+	private String nom;
+	
 	
 	
 	
@@ -95,15 +97,8 @@ public class Classe implements Serializable
 	private NomClass nomClasse;
 	
 	
-	//generateur du guetteurs et setteurs
 	
-
-	//generateur du constructeur sans parametres
-	public Classe() 
-	{
-		super();
-		
-	}
+	
 	public long getIdClass() {
 		return idClass;
 	}
@@ -146,6 +141,24 @@ public class Classe implements Serializable
 	}
 	public void setNomClasse(NomClass nomClasse) {
 		this.nomClasse = nomClasse;
+	}
+	
+	
+	public String getNom()
+	{
+		return nom;
+	}
+	public void setNom(String nom)
+	{
+		this.nom = nom;
+	}
+	//generateur du constructeur sans parametres
+	
+	
+	public Classe() 
+	{
+		super();
+		
 	}
 	//generateur du constructeur avec parametres
 	public Classe(int nombrePlaces) {

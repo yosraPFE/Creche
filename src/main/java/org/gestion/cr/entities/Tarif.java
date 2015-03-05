@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -39,9 +40,10 @@ public class Tarif implements Serializable
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_TARIF")
-	private int idTarif;
+	private long idTarif;
 	
 	@NotEmpty
+	
 	private String tarifInscription;
 	
 	/*puisque la classe "Tarif" a une collection de "Clubs" qui a
@@ -66,11 +68,11 @@ public class Tarif implements Serializable
 	
 	//generation du guetteurs et du setteurs
 	
-	public int getIdTarif() 
+	public long getIdTarif() 
 	{
 		return idTarif;
 	}
-	public void setIdTarif(int idTarif) 
+	public void setIdTarif(long idTarif) 
 	{
 		this.idTarif = idTarif;
 	}

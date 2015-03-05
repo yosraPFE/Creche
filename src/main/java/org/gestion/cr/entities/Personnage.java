@@ -55,11 +55,11 @@ public class Personnage implements Serializable
 	private long idPerson;
 	
 	@NotEmpty
-	@Size(min=4,max=20)
+	
 	private String nom;
 	
 	@NotEmpty
-	@Size(min=4,max=20)
+	
 	private String prenom;
 	
 	private String nomPhoto;

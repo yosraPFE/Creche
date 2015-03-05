@@ -51,6 +51,7 @@ public class Equipe extends Personnage implements Serializable
 	@NotEmpty
 	private String lieuNaissance;
 	
+	@NotEmpty
 	private String sexe;
 	@NotEmpty
 	private String adresseDomicile;

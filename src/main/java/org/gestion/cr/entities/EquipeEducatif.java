@@ -19,9 +19,7 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="EquipeEducatifs")
-@DiscriminatorValue("EQ_EDU")
-
+@DiscriminatorValue("Equipe_Educatif")
 public class EquipeEducatif extends Equipe implements Serializable
 {
 	/**
@@ -29,9 +27,11 @@ public class EquipeEducatif extends Equipe implements Serializable
 	 * @author YOSRA
 	 *
 	 */
+	
+	
+	
 	@ManyToOne
 	@JoinColumn(name="ID_FONCTION")
-	
 	private Fonction fonction;
 	
 	
@@ -41,7 +41,8 @@ public class EquipeEducatif extends Equipe implements Serializable
 	inverseJoinColumns=@JoinColumn(name="ID_CLASSE"))
 	private Collection<Classe> classes;
 	
-    //generateur du guetteurs et du setteurs
+	
+    //generation des guetteurs et des setteurs
 	public Fonction getFonction() 
 	{
 		return fonction;
@@ -65,21 +66,23 @@ public class EquipeEducatif extends Equipe implements Serializable
 
 	
 
-	//generateur du constructeur sans parametres
+	//generation du constructeur sans parametres
 	public EquipeEducatif() 
 	{
 		super();
 		
 	}
-	  //generateur du constructeur avec parametres
+	  //generation du constructeur avec parametres
 
-	public EquipeEducatif(Date dateNaissance, String lieuNaissance,
+	public EquipeEducatif(String nom, String prenom, byte[] photo,
+			String nomPhoto, String dateNaissance, String lieuNaissance,
 			String sexe, String adresseDomicile, String nomUtilisateur,
 			String motPasse) {
-		super(dateNaissance, lieuNaissance, sexe, adresseDomicile,
-				nomUtilisateur, motPasse);
-		
+		super(nom, prenom, photo, nomPhoto, dateNaissance, lieuNaissance, sexe,
+				adresseDomicile, nomUtilisateur, motPasse);
 	}
+
+	
 	
 	
 }

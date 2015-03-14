@@ -7,7 +7,9 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -15,9 +17,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="Enfants")
-@DiscriminatorValue("ENF")
-
+@DiscriminatorValue("Enfant")
 public class  Enfant extends Personnage implements Serializable
 {
 	/**
@@ -25,23 +25,26 @@ public class  Enfant extends Personnage implements Serializable
 	 * @author YOSRA
 	 *
 	 */
-	@NotEmpty
+	
+	
+	
 	private String sexe;
-	@NotEmpty
-	private  Date dateNaissance;
-	@NotEmpty
+	
+	private  String dateNaissance;
+	
 	private String lieuNaissance;
-	@NotEmpty
+	
 	private String langue;
-	@Size(min=4)
+	
 	private String antecedantsMedicaux;
-	@NotEmpty
-	private String situationParentale;
-	@NotEmpty
+	
+	private boolean situationParentale;
+	
 	private Date dateInscription;
 	private boolean certificatMedicale;
-	@NotEmpty
+	
 	private boolean autorisationPrisePhoto;
+	private boolean inscriptionEvenement;
 	
 	private String nomPrenomPediatre;
 	
@@ -50,15 +53,6 @@ public class  Enfant extends Personnage implements Serializable
 	private int nombreSoeur;
 	
 	
-	/*
-	 * un enfant possede une et une seule FicheAnnexeEnfant associé a lui
-	 */
-	
-	@OneToOne(mappedBy="enfant",cascade=CascadeType.ALL)
-	private FicheAnnexeEnfant ficheAnnexeEnfant;
-	
-	@OneToOne(mappedBy="enfant",cascade=CascadeType.ALL)
-	private Tarif tarif;
 	
 	/*puisque la classe "Enfant" a une collection de "Classe" qui a
 	* un objet de type enfant qui s'appelle "enfant" on le met pour le mapping :mappedBy="enfant"
@@ -73,6 +67,8 @@ public class  Enfant extends Personnage implements Serializable
 	 *  */
 	
 	//mappedBy reference une propriété de l'entité cible
+	
+	
 	@ManyToMany(mappedBy="enfants") 
     private Collection<Accompagnateur> accompagnateurs;
 	
@@ -91,122 +87,155 @@ public class  Enfant extends Personnage implements Serializable
     private Collection<Annee> annees;
 	
 	
+	@ManyToMany(mappedBy="enfants") 
+    private Collection<Evennement> evenements;
 	
 	
-	public String getSexe() {
+	@ManyToMany(mappedBy="enfants") 
+    private Collection<Consultation> consultations;
+	
+	@ManyToOne
+	@JoinColumn(name="ID_TARIF")
+	private Tarif tarif;
+	
+	
+	
+	//Generation des guetteurs et des setteurs
+	public String getSexe()
+	{
 		return sexe;
 	}
-	public void setSexe(String sexe) {
+	public void setSexe(String sexe) 
+	{
 		this.sexe = sexe;
 	}
-	public Date getDateNaissance() {
+	public String getDateNaissance()
+	{
 		return dateNaissance;
 	}
-	public void setDateNaissance(Date dateNaissance) {
+	public void setDateNaissance(String dateNaissance) 
+	{
 		this.dateNaissance = dateNaissance;
 	}
-	public String getLieuNaissance() {
+	public String getLieuNaissance() 
+	{
 		return lieuNaissance;
 	}
-	public void setLieuNaissance(String lieuNaissance) {
+	public void setLieuNaissance(String lieuNaissance) 
+	{
 		this.lieuNaissance = lieuNaissance;
 	}
-	public String getLangue() {
+	public String getLangue() 
+	{
 		return langue;
 	}
-	public void setLangue(String langue) {
+	public void setLangue(String langue) 
+	{
 		this.langue = langue;
 	}
-	public String getAntecedantsMedicaux() {
+	public String getAntecedantsMedicaux() 
+	{
 		return antecedantsMedicaux;
 	}
-	public void setAntecedantsMedicaux(String antecedantsMedicaux) {
+	public void setAntecedantsMedicaux(String antecedantsMedicaux) 
+	{
 		this.antecedantsMedicaux = antecedantsMedicaux;
 	}
-	public String getSituationParentale() {
+	public boolean getSituationParentale() 
+	{
 		return situationParentale;
 	}
-	public void setSituationParentale(String situationParentale) {
+	public void setSituationParentale(boolean situationParentale) 
+	{
 		this.situationParentale = situationParentale;
 	}
-	public Date getDateInscription() {
+	public Date getDateInscription() 
+	{
 		return dateInscription;
 	}
-	public void setDateInscription(Date dateInscription) {
+	public void setDateInscription(Date dateInscription) 
+	{
 		this.dateInscription = dateInscription;
 	}
-	public boolean getCertificatMedicale() {
+	public boolean getCertificatMedicale() 
+	{
 		return certificatMedicale;
 	}
-	public void setCertificatMedicale(boolean certificatMedicale) {
+	public void setCertificatMedicale(boolean certificatMedicale) 
+	{
 		this.certificatMedicale = certificatMedicale;
 	}
-	public boolean getAutorisationPrisePhoto() {
+	public boolean getAutorisationPrisePhoto()
+	{
 		return autorisationPrisePhoto;
 	}
-	public void setAutorisationPrisePhoto(boolean autorisationPrisePhoto) {
+	public void setAutorisationPrisePhoto(boolean autorisationPrisePhoto) 
+	{
 		this.autorisationPrisePhoto = autorisationPrisePhoto;
 	}
-	public String getNomPrenomPediatre() {
+	public String getNomPrenomPediatre() 
+	{
 		return nomPrenomPediatre;
 	}
-	public void setNomPrenomPediatre(String nomPrenomPediatre) {
+	public void setNomPrenomPediatre(String nomPrenomPediatre) 
+	{
 		this.nomPrenomPediatre = nomPrenomPediatre;
 	}
-	public String getTelephonePortablePediatre() {
+	public String getTelephonePortablePediatre()
+	{
 		return telephonePortablePediatre;
 	}
-	public void setTelephonePortablePediatre(String telephonePortablePediatre) {
+	public void setTelephonePortablePediatre(String telephonePortablePediatre)
+	{
 		this.telephonePortablePediatre = telephonePortablePediatre;
 	}
-	public int getNombreFreres() {
+	public int getNombreFreres() 
+	{
 		return nombreFreres;
 	}
-	public void setNombreFreres(int nombreFreres) {
+	public void setNombreFreres(int nombreFreres) 
+	{
 		this.nombreFreres = nombreFreres;
 	}
-	public int getNombreSoeur() {
+	public int getNombreSoeur() 
+	{
 		return nombreSoeur;
 	}
-	public void setNombreSoeur(int nombreSoeur) {
+	public void setNombreSoeur(int nombreSoeur) 
+	{
 		this.nombreSoeur = nombreSoeur;
 	}
 	
-	public FicheAnnexeEnfant getFicheAnnexeEnfant() {
-		return ficheAnnexeEnfant;
-	}
-	public void setFicheAnnexeEnfant(FicheAnnexeEnfant ficheAnnexeEnfant) {
-		this.ficheAnnexeEnfant = ficheAnnexeEnfant;
-	}
-	public Tarif getTarif() {
-		return tarif;
-	}
-	public void setTarif(Tarif tarif) {
-		this.tarif = tarif;
-	}
-	
-	public Collection<Parent> getParents() {
+	public Collection<Parent> getParents() 
+	{
 		return parents;
 	}
-	public void setParents(Collection<Parent> parents) {
+	public void setParents(Collection<Parent> parents) 
+	{
 		this.parents = parents;
 	}
-	public Collection<EquipeSanitaire> getEquipeSanitaires() {
+	public Collection<EquipeSanitaire> getEquipeSanitaires() 
+	{
 		return equipeSanitaires;
 	}
-	public void setEquipeSanitaires(Collection<EquipeSanitaire> equipeSanitaires) {
+	public void setEquipeSanitaires(Collection<EquipeSanitaire> equipeSanitaires) 
+	{
 		this.equipeSanitaires = equipeSanitaires;
 	}
-	public Collection<Classe> getClasses() {
+	public Collection<Classe> getClasses() 
+	{
 		return classes;
 	}
-	public void setClasses(Collection<Classe> classes) {
+	public void setClasses(Collection<Classe> classes) 
+	{
 		this.classes = classes;
 	}
-	public Collection<Annee> getAnnees() {
+	public Collection<Annee> getAnnees() 
+	{
 		return annees;
 	}
-	public void setAnnees(Collection<Annee> annees) {
+	public void setAnnees(Collection<Annee> annees) 
+	{
 		this.annees = annees;
 	}
 	
@@ -220,20 +249,53 @@ public class  Enfant extends Personnage implements Serializable
 	}
 	
 	
-	//generateur du constructeur sans parametres
+	public Collection<Consultation> getConsultations() 
+	{
+		return consultations;
+	}
+	public void setConsultations(Collection<Consultation> consultations) 
+	{
+		this.consultations = consultations;
+	}
+	public Collection<Evennement> getEvenements() 
+	{
+		return evenements;
+	}
+	public void setEvenements(Collection<Evennement> evenements) 
+	{
+		this.evenements = evenements;
+	}
+	public boolean isInscriptionEvenement() 
+	{
+		return inscriptionEvenement;
+	}
+	public void setInscriptionEvenement(boolean inscriptionEvenement) {
+		this.inscriptionEvenement = inscriptionEvenement;
+	}
+	
+	
+	public Tarif getTarif() 
+	{
+		return tarif;
+	}
+	public void setTarif(Tarif tarif) 
+	{
+		this.tarif = tarif;
+	}
+	//generation du constructeur sans parametres
 	public Enfant()
 	{
 		super();
 		
 	}
-	//generateur du constructeur avec parametres
+	//generation du constructeur avec parametres
 	public Enfant(String nom, String prenom, byte[] photo, String nomPhoto,
-			String sexe, Date dateNaissance, String lieuNaissance,
+			String sexe, String dateNaissance, String lieuNaissance,
 			String langue, String antecedantsMedicaux,
-			String situationParentale, Date dateInscription,
+			boolean situationParentale, Date dateInscription,
 			boolean certificatMedicale, boolean autorisationPrisePhoto,
-			String nomPrenomPediatre, String telephonePortablePediatre,
-			int nombreFreres, int nombreSoeur) {
+			boolean inscriptionEvenement, String nomPrenomPediatre,
+			String telephonePortablePediatre, int nombreFreres, int nombreSoeur) {
 		super(nom, prenom, photo, nomPhoto);
 		this.sexe = sexe;
 		this.dateNaissance = dateNaissance;
@@ -244,20 +306,15 @@ public class  Enfant extends Personnage implements Serializable
 		this.dateInscription = dateInscription;
 		this.certificatMedicale = certificatMedicale;
 		this.autorisationPrisePhoto = autorisationPrisePhoto;
+		this.inscriptionEvenement = inscriptionEvenement;
 		this.nomPrenomPediatre = nomPrenomPediatre;
 		this.telephonePortablePediatre = telephonePortablePediatre;
 		this.nombreFreres = nombreFreres;
 		this.nombreSoeur = nombreSoeur;
-		
 	}
 	
 	
-    
-
-	
-	
-	
-	
+		
 	
 
 }

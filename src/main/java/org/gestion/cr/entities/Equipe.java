@@ -18,12 +18,19 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="Equipes")
+
+
+
 
 /*une annotation specifier pour l'heritage et "SINGLE_TABLE" c a d que tous les type de cette Classe
 *mere "Equipe" sont stocké dans le mem tableau(un seul tableau))*/
 
+
+
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+
+
+
 
 /*toutes les types de la classe mere c a d les classes heritants de la classe mere(Equipe)
  * sont stoché dans  la meme table qui contient une colone qui a le nom "TYPE_EQUIPE"
@@ -31,13 +38,20 @@ import org.hibernate.validator.constraints.NotEmpty;
  * et cette colonne a un type chaine de caractere (String) et le nombre de caractere de nom du type
  * a une maximum longueur 16 (length=16)*/
 
+
+
+
 @DiscriminatorColumn(name="TYPE_EQUIPE",discriminatorType=DiscriminatorType.STRING,length=16)
+
+
 
 /*c a d que si je crai un objet de type Equipe Dans la table (classe) Personnage le, nom "TYPE_EQUIPE"
  * va etre egale a EQ
  */
 
-@DiscriminatorValue("EQ")
+
+
+@DiscriminatorValue("Equipe")
 
 public class Equipe extends Personnage implements Serializable
 {
@@ -46,8 +60,10 @@ public class Equipe extends Personnage implements Serializable
 	 * @author YOSRA
 	 *
 	 */
+	
+	
 	@NotEmpty
-	private Date dateNaissance;
+	private String dateNaissance;
 	@NotEmpty
 	private String lieuNaissance;
 	
@@ -59,12 +75,15 @@ public class Equipe extends Personnage implements Serializable
 	private String nomUtilisateur;
 	private String motPasse;
 	
-	//generateur du guetteurs et du setteurs
-	public Date getDateNaissance() 
+	
+	
+	
+	//generation des guetteurs et des setteurs
+	public String getDateNaissance() 
 	{
 		return dateNaissance;
 	}
-	public void setDateNaissance(Date dateNaissance) 
+	public void setDateNaissance(String dateNaissance) 
 	{
 		this.dateNaissance = dateNaissance;
 	}
@@ -110,16 +129,17 @@ public class Equipe extends Personnage implements Serializable
 	}
 	
 	
-	//generateur du constructeur sans parametres
+	//generation du constructeur sans parametres
 	public Equipe() 
 	{
 		super();
 		
 	}
-	//generateur du constructeur avec parametres
-	public Equipe(Date dateNaissance, String lieuNaissance, String sexe,
+	//generation du constructeur avec parametres
+	public Equipe(String nom, String prenom, byte[] photo, String nomPhoto,
+			String dateNaissance, String lieuNaissance, String sexe,
 			String adresseDomicile, String nomUtilisateur, String motPasse) {
-		super();
+		super(nom, prenom, photo, nomPhoto);
 		this.dateNaissance = dateNaissance;
 		this.lieuNaissance = lieuNaissance;
 		this.sexe = sexe;
@@ -127,6 +147,7 @@ public class Equipe extends Personnage implements Serializable
 		this.nomUtilisateur = nomUtilisateur;
 		this.motPasse = motPasse;
 	}
+	
 	
 
 	

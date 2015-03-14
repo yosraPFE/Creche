@@ -19,9 +19,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="AccompagnateurAbsences")
 //classe heritante de la classe mere Personnage
-@DiscriminatorValue("ACP")
+@DiscriminatorValue("Accompagnateur")
 
 public class Accompagnateur extends Personnage implements Serializable 
 {
@@ -30,11 +29,10 @@ public class Accompagnateur extends Personnage implements Serializable
 	 * @author YOSRA
 	 *
 	 */
-	@NotEmpty
 	
-	private String cin;
 	
 	@NotEmpty
+	private String cin;	
 	@Size(min=5)
 	private String description;
 	@NotEmpty
@@ -44,12 +42,15 @@ public class Accompagnateur extends Personnage implements Serializable
 	/*pour l'annotation ManyToMany on declare un table de jointure qui contient les deux clé etranger
 	 * de deux tables associative AccompagnateurAbsence et Enfant
      */
+	
+	
 	@ManyToMany
 	@JoinTable(name="ACC_ENF",joinColumns=@JoinColumn(name="ID_ACOMP_ABSENCE")
 	,inverseJoinColumns=@JoinColumn(name="ID_ENFANT"))
 	private Collection<Enfant> enfants;
 	
-	//generateur du guetteurs et du setteurs
+	
+	//generation  des guetteurs et des setteurs
 	public String getCin() 
 	{
 		return cin;
@@ -75,9 +76,7 @@ public class Accompagnateur extends Personnage implements Serializable
 		this.telephonePortable = telephonePortable;
 	}
 	
-	
-	
-	//generateur du constructeur sans parametres
+	//generation du constructeur sans parametres
 	public Accompagnateur() 
 	{
 		super();
@@ -91,10 +90,12 @@ public class Accompagnateur extends Personnage implements Serializable
 	{
 		this.enfants = enfants;
 	}
+	
 	//generateur du constructeur avec parametres
 	public Accompagnateur(String nom, String prenom, byte[] photo,
 			String nomPhoto, String cin, String description,
-			String telephonePortable) {
+			String telephonePortable) 
+	{
 		super(nom, prenom, photo, nomPhoto);
 		this.cin = cin;
 		this.description = description;

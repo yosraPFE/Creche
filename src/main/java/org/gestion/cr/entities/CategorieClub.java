@@ -16,10 +16,6 @@ import javax.xml.crypto.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-//la notation table est pa obligatoire car par defaut il va prendre le nom de la classe
-@Table(name="CategoriesClubs")
-
-
 public class CategorieClub implements Serializable
 {
 	/**
@@ -28,29 +24,31 @@ public class CategorieClub implements Serializable
 	 *
 	 */
 	
+	
 	/*
 	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
 	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
 	 * GenerationType.SEQUENCE:attribuer les clés primaires pour l'entité en utilisant une colonne de séquence de base de données.
 	 * GenerationType.TABLE :attribuer les clés primaires pour l'entité en utilisant une table de base de données sous-jacente pour garantir l'unicité
 	 */
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_CATEG_CLUB")
 	private long idCateg;
 	
-	@NotEmpty
+	
 	private String labelle;
-	@NotEmpty
+	
 	private double prix;
-	@NotEmpty
-	private Date date;
+
+	private String date;
 	
 	@ManyToOne
 	@JoinColumn(name="ID_CLUBS")
 	private Clubs clubs;
 	
-	//generateur du guetteurs et du setteurs
+	//generation des guetteurs et des setteurs
 	public long getIdCateg()
 	{
 		return idCateg;
@@ -77,11 +75,11 @@ public class CategorieClub implements Serializable
 	{
 		this.prix = prix;
 	}
-	public Date getDate() 
+	public String getDate() 
 	{
 		return date;
 	}
-	public void setDate(Date date) 
+	public void setDate(String date) 
 	{
 		this.date = date;
 	}
@@ -95,17 +93,15 @@ public class CategorieClub implements Serializable
 	}
 	
 	
-	//generateur du constructeur sans parametres
-	
+	//generation du constructeur sans parametres
 	public CategorieClub() 
 	{
 		super();
 		
 	}
 	
-	//generateur du constructeur avec parametres
-	
-	public CategorieClub(String labelle, double prix, Date date) 
+	//generation du constructeur avec parametres
+	public CategorieClub(String labelle, double prix, String date) 
 	{
 		super();
 		this.labelle = labelle;
@@ -113,8 +109,6 @@ public class CategorieClub implements Serializable
 		this.date = date;
 	}
 	
-	
-	
-	
+
 
 }

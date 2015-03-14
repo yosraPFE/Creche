@@ -23,7 +23,6 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="Annees")
 public class Annee implements Serializable
 {
 	/**
@@ -39,6 +38,8 @@ public class Annee implements Serializable
 	 * GenerationType.SEQUENCE:attribuer les clés primaires pour l'entité en utilisant une colonne de séquence de base de données.
 	 * GenerationType.TABLE :attribuer les clés primaires pour l'entité en utilisant une table de base de données sous-jacente pour garantir l'unicité
 	 */
+	
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_ANNEE")
@@ -53,12 +54,12 @@ public class Annee implements Serializable
 	
 
 	@ManyToMany
-	@JoinTable(name="class_ann_enf",joinColumns=@JoinColumn(name="ID_ANNEE")
+	@JoinTable(name="CLASS_ANN_ENF",joinColumns=@JoinColumn(name="ID_ANNEE")
 	,inverseJoinColumns=@JoinColumn(name="ID_ENFANT"))
 	private Collection<Enfant> enfants;
 
 	
- 
+    //Genreation des guetteurs et des setteurs
 	
 	public long getIdAnnee()
 	{
@@ -99,6 +100,8 @@ public class Annee implements Serializable
 	{
 		this.enfants = enfants;
 	}
+	
+	//Generation du constructeur sans parametres
 
 	public Annee() 
 	{
@@ -106,7 +109,7 @@ public class Annee implements Serializable
 	
 	}
 	
-    //geberateures du constructeur avec parametres
+    //geberation du constructeur avec parametres
 	public Annee(String annee) 
 	{
 		super();

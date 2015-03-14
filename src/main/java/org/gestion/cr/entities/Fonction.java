@@ -16,8 +16,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="Fonctions")
-
 public class Fonction implements Serializable
 {
 	/**
@@ -25,6 +23,9 @@ public class Fonction implements Serializable
 	 * @author YOSRA
 	 *
 	 */
+	
+	
+	
 	/*
 	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
 	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
@@ -42,6 +43,8 @@ public class Fonction implements Serializable
 	private String labelle;
 	
 	//mappedBy reference une propriété de l'entité cible
+	
+	
 	@OneToMany(mappedBy="fonction",fetch=FetchType.LAZY)
 	private Collection<EquipeSanitaire> equipeSanitaires;
 	
@@ -53,7 +56,6 @@ public class Fonction implements Serializable
 	
 	
 	//generation du guetteurs et du setteurs
-	
 	public long getIdFonction() 
 	{
 		return idFonction;

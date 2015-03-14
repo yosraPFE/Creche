@@ -18,7 +18,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="Personnages")
+
 
 /*une annotation specifier pour l'heritage
  *SINGLE_TABLE :c a d que tous les type de la Classe mere "Personnage" sont stocké dans le mem tableau(un seul tableau))
@@ -28,10 +28,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 
+
 /*les classes heritantes de la classe mere sont stockés dans  la meme table qui contient une colone 
  * qui a le nom "TYPE_PERSONNAGE"
  * qui va faire la differences entre les differetes type de la table Personnage
  * et cette colonne a un type Stringe  qui est  le nombre de caractere de nom du type du maximum longueur 22 */
+
 
 @DiscriminatorColumn(name="TYPE_PERSONNAGE",discriminatorType=DiscriminatorType.STRING,length=22)
 
@@ -42,6 +44,8 @@ public class Personnage implements Serializable
 	 * @author YOSRA
 	 *
 	 */
+	
+	
 	/*
 	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
 	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
@@ -63,12 +67,13 @@ public class Personnage implements Serializable
 	private String prenom;
 	
 	private String nomPhoto;
+	//une photo est un tableau de byte
 	//byte[]:entier compri entre -128 jusqua 127
 	@Lob
 	private byte[] photo;
 	
 	
-	//generateur du guetteurs et du setteurs
+	//generation du guetteurs et du setteurs
 	public long getIdPerson() 
 	{
 		return idPerson;
@@ -114,13 +119,13 @@ public class Personnage implements Serializable
 	{
 		this.nomPhoto = nomPhoto;
 	}
-	//generateur du constructeur sans parametres
+	//generation du constructeur sans parametres
 	public Personnage() 
 	{
 		super();
 		
 	}
-	//generateur du constructeur avec parametres
+	//generation du constructeur avec parametres
 	public Personnage(String nom, String prenom, byte[] photo, String nomPhoto) 
 	{
 		super();

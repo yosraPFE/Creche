@@ -17,9 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="EquipeSanitaires")
-@DiscriminatorValue("EQ_SAN")
-
+@DiscriminatorValue("Equipe_Sanitaire")
 public class EquipeSanitaire extends Equipe implements Serializable
 {	
 	/**
@@ -27,17 +25,24 @@ public class EquipeSanitaire extends Equipe implements Serializable
 	 * @author YOSRA
 	 *
 	 */
+	
+	
 	@ManyToOne
 	@JoinColumn(name="ID_FONCTION")
 	private Fonction fonction;
 	
 	@ManyToMany
-	@JoinTable(name="EQSAN_ENF",joinColumns=@JoinColumn(name="ID_EQ_SAN"),
-	inverseJoinColumns=@JoinColumn(name="ID_ENFANT"))
+	@JoinTable(name="CONSULT_ENFANT_EqSANI",joinColumns=@JoinColumn(name="ID_EQ_SAN"),
+	inverseJoinColumns=@JoinColumn(name="ID_CONSULTATION"))
+	private Collection<Consultation> consultations;
+	
+	@ManyToMany
+	@JoinTable(name="CONSULT_ENFANT_EqSANI",joinColumns=@JoinColumn(name="ID_EQ_SAN")
+	,inverseJoinColumns=@JoinColumn(name="ID_ENFANT"))
 	private Collection<Enfant> enfants;
-     
-	//generateur du guetteurs et du setteurs
-	public Fonction getFonction() 
+	
+	//generation du guetteurs et du setteurs
+    public Fonction getFonction() 
 	{
 		return fonction;
 	}
@@ -46,6 +51,17 @@ public class EquipeSanitaire extends Equipe implements Serializable
 	{
 		this.fonction = fonction;
 	}
+
+	public Collection<Consultation> getConsultations() 
+	{
+		return consultations;
+	}
+
+	public void setConsultations(Collection<Consultation> consultations) 
+	{
+		this.consultations = consultations;
+	}
+
 	public Collection<Enfant> getEnfants() 
 	{
 		return enfants;
@@ -56,28 +72,24 @@ public class EquipeSanitaire extends Equipe implements Serializable
 		this.enfants = enfants;
 	}
 	
-    
-	//generateur du constructeur sans parametres
-	public EquipeSanitaire() 
-	{
-		super();
+	//generation du constructeur sans parametres
+		public EquipeSanitaire() 
+		{
+			super();
+			
+		}
 		
-	}
-	//generateur du constructeur avec parametres
-
-
-	public EquipeSanitaire(Date dateNaissance, String lieuNaissance,
+	
+   //generation des constructeurs avec parametres
+	public EquipeSanitaire(String nom, String prenom, byte[] photo,
+			String nomPhoto, String dateNaissance, String lieuNaissance,
 			String sexe, String adresseDomicile, String nomUtilisateur,
-			String motPasse) {
-		super(dateNaissance, lieuNaissance, sexe, adresseDomicile,
-				nomUtilisateur, motPasse);
+			String motPasse)
+	{
+		super(nom, prenom, photo, nomPhoto, dateNaissance, lieuNaissance, sexe,
+				adresseDomicile, nomUtilisateur, motPasse);
 	}
 
 	
-	
-	
-	
-	
-		
 
 }

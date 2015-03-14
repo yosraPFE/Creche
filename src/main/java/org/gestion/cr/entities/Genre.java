@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,8 +16,6 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="Genres")
-
 public class Genre implements Serializable 
 {
 	/**
@@ -36,7 +35,7 @@ public class Genre implements Serializable
 	@Column(name="ID_GENRE")
 	private long idGenre;
 	
-	@NotEmpty
+    @NotEmpty
 	private String labelle;
 	
 	//mappedBy reference une propriété de l'entité cible
@@ -44,7 +43,6 @@ public class Genre implements Serializable
 	private Collection<Parent> parents;
 	
 	//generation du guetteurs et du setteurs
-	
 	public long getIdGenre()
 	{
 		return idGenre;

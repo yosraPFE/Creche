@@ -14,9 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="EquipeTechniques")
-@DiscriminatorValue("EQ_TEC")
-
+@DiscriminatorValue("Equipe_Technique")
 public class EquipeTechnique extends Equipe implements Serializable
 {
 	/**
@@ -24,6 +22,7 @@ public class EquipeTechnique extends Equipe implements Serializable
 	 * @author YOSRA
 	 *
 	 */
+	
 	
 	@ManyToOne
 	@JoinColumn(name="ID_FONCTION")
@@ -33,7 +32,7 @@ public class EquipeTechnique extends Equipe implements Serializable
 	@JoinColumn(name="ID_CRECHE")
 	private Creche creche;
 	
-	//generateur du guetteurs et du setteurs
+	//generation du guetteurs et du setteurs
 	public Fonction getFonction() 
 	{
 		return fonction;
@@ -52,21 +51,20 @@ public class EquipeTechnique extends Equipe implements Serializable
 	}
 	
 	
-	//generateur du constructeur sans parametres
+	//generation du constructeur sans parametres
 	public EquipeTechnique() 
 	{
 		super();
 		
 	}
-	//generateur du constructeur avec parametres
-	public EquipeTechnique(Date dateNaissance, String lieuNaissance,
+	//generation du constructeur avec parametres
+	public EquipeTechnique(String nom, String prenom, byte[] photo,
+			String nomPhoto, String dateNaissance, String lieuNaissance,
 			String sexe, String adresseDomicile, String nomUtilisateur,
 			String motPasse) {
-		super(dateNaissance, lieuNaissance, sexe, adresseDomicile,
-				nomUtilisateur, motPasse);
+		super(nom, prenom, photo, nomPhoto, dateNaissance, lieuNaissance, sexe,
+				adresseDomicile, nomUtilisateur, motPasse);
 	}
-	
-	
 	
 
 }

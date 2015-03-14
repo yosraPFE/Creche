@@ -18,9 +18,8 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 //chaque classe est une entité pour realiser la persistance on utilisant les anntation JPA
-@Entity
-@Table(name="Creches")
 
+@Entity
 public class Creche implements Serializable
 {
 	/**
@@ -28,12 +27,15 @@ public class Creche implements Serializable
 	 * @author YOSRA
 	 *
 	 */
+	
+	
 	/*
 	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
 	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
 	 * GenerationType.SEQUENCE:attribuer les clés primaires pour l'entité en utilisant une colonne de séquence de base de données.
 	 * GenerationType.TABLE :attribuer les clés primaires pour l'entité en utilisant une table de base de données sous-jacente pour garantir l'unicité
 	 */
+	
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -44,11 +46,11 @@ public class Creche implements Serializable
 	private String nom;
 	@NotEmpty
 	private String adresse;
-	@NotEmpty
+	
 	private String siteWeb;
 	@NotEmpty
 	private String ville;
-	@NotEmpty
+	
 	private String telephone;
 	
 	/*puisque la classe Creche a une collection de EquipeTechnique  et dansla classe "EquipeTechnique" 
@@ -70,7 +72,8 @@ public class Creche implements Serializable
 	private Collection<Classe> classes;
 	
 	
-	//generation du guetteurs et du setteurs
+	
+	//generation des guetteurs et des setteurs
 	public long getIdCreche() 
 	{
 		return idCreche;
@@ -128,13 +131,14 @@ public class Creche implements Serializable
 	{
 		this.equipeTechniques = equipeTechniques;
 	}
-	public Collection<Classe> getClasses() {
+	public Collection<Classe> getClasses() 
+	{
 		return classes;
 	}
-	public void setClasses(Collection<Classe> classes) {
+	public void setClasses(Collection<Classe> classes) 
+	{
 		this.classes = classes;
 	}
-	
 	
 	//generation du constructeurs sans parametres
 	public Creche() 
@@ -145,7 +149,8 @@ public class Creche implements Serializable
 	
 	//generation du constructeurs avec parametres
 	public Creche(String nom, String adresse, String siteWeb, String ville,
-			String telephone) {
+			String telephone) 
+	{
 		super();
 		this.nom = nom;
 		this.adresse = adresse;

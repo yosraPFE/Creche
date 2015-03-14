@@ -21,8 +21,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="Tarifs")
-
 public class Tarif implements Serializable
 {
 	/**
@@ -30,6 +28,8 @@ public class Tarif implements Serializable
 	 * @author YOSRA
 	 *
 	 */
+	
+	
 	/*
 	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
 	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
@@ -62,12 +62,11 @@ public class Tarif implements Serializable
 	@JoinColumn(name="ID_PLANNING_HORRAIRES")
 	private PlanningHorraires plannigHorraires;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	@PrimaryKeyJoinColumn
+	@ManyToOne
+	@JoinColumn(name="ID_ENFANT")
 	private Enfant enfant;
 	
 	//generation du guetteurs et du setteurs
-	
 	public long getIdTarif() 
 	{
 		return idTarif;

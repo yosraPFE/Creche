@@ -17,8 +17,6 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="Clubs")
-
 public class Clubs implements Serializable
 {
 	/**
@@ -26,12 +24,16 @@ public class Clubs implements Serializable
 	 * @author YOSRA
 	 *
 	 */
+	
+	
 	/*
 	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
 	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
 	 * GenerationType.SEQUENCE:attribuer les clés primaires pour l'entité en utilisant une colonne de séquence de base de données.
 	 * GenerationType.TABLE :attribuer les clés primaires pour l'entité en utilisant une table de base de données sous-jacente pour garantir l'unicité
 	 */
+	
+	
 	@Id	
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID_CLUB")
@@ -53,7 +55,7 @@ public class Clubs implements Serializable
 	@JoinColumn(name="ID_TARIF")
 	private Tarif tarif;
 	
-	//generation du guetteurs et du setteurs
+	//generation des guetteurs et des setteurs
 	public long getIdClub() 
 	{
 		return idClub;
@@ -103,9 +105,5 @@ public class Clubs implements Serializable
 		super();
 		this.nom = nom;
 	}
-	
-	
-	
-	
 	
 }

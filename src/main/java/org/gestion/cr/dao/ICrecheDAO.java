@@ -3,17 +3,21 @@ package org.gestion.cr.dao;
 import java.util.List;
 
 
+
+
+
 import org.gestion.cr.entities.Accompagnateur;
 import org.gestion.cr.entities.Annee;
 import org.gestion.cr.entities.CategorieClub;
 import org.gestion.cr.entities.Classe;
 import org.gestion.cr.entities.Clubs;
+import org.gestion.cr.entities.Consultation;
 import org.gestion.cr.entities.Creche;
 import org.gestion.cr.entities.Enfant;
 import org.gestion.cr.entities.EquipeEducatif;
 import org.gestion.cr.entities.EquipeSanitaire;
 import org.gestion.cr.entities.EquipeTechnique;
-import org.gestion.cr.entities.FicheAnnexeEnfant;
+import org.gestion.cr.entities.Evennement;
 import org.gestion.cr.entities.Fonction;
 import org.gestion.cr.entities.Genre;
 import org.gestion.cr.entities.Menus;
@@ -46,9 +50,10 @@ public interface ICrecheDAO
 	
 	//Gestion des Tarifs     
 	
-	public Long ajouterTarif(Tarif tarif,Long idPlanningHorraires,Long idEnfant); 
+	public Long ajouterTarif(Tarif tarif,Long idPlanningHorraires, Long idEnfant); 
 	public List<Tarif> listTarifs(); 
 	public List<Tarif> tarifParPlanningHorraires(Long idPlanningHorraires); 
+	public List<Enfant> getenfantbyTarif(Long idTarif); 
 	public Tarif getTarif(Long idTarif); 
 	public void supprimerTarif(Long idTarif); 
 	public void modifierTarif(Tarif tarif); 
@@ -117,13 +122,13 @@ public interface ICrecheDAO
 	
 	public Long ajouterEquipeSanitaire(EquipeSanitaire equipeSanitaire,Long idFonction); 
 	public List<EquipeSanitaire> listEquipeSanitaires(); 
-	public List<EquipeSanitaire> equipeSanitaireParNom(String nom);
+	public List<EquipeSanitaire> equipeSanitaireParNom(String nom);  
 	public List<EquipeSanitaire> equipeSanitaireParFonction(Long idFonction); 
 	public EquipeSanitaire getEquipeSanitaire(Long idEquipeSanitaire); 
 	public void supprimerEquipeSanitaire(Long idEquipeSanitaire); 
 	public void modifierEquipeSanitaire(EquipeSanitaire equipeSanitaire); 
-	public List<Enfant> getEnfantsByEquipeSanitaire(Long idEquipeSanitaire);
-	public void ajouterEnfantsPourEquipeSanitaire(Long idEnfant,Long idEquipeSanitaire); 
+	
+	
 	
 	//Gestion des Equipes Educatifs 
 	
@@ -145,7 +150,7 @@ public interface ICrecheDAO
 	public void supprimerFonction(Long idFonction); 
 	public void modifierFonction(Fonction fonction); 
 	
-	//Gestion des Accompahnateurs 
+	//Gestion des Accompagnateurs 
 	
 	public Long ajouterAccompagnateur(Accompagnateur accompagnateur); 
 	public List<Accompagnateur> listAccompagnateurs(); 
@@ -190,36 +195,60 @@ public interface ICrecheDAO
 	public List<Enfant> getEnfantByParent(Long idParent);
 	public void ajouterEnfantsPourParent(Long idEnfant,Long idParent);
 	
-	//Gestion des Fiches Annexes Enfants 
+	//Gestion des Consultations
 	
-	public Long ajouterFicheAnnexeEnfant(FicheAnnexeEnfant ficheAnnexeEnfant); 
-	public List<FicheAnnexeEnfant> listFicheAnnexeEnfant(); 
-	public FicheAnnexeEnfant getFicheAnnexeEnfant(Long idFicheAnnexeEnfant); 
-	public void supprimerFicheAnnexeEnfant(Long idFicheAnnexeEnfant); 
-	public void modifierFicheAnnexeEnfant(FicheAnnexeEnfant ficheAnnexeEnfant); 
+	public Long ajouterConsultation(Consultation consultation); 
+	public List<Consultation> listConsultations(); 
+	public Consultation getConsultation(Long idConsultation); 
+	public void supprimerConsultations(Long idConsultation); 
+	public void modifierConsultations(Consultation consultation); 
+	public List<Consultation> getConsultationsByEnfantbyEquipeSanitaire(Long idEnfant,Long idEquipeSanitaire);
+	public List<Enfant> getEnfantByEqSanitaireyConsultation(Long idEquipeSanitaire,Long idConsultation);
+	public List<EquipeSanitaire> getEquipeSanitairesByEnfantbyConsultation(Long idEnfant,Long idConsultation);
+	public void ajouterConsultationsPourEnfantPourEquipeSanitaire(Long idConsultation,Long idEnfant,Long idEquipeSanitaire);
+	public void ajouterEnfantsPourConsultationPourEquipeSanitaire(Long idEnfant,Long idConsultation,Long idEquipeSanitaire);
+	public void ajouterEquipeSanitairesPourConsultationPourEnfant(Long idEquipeSanitaire,Long idConsultation,Long idEnfant );
+	
+	//Gestion des Evennements
+	
+	public Long ajouterEvennement(Evennement evennement); 
+	public List<Evennement> listEvennements(); 
+	public List<Evennement> evennementParNom(String nom); 
+	public Evennement getEvennement(Long idEvennement); 
+	public void supprimerEvennements(Long idEvennement); 
+	public void modifierEvennements(Evennement evennement); 
+	public List<Enfant> getEnfantsByEvennement(Long idEvennement);
+	public void ajouterEnfantsPourEvennement(Long idEnfant,Long idEvennement);
 	
 	//Gestion des Enfants 
 	
-	public Long ajouterEnfant(Enfant enfant,Long idFicheAnnexeEnfant); 
+	public Long ajouterEnfant(Enfant enfant); 
 	public List<Enfant> listEnfants(); 
 	public List<Enfant> enfantParNom(String nom); 
 	public Enfant getEnfant(Long idEnfant); 
 	public List<Enfant> enfantCertife(); 
 	public List<Enfant> enfantPhotoAutorise(); 
+	public List<Enfant> enfantSituationParental(); 
+	public List<Enfant> enfantInscriptionEvennement(); 
 	public void supprimerEnfant(Long idEnfant);
 	public void modifierEnfant(Enfant enfant); 
 	public List<Accompagnateur> getAccompagnateursByEnfant(Long idEnfant);
+	public List<Evennement> getEvennementsByEnfant(Long idEnfant);
+	public List<Tarif> gettarifbyEnfant(Long idEnfant);
 	public List<Parent> getParentsByEnfant(Long idEnfant);
-	public List<EquipeSanitaire> getEquipeSanitairesByEnfant(Long idEnfant);
 	public void ajouterAccompagnateursPourEnfant(Long idAccompagnateur,Long idEnfant);
+	public void ajouterEvennementsPourEnfant(Long idEvennement,Long idEnfant);
 	public void ajouterParentsPourEnfant(Long idParent,Long idEnfant);
-	public void ajouterEquipesSanitairesPourEnfant(Long idEquipeSanitaire,Long idEnfant);
 	public List<Enfant> getEnfantsByAnneeByClasse(Long idAnnee,Long idClasse);
+	public List<Enfant> getEnfantsByConsultationByEquipeSanitaire(Long idConsultation,Long idEquipeSanitaire);
 	public List<Classe> getClassesByAnneeByEnfant(Long idAnnee,Long idEnfant);
+	public List<EquipeSanitaire> getEquipeSanitaireByConsultationByEnfant(Long idConsultation,Long idEnfant);
 	public List<Annee> getAnneeByEnfantByClasse(Long idEnfant,Long idClasse);
+	public List<Consultation> getConsultationByEnfantByEquipeSanitaire(Long idEnfant,Long idEquipeSanitaire);
 	public Enfant enregistrerEnfant(Annee a,Parent p);
 	
 	
+	 
 	
 
 }

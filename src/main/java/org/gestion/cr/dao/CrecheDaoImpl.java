@@ -11,22 +11,25 @@ import org.gestion.cr.entities.Annee;
 import org.gestion.cr.entities.CategorieClub;
 import org.gestion.cr.entities.Classe;
 import org.gestion.cr.entities.Clubs;
+import org.gestion.cr.entities.Consultation;
 import org.gestion.cr.entities.Creche;
 import org.gestion.cr.entities.Enfant;
 import org.gestion.cr.entities.EquipeEducatif;
 import org.gestion.cr.entities.EquipeSanitaire;
 import org.gestion.cr.entities.EquipeTechnique;
-import org.gestion.cr.entities.FicheAnnexeEnfant;
+import org.gestion.cr.entities.Evennement;
 import org.gestion.cr.entities.Fonction;
 import org.gestion.cr.entities.Genre;
 import org.gestion.cr.entities.Menus;
 import org.gestion.cr.entities.NomClass;
 import org.gestion.cr.entities.Parent;
+import org.gestion.cr.entities.Personnage;
 import org.gestion.cr.entities.PlanningHorraires;
 import org.gestion.cr.entities.Tarif;
 
 public class CrecheDaoImpl implements ICrecheDAO
 {
+	
 	@PersistenceContext
 	private EntityManager em;
 	
@@ -179,6 +182,15 @@ public class CrecheDaoImpl implements ICrecheDAO
 	{
 		
 		return em.find(Tarif.class, idTarif);
+	}
+	
+	@Override
+	public List<Enfant> getenfantbyTarif(Long idTarif)
+	{
+		 Query req=em.createQuery("select enf from Enfant enf join enf.Tarif tar where tar.ID_TARIF=:x");
+		 req.setParameter("x", idTarif);	
+		 return req.getResultList();
+		
 	}
 
 	@Override
@@ -585,22 +597,22 @@ public class CrecheDaoImpl implements ICrecheDAO
 	{
 		
 		em.merge(equipeTechnique);
+
 	}
 	
-	
-	
 	//Gestion des Equipes Sanitaire
+
 
 	@Override
 	public Long ajouterEquipeSanitaire(EquipeSanitaire equipeSanitaire,Long idFonction) 
 	{
-		
 		Fonction fon=em.find(Fonction.class, idFonction);
 		equipeSanitaire.setFonction(fon);
 		em.persist(equipeSanitaire); 
 		return equipeSanitaire.getIdPerson();
+		
 	}
-
+	
 	@Override
 	public List<EquipeSanitaire> listEquipeSanitaires()
 	{
@@ -610,21 +622,23 @@ public class CrecheDaoImpl implements ICrecheDAO
 		 return req.getResultList();
 	}
 	
+	
 	@Override
-	public List<EquipeSanitaire> equipeSanitaireParNom(String nom)
+	public List<EquipeSanitaire> equipeSanitaireParFonction(Long idFonction) 
+	{
+				
+		Query req=em.createQuery("select san from EquipeSanitaire san join san.Fonction fon where fon.ID_FONCTION=:x");
+		req.setParameter("x", idFonction);	
+		return req.getResultList();
+	}
+
+
+	@Override
+	public List<EquipeSanitaire> equipeSanitaireParNom(String nom) 
 	{
 		
 		Query req=em.createQuery("select san from EquipeSanitaire san where san.nom like :x or san.prenom :x");
 		req.setParameter("x", "%"+nom+"%"); 
-		return req.getResultList();
-	}
-
-	@Override
-	public List<EquipeSanitaire> equipeSanitaireParFonction(Long idFonction)
-	{
-		
-		Query req=em.createQuery("select san from EquipeSanitaire san join san.Fonction fon where fon.ID_FONCTION=:x");
-		req.setParameter("x", idFonction);	
 		return req.getResultList();
 	}
 
@@ -636,11 +650,10 @@ public class CrecheDaoImpl implements ICrecheDAO
 	}
 
 	@Override
-	public void supprimerEquipeSanitaire(Long idEquipeSanitaire) 
+	public void supprimerEquipeSanitaire(Long idEquipeSanitaire)
 	{
-		EquipeSanitaire sa=em.find(EquipeSanitaire.class, idEquipeSanitaire);
-		em.remove(sa);
-	
+		EquipeSanitaire san=em.find(EquipeSanitaire.class, idEquipeSanitaire);
+		em.remove(san);
 		
 	}
 
@@ -651,24 +664,6 @@ public class CrecheDaoImpl implements ICrecheDAO
 		
 	}
 
-	@Override
-	public List<Enfant> getEnfantsByEquipeSanitaire(Long idEquipeSanitaire) 
-	{
-		
-		Query req=em.createQuery("select enf from Enfant enf join enf.EquipeSanitaire san where san.ID_EQ_SAN=:x");
-		req.setParameter("x", idEquipeSanitaire);	
-		return req.getResultList();
-	}
-	@Override
-	public void ajouterEnfantsPourEquipeSanitaire(Long idEnfant,Long idEquipeSanitaire) 
-	{
-		Enfant enf=em.find(Enfant.class, idEnfant);
-		EquipeSanitaire sa=em.find(EquipeSanitaire.class, idEquipeSanitaire);
-		enf.getEquipeSanitaires().add(sa);
-		sa.getEnfants().add(enf);
-		
-	}
-	
 	
 	//Gestion des Equipes Educatifs
 
@@ -797,10 +792,9 @@ public class CrecheDaoImpl implements ICrecheDAO
 		em.merge(fonction);
 		
 	}
+
 	
-	
-	
-	//Gestion des Accompahnateurs
+	//Gestion des Accompagnateurs
 
 	@Override
 	public Long ajouterAccompagnateur(Accompagnateur accompagnateur) 
@@ -965,7 +959,7 @@ public class CrecheDaoImpl implements ICrecheDAO
 	public List<Annee> getAnneesByEnfantbyClasse(Long idEnfant, Long idClasse) 
 	{
 		
-		 Query req=em.createQuery("select an from Annee as an, an.enfant as enf, an.classe as cl where enf.ID_ENFANT=:x and cl.ID_CLASSE=:y");
+		 Query req=em.createQuery("select an from Annee as an, an.Enfant as enf, an.Classe as cl where enf.ID_ENFANT=:x and cl.ID_CLASSE=:y");
 		 req.setParameter("x", idEnfant);	
 		 req.setParameter("y", idClasse);	
 		 return req.getResultList();
@@ -985,7 +979,7 @@ public class CrecheDaoImpl implements ICrecheDAO
 	public List<Classe> getClassesByEnfantbyAnnee(Long idEnfant, Long idAnnee) 
 	{
 		
-		Query req=em.createQuery("select cl from Classe as cl, cl.enfant as enf, cl.Annee as an where enf.ID_ENFANT=:x and an.ID_ANNEE=:y");
+		Query req=em.createQuery("select cl from Classe as cl, cl.Enfant as enf, cl.Annee as an where enf.ID_ENFANT=:x and an.ID_ANNEE=:y");
 		 req.setParameter("x", idEnfant);	
 		 req.setParameter("y", idAnnee);	
 		 return req.getResultList();
@@ -1118,74 +1112,220 @@ public class CrecheDaoImpl implements ICrecheDAO
 		
 	}
 	
-	
-	
-	//Gestion des Fiches Annexes Enfants
+	//Gestion des Consultations
 
 	@Override
-	public Long ajouterFicheAnnexeEnfant(FicheAnnexeEnfant ficheAnnexeEnfant) 
+	public Long ajouterConsultation(Consultation consultation) 
 	{
 		
-        em.persist(ficheAnnexeEnfant);
+        em.persist(consultation);
 		
-		return ficheAnnexeEnfant.getIdFiche();
+		return consultation.getIdConsultation();
 	}
 
 	@Override
-	public List<FicheAnnexeEnfant> listFicheAnnexeEnfant() 
+	public List<Consultation> listConsultations() 
 	{
-	
-		Query req=em.createQuery("select fich from FicheAnnexeEnfant fich");
 		
+        Query req=em.createQuery("select cons from Consultation cons");
+		
+		return req.getResultList();
+	}
+
+	@Override
+	public Consultation getConsultation(Long idConsultation) 
+	{
+		
+		return em.find(Consultation.class, idConsultation);
+	}
+
+	@Override
+	public void supprimerConsultations(Long idConsultation) 
+	{
+		Consultation cons=em.find(Consultation.class, idConsultation);
+		em.remove(cons);
+		
+	}
+
+	@Override
+	public void modifierConsultations(Consultation consultation)
+    {
+		em.merge(consultation);
+		
+	}
+
+	@Override
+	public List<Consultation> getConsultationsByEnfantbyEquipeSanitaire(Long idEnfant, Long idEquipeSanitaire) 
+	{
+		
+		 Query req=em.createQuery("select cons from Consultation as cons, cons.Enfant as enf, cons.EquipeSanitaire as eqSa where enf.ID_ENFANT=:x and eqSa.ID_EQ_SAN=:y");
+		 req.setParameter("x", idEnfant);	
+		 req.setParameter("y", idEquipeSanitaire);	
 		 return req.getResultList();
 	}
 
 	@Override
-	public FicheAnnexeEnfant getFicheAnnexeEnfant(Long idFicheAnnexeEnfant) 
+	public List<Enfant> getEnfantByEqSanitaireyConsultation(Long idEquipeSanitaire, Long idConsultation) 
 	{
 		
-		return em.find(FicheAnnexeEnfant.class, idFicheAnnexeEnfant);
+		 Query req=em.createQuery("select enf from Enfant as enf, enf.EquipeSanitaire as eqSan, enf.Consultation as cons where eqSan.ID_EQ_SAN=:x and cons.ID_CONSULTATION=:y");
+		 req.setParameter("x", idEquipeSanitaire);	
+		 req.setParameter("y", idConsultation);	
+		 return req.getResultList();
 	}
 
 	@Override
-	public void supprimerFicheAnnexeEnfant(Long idFicheAnnexeEnfant) 
+	public List<EquipeSanitaire> getEquipeSanitairesByEnfantbyConsultation(Long idEnfant, Long idConsultation) 
 	{
-		FicheAnnexeEnfant fi=em.find(FicheAnnexeEnfant.class, idFicheAnnexeEnfant);
-		em.remove(fi);
+		
+		 Query req=em.createQuery("select eqSan from EquipeSanitaire as eqSan, eqSan.Enfant as enf, eqSan.Consultation as cons where enf.ID_ENFANT=:x and cons.ID_CONSULTATION=:y");
+		 req.setParameter("x", idEnfant);	
+		 req.setParameter("y", idConsultation);	
+		 return req.getResultList();
+	}
+
+	@Override
+	public void ajouterConsultationsPourEnfantPourEquipeSanitaire(Long idConsultation, Long idEnfant, Long idEquipeSanitaire) 
+	{
+		Consultation con=em.find(Consultation.class, idConsultation);
+		Enfant e=em.find(Enfant.class, idEnfant);
+		EquipeSanitaire eqSan=em.find(EquipeSanitaire.class, idEquipeSanitaire);
+		con.getEnfants().add(e);
+		con.getEquipeSanitaires().add(eqSan);
+		e.getConsultations().add(con);
+		e.getEquipeSanitaires().add(eqSan);
+		eqSan.getConsultations().add(con);
+		eqSan.getEnfants().add(e);
+		
+		
+		
+	}
+	
+
+	@Override
+	public void ajouterEnfantsPourConsultationPourEquipeSanitaire(Long idEnfant, Long idConsultation, Long idEquipeSanitaire) 
+	{
+		
+		Enfant e=em.find(Enfant.class, idEnfant);
+		Consultation con=em.find(Consultation.class, idConsultation);
+		EquipeSanitaire eqSan=em.find(EquipeSanitaire.class, idEquipeSanitaire);
+		e.getConsultations().add(con);
+		e.getEquipeSanitaires().add(eqSan);
+		con.getEnfants().add(e);
+		con.getEquipeSanitaires().add(eqSan);
+		eqSan.getConsultations().add(con);
+		eqSan.getEnfants().add(e);
 		
 	}
 
 	@Override
-	public void modifierFicheAnnexeEnfant(FicheAnnexeEnfant ficheAnnexeEnfant) 
+	public void ajouterEquipeSanitairesPourConsultationPourEnfant(Long idEquipeSanitaire, Long idConsultation, Long idEnfant) 
 	{
-		em.merge(ficheAnnexeEnfant);
 		
+		
+		EquipeSanitaire eqSan=em.find(EquipeSanitaire.class, idEquipeSanitaire);
+		Consultation con=em.find(Consultation.class, idConsultation);
+		Enfant e=em.find(Enfant.class, idEnfant);
+		eqSan.getConsultations().add(con);
+		eqSan.getEnfants().add(e);
+		con.getEnfants().add(e);
+		con.getEquipeSanitaires().add(eqSan);
+		e.getConsultations().add(con);
+		e.getEquipeSanitaires().add(eqSan);
 	}
 	
+	//Gestion des Evennements
+
+	@Override
+	public Long ajouterEvennement(Evennement evennement) 
+	{
+		
+        em.persist(evennement);
+		
+		return evennement.getIdEvenement();
+	}
+
+	@Override
+	public List<Evennement> listEvennements()
+	{
+		
+       Query req=em.createQuery("select even from Evennement even");
+		
+		return req.getResultList();
+	}
+
+	@Override
+	public List<Evennement> evennementParNom(String nom) 
+	{
+		
+		Query req=em.createQuery("select even from Evennement even where even.nom like :x ");
+		req.setParameter("x", "%"+nom+"%"); 
+		return req.getResultList();
+	}
+
+	@Override
+	public Evennement getEvennement(Long idEvennement) 
+	{
 	
-	
+		return em.find(Evennement.class, idEvennement);
+	}
+
+	@Override
+	public void supprimerEvennements(Long idEvennement) 
+	{
+		
+
+		Evennement even=em.find(Evennement.class, idEvennement);
+		em.remove(even);
+	}
+
+	@Override
+	public void modifierEvennements(Evennement evennement)
+	{
+		
+		em.merge(evennement);
+		
+	}
+
+	@Override
+	public List<Enfant> getEnfantsByEvennement(Long idEvennement) 
+	{
+		
+		Query req=em.createQuery("select enf from Enfant enf join enf.Evennement even where even.ID_EVENEMENT=:x");
+		req.setParameter("x", idEvennement);	
+		return req.getResultList();
+	}
+
+	@Override
+	public void ajouterEnfantsPourEvennement(Long idEnfant, Long idEvennement) 
+	{
+		Enfant e=em.find(Enfant.class, idEnfant);
+		Evennement even=em.find(Evennement.class, idEvennement);
+		e.getEvenements().add(even);
+		even.getEnfants().add(e);
+		
+	}
 	
 	//Gestion des Enfants
 
 	@Override
-	public Long ajouterEnfant(Enfant enfant, Long idFicheAnnexeEnfant) 
+	public Long ajouterEnfant(Enfant enfant)
 	{
+	
 		
-		FicheAnnexeEnfant fich=em.find(FicheAnnexeEnfant.class, idFicheAnnexeEnfant);
-		enfant.setFicheAnnexeEnfant(fich);
 		em.persist(enfant); 
 		return enfant.getIdPerson();
 	}
-	
+
 	@Override
 	public List<Enfant> listEnfants() 
 	{
 		
-		Query req=em.createQuery("select enf from Enfant enf");
+		 Query req=em.createQuery("select enf from Enfant enf");
 		
-		 return req.getResultList();
-	}
-	
+		 return req.getResultList();	
+    }
+
 	@Override
 	public List<Enfant> enfantParNom(String nom) 
 	{
@@ -1201,12 +1341,12 @@ public class CrecheDaoImpl implements ICrecheDAO
 		
 		return em.find(Enfant.class, idEnfant);
 	}
-	
+
 	@Override
-	public List<Enfant> enfantCertife() 
+	public List<Enfant> enfantCertife()
 	{
 		
-		Query req=em.createQuery("select enf from Enfant enf where enf.certificatMedicale=true");
+        Query req=em.createQuery("select enf from Enfant enf where enf.certificatMedicale=true");
 		
 		return req.getResultList();
 	}
@@ -1214,14 +1354,33 @@ public class CrecheDaoImpl implements ICrecheDAO
 	@Override
 	public List<Enfant> enfantPhotoAutorise() 
 	{
+		
+        Query req=em.createQuery("select enf from Enfant enf where enf.autorisationPrisePhoto=true");
+		
+		return req.getResultList();
+	}
 	
-		Query req=em.createQuery("select enf from Enfant enf where enf.autorisationPrisePhoto=true");
+	@Override
+	public List<Enfant> enfantSituationParental() 
+	{
+		
+        Query req=em.createQuery("select enf from Enfant enf where enf.situationParentale=true");
 		
 		return req.getResultList();
 	}
 
 	@Override
-	public void supprimerEnfant(Long idEnfant)
+	public List<Enfant> enfantInscriptionEvennement() 
+	{
+		
+		 Query req=em.createQuery("select enf from Enfant enf where enf.inscriptionEvenement=true");
+			
+		 return req.getResultList();
+	}
+
+
+	@Override
+	public void supprimerEnfant(Long idEnfant) 
 	{
 		Enfant en=em.find(Enfant.class, idEnfant);
 		em.remove(en);
@@ -1229,7 +1388,7 @@ public class CrecheDaoImpl implements ICrecheDAO
 	}
 
 	@Override
-	public void modifierEnfant(Enfant enfant)
+	public void modifierEnfant(Enfant enfant) 
 	{
 		em.merge(enfant);
 		
@@ -1245,6 +1404,15 @@ public class CrecheDaoImpl implements ICrecheDAO
 	}
 
 	@Override
+	public List<Evennement> getEvennementsByEnfant(Long idEnfant)
+	{
+		
+		Query req=em.createQuery("select even from Evennement even join even.Enfant enf where enf.ID_ENFANT=:x");
+		req.setParameter("x", idEnfant);	
+		return req.getResultList();
+	}
+
+	@Override
 	public List<Parent> getParentsByEnfant(Long idEnfant) 
 	{
 		
@@ -1252,25 +1420,36 @@ public class CrecheDaoImpl implements ICrecheDAO
 		req.setParameter("x", idEnfant);	
 		return req.getResultList();
 	}
-
 	@Override
-	public List<EquipeSanitaire> getEquipeSanitairesByEnfant(Long idEnfant) 
+	public List<Tarif> gettarifbyEnfant(Long idEnfant)
 	{
-		
-		Query req=em.createQuery("select san from EquipeSanitaire san join san.Enfant enf where enf.ID_ENFANT=:x");
-		req.setParameter("x", idEnfant);	
-		return req.getResultList();
+		 Query req=em.createQuery("select tar from Tarif tar join tar.Enfant enf where enf.ID_ENFANT=:x");
+		 req.setParameter("x", idEnfant);	
+		 return req.getResultList();
 	}
 
+
 	@Override
-	public void ajouterAccompagnateursPourEnfant(Long idAccompagnateur,Long idEnfant) 
+	public void ajouterAccompagnateursPourEnfant(Long idAccompagnateur,Long idEnfant)
 	{
+		
 		Accompagnateur acc=em.find(Accompagnateur.class, idAccompagnateur);
 		Enfant e=em.find(Enfant.class, idEnfant);
 		acc.getEnfants().add(e);
 		e.getAccompagnateurs().add(acc);
+	}
+	
+	@Override
+	public void ajouterEvennementsPourEnfant(Long idEvennement, Long idEnfant) 
+	{
+		Evennement even=em.find(Evennement.class, idEvennement);
+		Enfant e=em.find(Enfant.class, idEnfant);
+		even.getEnfants().add(e);
+		e.getEvenements().add(even);
 		
 	}
+	
+	
 
 	@Override
 	public void ajouterParentsPourEnfant(Long idParent, Long idEnfant) 
@@ -1283,22 +1462,23 @@ public class CrecheDaoImpl implements ICrecheDAO
 	}
 
 	@Override
-	public void ajouterEquipesSanitairesPourEnfant(Long idEquipeSanitaire,Long idEnfant) 
-	{
-		
-		EquipeSanitaire san=em.find(EquipeSanitaire.class, idEquipeSanitaire);
-		Enfant e=em.find(Enfant.class, idEnfant);
-		san.getEnfants().add(e);
-		e.getEquipeSanitaires().add(san);
-	}
-
-	@Override
 	public List<Enfant> getEnfantsByAnneeByClasse(Long idAnnee, Long idClasse) 
 	{
 		
-		Query req=em.createQuery("select enf from Enfant as enf, enf.Annee as an, enf.Classe as cl where an.ID_ANNEE=:x and cl.ID_CLASSE=:y");
+
+		 Query req=em.createQuery("select enf from Enfant as enf, enf.Annee as an, enf.Classe as cl where an.ID_ANNEE=:x and cl.ID_CLASSE=:y");
 		 req.setParameter("x", idAnnee);	
 		 req.setParameter("y", idClasse);	
+		 return req.getResultList();
+	}
+
+	@Override
+	public List<Enfant> getEnfantsByConsultationByEquipeSanitaire(Long idConsultation, Long idEquipeSanitaire) 
+	{
+		
+		 Query req=em.createQuery("select enf from Enfant as enf, enf.Consultation as cons, enf.EquipeSanitaire as eqSan where cons.ID_CONSULTATION=:x and eqSan.ID_EQ_SAN=:y");
+		 req.setParameter("x", idConsultation);	
+		 req.setParameter("y", idEquipeSanitaire);	
 		 return req.getResultList();
 	}
 
@@ -1306,8 +1486,18 @@ public class CrecheDaoImpl implements ICrecheDAO
 	public List<Classe> getClassesByAnneeByEnfant(Long idAnnee, Long idEnfant) 
 	{
 		
-		Query req=em.createQuery("select cl from Classe as cl, cl.Annee as an, cl.Enfant as enf where an.ID_ANNEE=:x and enf.ID_ENFANT=:y");
+		 Query req=em.createQuery("select cl from Classe as cl, cl.Annee as an, cl.Enfant as enf where an.ID_ANNEE=:x and enf.ID_ENFANT=:y");
 		 req.setParameter("x", idAnnee);	
+		 req.setParameter("y", idEnfant);	
+		 return req.getResultList();
+	}
+
+	@Override
+	public List<EquipeSanitaire> getEquipeSanitaireByConsultationByEnfant(Long idConsultation, Long idEnfant) 
+	{
+		
+		 Query req=em.createQuery("select eqSan from EquipeSanitaire as eqSan, eqSan.Consultation as cons, eqSan.Enfant as enf where cons.ID_CONSULTATION=:x and enf.ID_ENFANT=:y");
+		 req.setParameter("x", idConsultation);	
 		 req.setParameter("y", idEnfant);	
 		 return req.getResultList();
 	}
@@ -1316,20 +1506,33 @@ public class CrecheDaoImpl implements ICrecheDAO
 	public List<Annee> getAnneeByEnfantByClasse(Long idEnfant, Long idClasse) 
 	{
 		
-		Query req=em.createQuery("select an from Annee as an, an.Enfant as enf, an.Classe as cl where enf.ID_ENFANT=:x and cl.ID_CLASSE=:y");
+		 Query req=em.createQuery("select an from Annee as an, an.Enfant as enf, an.Classe as cl where enf.ID_ENFANT=:x and cl.ID_CLASSE=:y");
 		 req.setParameter("x", idEnfant);	
 		 req.setParameter("y", idClasse);	
+		 return req.getResultList();
+	
+
+	}
+
+	@Override
+	public List<Consultation> getConsultationByEnfantByEquipeSanitaire(Long idEnfant, Long idEquipeSanitaire) 
+	{
+		
+		 Query req=em.createQuery("select cons from Consultation as cons, cons.Enfant as enf, cons.EquipeSanitaire as eqSan where enf.ID_ENFANT=:x and eqSan.ID_EQ_SAN=:y");
+		 req.setParameter("x", idEnfant);	
+		 req.setParameter("y", idEquipeSanitaire);	
 		 return req.getResultList();
 	}
 
 	@Override
 	public Enfant enregistrerEnfant(Annee a, Parent p) 
 	{
-		
+	
 		return null;
 	}
 
 	
+
 
 
 }

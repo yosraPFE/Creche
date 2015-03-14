@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="Menus")
 public class Menus implements Serializable
 {
 	/**
@@ -23,6 +22,8 @@ public class Menus implements Serializable
 	 * @author YOSRA
 	 *
 	 */
+	
+	
 	/*
 	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
 	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
@@ -37,17 +38,16 @@ public class Menus implements Serializable
 	
 	@NotEmpty
 	private String nom;
-	@NotEmpty
+	
 	private double prix;
 	@NotEmpty
-	private Date date;
+	private String date;
 	
 	@ManyToOne
 	@JoinColumn(name="ID_TARIF")
 	private Tarif tarif;
 	
-	//generateur du guetteurs et du setteurs
-	
+	//generation du guetteurs et du setteurs
 	public long getIdMenu() 
 	{
 		return idMenu;
@@ -72,11 +72,11 @@ public class Menus implements Serializable
 	{
 		this.prix = prix;
 	}
-	public Date getDate() 
+	public String getDate() 
 	{
 		return date;
 	}
-	public void setDate(Date date) 
+	public void setDate(String date) 
 	{
 		this.date = date;
 	}
@@ -89,16 +89,14 @@ public class Menus implements Serializable
 		this.tarif = tarif;
 	}
 	
-	//generateur du constructeurs sans parametres
-	
+	//generation du constructeurs sans parametres
 	public Menus() 
 	{
 		super();
 		
 	}
-	//generateur du constructeurs avec parametres
-	
-	public Menus(String nom, double prix, Date date) 
+	//generation du constructeurs avec parametres
+	public Menus(String nom, double prix, String date) 
 	{
 		super();
 		this.nom = nom;

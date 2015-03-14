@@ -7,12 +7,13 @@ import org.gestion.cr.entities.Annee;
 import org.gestion.cr.entities.CategorieClub;
 import org.gestion.cr.entities.Classe;
 import org.gestion.cr.entities.Clubs;
+import org.gestion.cr.entities.Consultation;
 import org.gestion.cr.entities.Creche;
 import org.gestion.cr.entities.Enfant;
 import org.gestion.cr.entities.EquipeEducatif;
 import org.gestion.cr.entities.EquipeSanitaire;
 import org.gestion.cr.entities.EquipeTechnique;
-import org.gestion.cr.entities.FicheAnnexeEnfant;
+import org.gestion.cr.entities.Evennement;
 import org.gestion.cr.entities.Fonction;
 import org.gestion.cr.entities.Genre;
 import org.gestion.cr.entities.Menus;
@@ -23,6 +24,7 @@ import org.gestion.cr.entities.Tarif;
 
 public interface InternauteMetier
 {
+	
 	
 	//Consulter Categories clubs
 	public List<CategorieClub> listCategorieClubs(); 
@@ -37,9 +39,12 @@ public interface InternauteMetier
 	
 	
 	//Consulter Tarifs 
+	
 	public List<Tarif> listTarifs(); 
 	public List<Tarif> tarifParPlanningHorraires(Long idPlanningHorraires); 
+	public List<Enfant> getenfantbyTarif(Long idTarif); 
 	public Tarif getTarif(Long idTarif); 
+	
 	
 	
 	//Consulter Menues 
@@ -85,10 +90,10 @@ public interface InternauteMetier
 	
 	//Consulter Equipes Sanitaires 
 	public List<EquipeSanitaire> listEquipeSanitaires(); 
-	public List<EquipeSanitaire> equipeSanitaireParNom(String nom);
+	public List<EquipeSanitaire> equipeSanitaireParNom(String nom);  
 	public List<EquipeSanitaire> equipeSanitaireParFonction(Long idFonction); 
 	public EquipeSanitaire getEquipeSanitaire(Long idEquipeSanitaire); 
-	public List<Enfant> getEnfantsByEquipeSanitaire(Long idEquipeSanitaire);
+	
 	
 	
 	//Consulter  Equipes Educatifs 
@@ -132,22 +137,44 @@ public interface InternauteMetier
 	public List<Enfant> getEnfantByParent(Long idParent);
 	
 	
-	//ConsulterFicheAnnexe
-	public FicheAnnexeEnfant getFicheAnnexeEnfant(Long idFicheAnnexeEnfant); 
 	
+    //Consulter Les Enfants
 	
-	//Consulter Les Enfants
-	
-    public List<Enfant> listEnfants(); 
-	public List<Enfant> enfantParNom(String nom); 
+	public List<Enfant> listEnfants(); 
+	public List<Enfant> enfantParNom(String nom);
 	public Enfant getEnfant(Long idEnfant); 
+	public List<Enfant> enfantCertife(); 
+	public List<Enfant> enfantPhotoAutorise(); 
+	public List<Enfant> enfantSituationParental(); 
+	public List<Enfant> enfantInscriptionEvennement(); 
 	public List<Accompagnateur> getAccompagnateursByEnfant(Long idEnfant);
+	public List<Evennement> getEvennementsByEnfant(Long idEnfant);
+	public List<Tarif> gettarifbyEnfant(Long idEnfant);
 	public List<Parent> getParentsByEnfant(Long idEnfant);
-	public List<EquipeSanitaire> getEquipeSanitairesByEnfant(Long idEnfant);
 	public List<Enfant> getEnfantsByAnneeByClasse(Long idAnnee,Long idClasse);
+	public List<Enfant> getEnfantsByConsultationByEquipeSanitaire(Long idConsultation,Long idEquipeSanitaire);
 	public List<Classe> getClassesByAnneeByEnfant(Long idAnnee,Long idEnfant);
+	public List<EquipeSanitaire> getEquipeSanitaireByConsultationByEnfant(Long idConsultation,Long idEnfant);
 	public List<Annee> getAnneeByEnfantByClasse(Long idEnfant,Long idClasse);
-	public Enfant enregistrerEnfant(Annee a,Parent p);
+	public List<Consultation> getConsultationByEnfantByEquipeSanitaire(Long idEnfant,Long idEquipeSanitaire);
+	
+	
+	
+	//Consulter les Evennements
+	
+	public List<Evennement> listEvennements(); 
+	public List<Evennement> evennementParNom(String nom); 
+	public Evennement getEvennement(Long idEvennement);  
+	public List<Enfant> getEnfantsByEvennement(Long idEvennement);
+	
+	
+	
+	//Consulter les Consultations
+	public List<Consultation> listConsultations(); 
+	public Consultation getConsultation(Long idConsultation); 
+	public List<Consultation> getConsultationsByEnfantbyEquipeSanitaire(Long idEnfant,Long idEquipeSanitaire);
+	public List<Enfant> getEnfantByEqSanitaireyConsultation(Long idEquipeSanitaire,Long idConsultation);
+	public List<EquipeSanitaire> getEquipeSanitairesByEnfantbyConsultation(Long idEnfant,Long idConsultation);
 	
 	
 	

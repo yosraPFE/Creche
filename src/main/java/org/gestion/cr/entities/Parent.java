@@ -18,9 +18,8 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="Parents")
 //classe heritante de la classe mere Personnage
-@DiscriminatorValue("PR")
+@DiscriminatorValue("Parent")
 
 public class Parent  extends Personnage implements Serializable 
 {
@@ -29,6 +28,8 @@ public class Parent  extends Personnage implements Serializable
 	 * @author YOSRA
 	 *
 	 */
+	
+	
 	/*
 	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
 	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
@@ -38,9 +39,9 @@ public class Parent  extends Personnage implements Serializable
 	
 	@NotEmpty
 	private String cin;
-	@NotEmpty
+	
 	private String profession;
-	@NotEmpty
+	
 	private String adresseDomicile;
 	
 	private String telephoneDomicile;
@@ -54,7 +55,6 @@ public class Parent  extends Personnage implements Serializable
 	
 	
 	@ManyToOne
-	//pour la jointure on doit identifier une colonne qui contient le clé etranger
 	@JoinColumn(name="ID_GENRE")
 	private Genre genre;
 	
@@ -64,7 +64,7 @@ public class Parent  extends Personnage implements Serializable
 	private Collection<Enfant> enfants;
 	
 	
-	//generateur du guetteurs et du setteurs
+	//generation du guetteurs et du setteurs
 	public String getCin() 
 	{
 		return cin;
@@ -162,20 +162,20 @@ public class Parent  extends Personnage implements Serializable
 		this.enfants = enfants;
 	}
 	
-	
-	
-	//generateur du constructeurs sans parametres
+	//generation du constructeurs sans parametres
 	public Parent() 
 	{
 		super();
 		
 	}
-	//generateur du constructeur avec parametres
-	public Parent(String cin, String profession, String adresseDomicile,
+	//generation du constructeur avec parametres
+	public Parent(String nom, String prenom, byte[] photo, String nomPhoto,
+			String cin, String profession, String adresseDomicile,
 			String telephoneDomicile, String telephonePortable, String email,
 			String lieuTravail, String telephoneTravail, String nomUtilisateur,
-			String motPasse) {
-		super();
+			String motPasse) 
+	{
+		super(nom, prenom, photo, nomPhoto);
 		this.cin = cin;
 		this.profession = profession;
 		this.adresseDomicile = adresseDomicile;
@@ -186,8 +186,10 @@ public class Parent  extends Personnage implements Serializable
 		this.telephoneTravail = telephoneTravail;
 		this.nomUtilisateur = nomUtilisateur;
 		this.motPasse = motPasse;
-		
 	}
+	
+		
+	
 	
 	
 

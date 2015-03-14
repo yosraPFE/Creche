@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name="PlanningHorraires")
 public class PlanningHorraires implements Serializable
 {
 	/**
@@ -24,6 +23,8 @@ public class PlanningHorraires implements Serializable
 	 * @author YOSRA
 	 *
 	 */
+	
+	
 	/*
 	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
 	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
@@ -38,11 +39,12 @@ public class PlanningHorraires implements Serializable
 	
 	@NotEmpty
 	private String type;
-	@NotEmpty
+	
 	private double prix;
 	
 	
 	//mappedBy reference une propriété de l'entité cible
+	
 	@OneToMany(mappedBy="plannigHorraires",fetch=FetchType.LAZY)
 	private Collection<Tarif> tarifs;
 	
@@ -65,11 +67,13 @@ public class PlanningHorraires implements Serializable
 	{
 		this.type = type;
 	}
+	
+	
 	public double getPrix() 
 	{
 		return prix;
 	}
-	public void setPrix(double prix) 
+	public void setPrix(double prix)
 	{
 		this.prix = prix;
 	}
@@ -97,8 +101,6 @@ public class PlanningHorraires implements Serializable
 		this.type = type;
 		this.prix = prix;
 	}
-	
-	
 	
 
 }

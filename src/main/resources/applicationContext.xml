@@ -11,7 +11,7 @@
 <bean id="datasource"
       class="org.springframework.jdbc.datasource.DriverManagerDataSource"      >
       <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-      <property name="url" value="jdbc:mysql://localhost:3306/gestioncreche"></property>
+      <property name="url" value="jdbc:mysql://localhost:3306/gestion_creche"></property>
       <property name="username" value="root"></property>
       <property name="password" value=""></property>
 </bean>
@@ -32,12 +32,20 @@
         <property name="persistenceUnitName" value="UP_GestionCreche"></property>
        
 </bean>     
-       <bean  id="transactionManager"
-       class="org.springframework.orm.jpa.JpaTransactionManager">
+<bean  id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"></property>
 </bean>    
 
 
 <tx:annotation-driven transaction-manager="transactionManager"/>
 <context:annotation-config></context:annotation-config>
+
+<bean id="dao" class="org.gestion.cr.dao.CrecheDaoImpl"></bean>
+<bean id="metier"  class="org.gestion.cr.metier.CrecheMetierImpl">
+
+<property name="dao" ref="dao"></property>
+</bean>
+
+
+
 </beans>

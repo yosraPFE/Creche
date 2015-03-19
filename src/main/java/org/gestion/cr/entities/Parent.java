@@ -39,15 +39,17 @@ public class Parent  extends Personnage implements Serializable
 	
 	@NotEmpty
 	private String cin;
-	
+	@NotEmpty
 	private String profession;
-	
+	@NotEmpty
 	private String adresseDomicile;
-	
+	@NotEmpty
 	private String telephoneDomicile;
-	
+	@NotEmpty
 	private String telephonePortable;
+	
 	private String email;
+	
 	private String lieuTravail;
 	private String telephoneTravail;
 	private String nomUtilisateur;

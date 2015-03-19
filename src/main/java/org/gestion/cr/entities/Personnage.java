@@ -66,9 +66,11 @@ public class Personnage implements Serializable
 	
 	private String prenom;
 	
+	
 	private String nomPhoto;
 	//une photo est un tableau de byte
 	//byte[]:entier compri entre -128 jusqua 127
+	
 	@Lob
 	private byte[] photo;
 	

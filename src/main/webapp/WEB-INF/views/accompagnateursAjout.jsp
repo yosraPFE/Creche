@@ -6,7 +6,7 @@
 
 </head>
 
-<div id="formEnf" class="cadre">
+<div id="formAccomp" class="cadre">
 
     <f:form modelAttribute="accompagnateur" action="ajouterAccompagnateur" method="post" enctype="multipart/form-data">  <!--enctype="" pour le Upload on vas telecharger une photo  -->
 
@@ -61,35 +61,51 @@
           
            
            <tr>
-           <td><input type="submit" value="Ajouter"/></td>
+           <td><input type="submit" value="Ajouter et afficher details"/></td>
            </tr>
       </table>
   
     </f:form>
 
 </div>
-<div id="tableAccompagnateurs" class="cadre" >
+<c:if test="${not empty accompagnateurs }">
+<div id="" class="cadre" >
 
 <table class="tab1">
 
 <tr>
-<th>ID</th><th>NOM</th><th>PRENOM</th><th>CIN</th><th>DESCRIPTION</th><th>TEL.PORTABLE</th><th>PHOTO</th>
+<td>ID</td>
+<td>${accompagnateurs.idPerson}</td>
 </tr>
-<c:forEach items="${accompagnateurs}" var="acc">
 <tr>
-
-<td>${acc.idPerson}</td>
-<td><img src="photoAccomp?idAccompagnateur=${acc.idPerson}" class="images_petit" /></td>
-<td>${acc.nom}</td>
-<td>${acc.prenom}</td>
-<td>${acc.cin}</td>
-<td>${acc.description}</td>
-<td>${acc.telephonePortable}</td>
-
-<td><a href="supprimerAccompagnateur?idAccompagnateur=${acc.idPerson}">Supprimer<a/></td>
-<td><a href="modifierAccompagnateur?idAccompagnateur=${acc.idPerson}">Modifier<a/></td>
+<td>PHOTO</td>
+<td><img src="photoAccomp?idAccompagnateur=${accompagnateurs.idPerson}" class="images_petit" /></td>
 </tr>
-</c:forEach>
+<tr>
+<td>NOM</td>
+<td>${accompagnateurs.nom}</td>
+</tr>
+
+<tr>
+<td>PRENOM</td>
+<td>${accompagnateurs.prenom}</td>
+</tr>
+
+<tr>
+<td>CIN</td>
+<td>${accompagnateurs.cin}</td>
+</tr>
+
+<tr>
+<td>DESCRIPTION</td>
+<td>${accompagnateurs.description}</td>
+</tr>
+
+<tr>
+<td>TEL.PORTABLE</td>
+<td>${accompagnateurs.telephonePortable}</td>
+</tr>
 
 </table>
 </div>
+</c:if>

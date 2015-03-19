@@ -114,9 +114,12 @@ public interface InternauteMetier
     public Accompagnateur getAccompagnateur(Long idAccompagnateur); 
 	public List<Enfant> getEnfantsByAccompagnateur(Long idAccompagnateur);
 	public Long ajouterAccompagnateur(Accompagnateur accompagnateur); 
-	public List<Accompagnateur> listAccompagnateurs(); 
+	public List<Accompagnateur> listAccompagnateurs(int position,int nbrAccompagnateurs); 
 	public List<Accompagnateur> accompagnateurParNom(String nom); 
 	
+	public long getNombreAccompagnateurs();
+	
+	public List<Accompagnateur> listAccompagnateurs(); 
 	
 	
 	//Consulter Genres

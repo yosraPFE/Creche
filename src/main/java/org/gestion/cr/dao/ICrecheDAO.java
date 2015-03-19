@@ -153,13 +153,19 @@ public interface ICrecheDAO
 	//Gestion des Accompagnateurs 
 	
 	public Long ajouterAccompagnateur(Accompagnateur accompagnateur); 
-	public List<Accompagnateur> listAccompagnateurs(); 
+	public List<Accompagnateur> listAccompagnateurs(int position,int nbrAccompagnateurs); 
 	public List<Accompagnateur> accompagnateurParNom(String nom); 
 	public Accompagnateur getAccompagnateur(Long idAccompagnateur); 
 	public void supprimerAccompagnateurs(Long idAccompagnateur); 
 	public void modifierAccompagnateurs(Accompagnateur accompagnateur); 
 	public List<Enfant> getEnfantsByAccompagnateur(Long idAccompagnateur);
 	public void ajouterEnfantsPourAccompagnateur(Long idEnfant,Long idAccompagnateur);
+	
+	public long getNombreAccompagnateurs();
+	
+	
+	public List<Accompagnateur> listAccompagnateurs(); 
+	
 	
 	//Gestion des Genres 
 	
@@ -248,7 +254,7 @@ public interface ICrecheDAO
 	public Enfant enregistrerEnfant(Annee a,Parent p);
 	
 	
-	 
+	
 	
 
 }

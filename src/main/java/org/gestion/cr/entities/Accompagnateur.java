@@ -39,6 +39,9 @@ public class Accompagnateur extends Personnage implements Serializable
 	private String telephonePortable;
 	
 	
+	
+	
+	
 	/*pour l'annotation ManyToMany on declare un table de jointure qui contient les deux clé etranger
 	 * de deux tables associative AccompagnateurAbsence et Enfant
      */

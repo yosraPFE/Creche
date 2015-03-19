@@ -806,6 +806,15 @@ public class CrecheDaoImpl implements ICrecheDAO
 	}
 
 	@Override
+	public List<Accompagnateur> listAccompagnateurs(int position,int nbrAccompagnateurs) 
+	{
+		
+		Query req=em.createQuery("select accomp from Accompagnateur accomp order by accomp.idPerson desc ");
+		req.setFirstResult(position);
+		req.setMaxResults(nbrAccompagnateurs);
+		return req.getResultList();
+	}
+	@Override
 	public List<Accompagnateur> listAccompagnateurs() 
 	{
 		
@@ -1529,6 +1538,13 @@ public class CrecheDaoImpl implements ICrecheDAO
 	{
 	
 		return null;
+	}
+
+	@Override
+	public long getNombreAccompagnateurs()
+	{
+		Query req=em.createQuery("select count(acc) from Accompagnateur acc ");
+		return (Long)req.getResultList().get(0);
 	}
 
 	

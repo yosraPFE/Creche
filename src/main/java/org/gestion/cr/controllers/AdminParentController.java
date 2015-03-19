@@ -71,11 +71,11 @@ public class AdminParentController implements HandlerExceptionResolver
 				//enregistrer dans le fichier contenant le nom du parents dans un fichier
 				//prendre le shema
 				
-				String path=System.getProperty("");
+				String path = "C:/Users/YOSRA/Desktop/PFE/ImagesParents";
 				//par.setNomPhoto(path);
-				Long idParent=metier.ajouterParent(par, par.getGenre().getIdGenre());
-				par.setNomPhoto(file.getOriginalFilename());
-				file.transferTo(new File(path+"/"+"PARENT_" +idParent+"_"+file.getOriginalFilename()));
+				Long idParent  =metier.ajouterParent(par, par.getGenre().getIdGenre());
+				file.transferTo(new File(path+"/"+"PARENT_" + idParent + "_" + file.getOriginalFilename()));
+				par.setNomPhoto(path+"/"+"PARENT_" +idParent + "_" + file.getOriginalFilename());
 				
 			}
 			
@@ -110,11 +110,12 @@ public class AdminParentController implements HandlerExceptionResolver
 		//traitement de la photo qu'on a deja recuperée
 		@RequestMapping(value="photoParent",produces=MediaType.IMAGE_JPEG_VALUE)
 		@ResponseBody
+		
 		public byte[]photoParent(Long idParent) throws IOException
 		{
 			//je la recupere a partir de la base de donnée
 			Parent par=metier.getParent(idParent);
-			File f=new File(System.getProperty(""+"/"+"PARENT_" +idParent+"_"+par.getNomPhoto())); //changement du path du fichier
+			File f=new File(par.getNomPhoto()); //changement du path du fichier
 			return IOUtils.toByteArray(new FileInputStream(f));
 		}
 
@@ -137,6 +138,7 @@ public class AdminParentController implements HandlerExceptionResolver
 			metier.supprimerParent(idParent);
 			model.addAttribute("parent", new Parent());
 			model.addAttribute("parents",metier.listParents());
+			model.addAttribute("genres",metier.listGenre());
 			
 			return "parents";
 			
@@ -152,6 +154,7 @@ public class AdminParentController implements HandlerExceptionResolver
 			
 			model.addAttribute("parent",par );
 			model.addAttribute("parents",metier.listParents());
+			model.addAttribute("genres",metier.listGenre());
 			
 			return "parents";
 			

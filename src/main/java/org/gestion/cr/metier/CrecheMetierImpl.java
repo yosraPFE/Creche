@@ -6,6 +6,7 @@ import java.util.List;
 
 
 
+
 import org.gestion.cr.dao.ICrecheDAO;
 import org.gestion.cr.entities.Accompagnateur;
 import org.gestion.cr.entities.Annee;
@@ -371,10 +372,10 @@ public class CrecheMetierImpl implements IAdminMetier
 	}
 
 	@Override
-	public List<Accompagnateur> listAccompagnateurs()
+	public List<Accompagnateur> listAccompagnateurs(int position,int nbrAccompagnateurs)
 	{
 		
-		return dao.listAccompagnateurs();
+		return dao.listAccompagnateurs(position,nbrAccompagnateurs);
 	}
 
 	@Override
@@ -1143,6 +1144,19 @@ public class CrecheMetierImpl implements IAdminMetier
 	{
 		dao.ajouterEnfantsPourEvennement(idEnfant, idEvennement);
 		
+	}
+
+	@Override
+	public long getNombreAccompagnateurs() 
+	{
+		
+		return dao.getNombreAccompagnateurs();
+	}
+
+	@Override
+	public List<Accompagnateur> listAccompagnateurs() {
+		
+		return dao.listAccompagnateurs();
 	}
 	
 

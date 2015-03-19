@@ -12,9 +12,17 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+
+
+
+
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 
 @Entity
 @DiscriminatorValue("Enfant")
@@ -30,6 +38,7 @@ public class  Enfant extends Personnage implements Serializable
 	
 	private String sexe;
 	
+	
 	private  String dateNaissance;
 	
 	private String lieuNaissance;
@@ -40,6 +49,8 @@ public class  Enfant extends Personnage implements Serializable
 	
 	private boolean situationParentale;
 	
+	
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date dateInscription;
 	private boolean certificatMedicale;
 	

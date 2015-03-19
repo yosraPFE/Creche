@@ -1,4 +1,4 @@
-<%@ include file="/WEB-INF/views/includes/taglibs.jsp"%>s
+<%@ include file="/WEB-INF/views/includes/taglibs.jsp"%>
 
 <head>
 
@@ -6,7 +6,7 @@
 
 </head>
 
-<div id="formEnf" class="cadre">
+<div id="formPar" class="cadre">
 
     <f:form modelAttribute="parent" action="ajouterParent" method="post" enctype="multipart/form-data">  <!--enctype="" pour le Upload on vas telecharger une photo  -->
 
@@ -129,7 +129,7 @@
 <tr>
 
 <td>${par.idPerson}</td>
-<td><img src="photoParent?idParent=${parent.idPerson}" class="images_petit"/></td>
+<td><img src="photoParent?idParent=${par.idPerson}" class="images_petit"/></td>
 <td>${par.nom}</td>
 <td>${par.prenom}</td>
 <td>${par.nomUtilisateur}</td>

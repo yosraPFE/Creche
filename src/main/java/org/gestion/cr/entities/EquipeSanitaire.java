@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@DiscriminatorValue("Equipe_Sanitaire")
+@DiscriminatorValue("EquipeSanitaire")
 public class EquipeSanitaire extends Equipe implements Serializable
 {	
 	/**
@@ -28,12 +28,12 @@ public class EquipeSanitaire extends Equipe implements Serializable
 	
 	
 	@ManyToOne
-	@JoinColumn(name="ID_FONCTION")
+	@JoinColumn(name="idFonction")
 	private Fonction fonction;
 	
 	@ManyToMany
 	@JoinTable(name="CONSULT_ENFANT_EqSANI",joinColumns=@JoinColumn(name="ID_EQ_SAN"),
-	inverseJoinColumns=@JoinColumn(name="ID_CONSULTATION"))
+	inverseJoinColumns=@JoinColumn(name="idConsultation"))
 	private Collection<Consultation> consultations;
 	
 	@ManyToMany
@@ -90,6 +90,10 @@ public class EquipeSanitaire extends Equipe implements Serializable
 				adresseDomicile, nomUtilisateur, motPasse);
 	}
 
-	
+	@Override
+	public String toString() {
+		
+		return "Equipe Sanitaire";
+	}
 
 }

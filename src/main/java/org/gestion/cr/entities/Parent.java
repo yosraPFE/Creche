@@ -29,14 +29,6 @@ public class Parent  extends Personnage implements Serializable
 	 *
 	 */
 	
-	
-	/*
-	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
-	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
-	 * GenerationType.SEQUENCE:attribuer les clés primaires pour l'entité en utilisant une colonne de séquence de base de données.
-	 * GenerationType.TABLE :attribuer les clés primaires pour l'entité en utilisant une table de base de données sous-jacente pour garantir l'unicité
-	 */
-	
 	@NotEmpty
 	private String cin;
 	@NotEmpty
@@ -48,17 +40,19 @@ public class Parent  extends Personnage implements Serializable
 	@NotEmpty
 	private String telephonePortable;
 	
+	@NotEmpty
 	private String email;
-	
+	@NotEmpty
 	private String lieuTravail;
+	@NotEmpty
 	private String telephoneTravail;
+	@NotEmpty
 	private String nomUtilisateur;
+	@NotEmpty
 	private String motPasse;
+	@NotEmpty
+	private String genre;
 	
-	
-	@ManyToOne
-	@JoinColumn(name="ID_GENRE")
-	private Genre genre;
 	
 	@ManyToMany
 	@JoinTable(name="PAR_ENF",joinColumns=@JoinColumn(name="ID_PARENT"),
@@ -147,11 +141,12 @@ public class Parent  extends Personnage implements Serializable
 	{
 		this.motPasse = motPasse;
 	}
-	public Genre getGenre() 
+	
+	public String getGenre()
 	{
 		return genre;
 	}
-	public void setGenre(Genre genre) 
+	public void setGenre(String genre) 
 	{
 		this.genre = genre;
 	}
@@ -165,18 +160,19 @@ public class Parent  extends Personnage implements Serializable
 	}
 	
 	//generation du constructeurs sans parametres
+	
 	public Parent() 
 	{
 		super();
 		
 	}
 	//generation du constructeur avec parametres
+	
 	public Parent(String nom, String prenom, byte[] photo, String nomPhoto,
 			String cin, String profession, String adresseDomicile,
 			String telephoneDomicile, String telephonePortable, String email,
 			String lieuTravail, String telephoneTravail, String nomUtilisateur,
-			String motPasse) 
-	{
+			String motPasse, String genre) {
 		super(nom, prenom, photo, nomPhoto);
 		this.cin = cin;
 		this.profession = profession;
@@ -188,10 +184,16 @@ public class Parent  extends Personnage implements Serializable
 		this.telephoneTravail = telephoneTravail;
 		this.nomUtilisateur = nomUtilisateur;
 		this.motPasse = motPasse;
+		this.genre = genre;
 	}
 	
-		
 	
+		
+	@Override
+	public String toString() {
+		
+		return "Parent";
+	}
 	
 	
 

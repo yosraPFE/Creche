@@ -62,10 +62,10 @@
 <div id="formAccomp" class="cadre"> 
   
     <f:form modelAttribute="accompagnateur" action="validerModificationAccomp" method="post" enctype="multipart/form-data">  <!--enctype="" pour le Upload on vas telecharger une photo  -->
-    
-       
-       <table>
-           <tr>
+   
+      
+      <table>
+          <tr>
            <td>ID</td>
            <td><f:input path="idPerson"/></td>
            <td><f:errors path="idPerson" cssClass="errors"/></td>
@@ -87,7 +87,7 @@
            <tr>
            <td>Nom:</td>
            <td><f:input path="nom"/></td>
-           <td><f:errors path="nom" cssClass="errors"/></td>
+          <td><f:errors path="nom" cssClass="errors"/></td>
            </tr>
            
            <tr>
@@ -119,13 +119,12 @@
            <tr>
            <td><input type="submit" value="Enregistrer Modification"/></td>
            </tr>
-          
-      </table>
+        
+     </table>
       
-      
- 
+     
     </f:form>
    
 
 </div>
- </c:if>
+</c:if>

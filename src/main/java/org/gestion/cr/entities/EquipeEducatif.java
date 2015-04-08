@@ -28,17 +28,15 @@ public class EquipeEducatif extends Equipe implements Serializable
 	 *
 	 */
 	
-	
-	
 	@ManyToOne
-	@JoinColumn(name="ID_FONCTION")
+	@JoinColumn(name="idFonction")
 	private Fonction fonction;
 	
 	
 	
 	@ManyToMany
 	@JoinTable(name="EQEDU_CLASS",joinColumns=@JoinColumn(name="ID_EQ_EDU"),
-	inverseJoinColumns=@JoinColumn(name="ID_CLASSE"))
+	inverseJoinColumns=@JoinColumn(name="idClass"))
 	private Collection<Classe> classes;
 	
 	
@@ -82,7 +80,11 @@ public class EquipeEducatif extends Equipe implements Serializable
 				adresseDomicile, nomUtilisateur, motPasse);
 	}
 
-	
+	@Override
+	public String toString() {
+		
+		return "Equipe Educatif";
+	}
 	
 	
 }

@@ -1,5 +1,6 @@
 <%@ include file="/WEB-INF/views/includes/taglibs.jsp"%>
 
+
 <head>
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/style1.css">
@@ -8,6 +9,7 @@
 
 <div id="formAccomp" class="cadre">
 
+   <!--   <a href="<c:url value="/j_spring_security_logout"/>" > Deconnexion </a>-->
     <f:form modelAttribute="accompagnateur" action="ajouterAccompagnateur" method="post" enctype="multipart/form-data">  <!--enctype="" pour le Upload on vas telecharger une photo  -->
 
        <table>
@@ -17,10 +19,10 @@
            <td><f:errors path="idPerson" cssClass="errors"/></td>
            </tr>
            
-            <tr>
+           <tr>
            <td>Photo</td>
            <td>
-           <c:if test="${accompagnateur.idPerson!=null}">
+           <c:if test="${accompagnateur.idPerson!=0}">
            <img src="photoAccomp?idAccompagnateur=${accompagnateur.idPerson}" class="images_petit"/>
            </c:if>
            </td>
@@ -68,44 +70,49 @@
     </f:form>
 
 </div>
-<c:if test="${not empty accompagnateurs }">
-<div id="" class="cadre" >
+
+<div id="listaccomp" class="cadre" >
+<c:if test="${not empty accompagnateurAjoute }">
 
 <table class="tab1">
 
 <tr>
 <td>ID</td>
-<td>${accompagnateurs.idPerson}</td>
+<td>${accompagnateurAjoute.idPerson}</td>
 </tr>
 <tr>
 <td>PHOTO</td>
-<td><img src="photoAccomp?idAccompagnateur=${accompagnateurs.idPerson}" class="images_petit" /></td>
+<td><img src="photoAccomp?idAccompagnateur=${accompagnateurAjoute.idPerson}" class="images_petit" />
+
+<textarea rows="" cols="">${accompagnateurAjoute.nomPhoto}</textarea>
+</td>
 </tr>
+
 <tr>
 <td>NOM</td>
-<td>${accompagnateurs.nom}</td>
+<td>${accompagnateurAjoute.nom}</td>
 </tr>
 
 <tr>
 <td>PRENOM</td>
-<td>${accompagnateurs.prenom}</td>
+<td>${accompagnateurAjoute.prenom}</td>
 </tr>
 
 <tr>
 <td>CIN</td>
-<td>${accompagnateurs.cin}</td>
+<td>${accompagnateurAjoute.cin}</td>
 </tr>
 
 <tr>
 <td>DESCRIPTION</td>
-<td>${accompagnateurs.description}</td>
+<td>${accompagnateurAjoute.description}</td>
 </tr>
 
 <tr>
 <td>TEL.PORTABLE</td>
-<td>${accompagnateurs.telephonePortable}</td>
+<td>${accompagnateurAjoute.telephonePortable}</td>
 </tr>
 
 </table>
-</div>
 </c:if>
+</div>

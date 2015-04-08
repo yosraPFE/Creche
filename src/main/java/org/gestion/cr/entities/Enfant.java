@@ -19,6 +19,9 @@ import javax.validation.constraints.Size;
 
 
 
+
+
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -35,7 +38,6 @@ public class  Enfant extends Personnage implements Serializable
 	 */
 	
 	
-	
 	private String sexe;
 	
 	
@@ -47,37 +49,20 @@ public class  Enfant extends Personnage implements Serializable
 	
 	private String antecedantsMedicaux;
 	
-	private boolean situationParentale;
+	private String situationParentale;
 	
 	
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-	private Date dateInscription;
+	
 	private boolean certificatMedicale;
 	
 	private boolean autorisationPrisePhoto;
-	private boolean inscriptionEvenement;
+	
 	
 	private String nomPrenomPediatre;
 	
 	private String telephonePortablePediatre;
 	private int nombreFreres;
 	private int nombreSoeur;
-	
-	
-	
-	/*puisque la classe "Enfant" a une collection de "Classe" qui a
-	* un objet de type enfant qui s'appelle "enfant" on le met pour le mapping :mappedBy="enfant"
-	*et Lazy par defaut*/
-	
-	
-	
-	/* l'annotation dans cette classe ne va pas etre accopagné par une table de jointure car c'est 
-	 * deja declaré dans l'autre table Accompagnateur d'absence associative 
-	 * (mappedBy="enfants"):enfant est une collection des objets de type Enfant dans 
-	 * la classe AccompagnateurAbsence
-	 *  */
-	
-	//mappedBy reference une propriété de l'entité cible
 	
 	
 	@ManyToMany(mappedBy="enfants") 
@@ -95,7 +80,7 @@ public class  Enfant extends Personnage implements Serializable
 	
 	
 	@ManyToMany(mappedBy="enfants") 
-    private Collection<Annee> annees;
+    private Collection<Inscription> inscriptions;
 	
 	
 	@ManyToMany(mappedBy="enfants") 
@@ -105,9 +90,7 @@ public class  Enfant extends Personnage implements Serializable
 	@ManyToMany(mappedBy="enfants") 
     private Collection<Consultation> consultations;
 	
-	@ManyToOne
-	@JoinColumn(name="ID_TARIF")
-	private Tarif tarif;
+	
 	
 	
 	
@@ -152,22 +135,15 @@ public class  Enfant extends Personnage implements Serializable
 	{
 		this.antecedantsMedicaux = antecedantsMedicaux;
 	}
-	public boolean getSituationParentale() 
+	public String getSituationParentale() 
 	{
 		return situationParentale;
 	}
-	public void setSituationParentale(boolean situationParentale) 
+	public void setSituationParentale(String situationParentale) 
 	{
 		this.situationParentale = situationParentale;
 	}
-	public Date getDateInscription() 
-	{
-		return dateInscription;
-	}
-	public void setDateInscription(Date dateInscription) 
-	{
-		this.dateInscription = dateInscription;
-	}
+	
 	public boolean getCertificatMedicale() 
 	{
 		return certificatMedicale;
@@ -241,15 +217,14 @@ public class  Enfant extends Personnage implements Serializable
 	{
 		this.classes = classes;
 	}
-	public Collection<Annee> getAnnees() 
-	{
-		return annees;
-	}
-	public void setAnnees(Collection<Annee> annees) 
-	{
-		this.annees = annees;
-	}
 	
+	
+	public Collection<Inscription> getInscriptions() {
+		return inscriptions;
+	}
+	public void setInscriptions(Collection<Inscription> inscriptions) {
+		this.inscriptions = inscriptions;
+	}
 	public Collection<Accompagnateur> getAccompagnateurs() 
 	{
 		return accompagnateurs;
@@ -276,23 +251,8 @@ public class  Enfant extends Personnage implements Serializable
 	{
 		this.evenements = evenements;
 	}
-	public boolean isInscriptionEvenement() 
-	{
-		return inscriptionEvenement;
-	}
-	public void setInscriptionEvenement(boolean inscriptionEvenement) {
-		this.inscriptionEvenement = inscriptionEvenement;
-	}
 	
 	
-	public Tarif getTarif() 
-	{
-		return tarif;
-	}
-	public void setTarif(Tarif tarif) 
-	{
-		this.tarif = tarif;
-	}
 	//generation du constructeur sans parametres
 	public Enfant()
 	{
@@ -303,9 +263,8 @@ public class  Enfant extends Personnage implements Serializable
 	public Enfant(String nom, String prenom, byte[] photo, String nomPhoto,
 			String sexe, String dateNaissance, String lieuNaissance,
 			String langue, String antecedantsMedicaux,
-			boolean situationParentale, Date dateInscription,
-			boolean certificatMedicale, boolean autorisationPrisePhoto,
-			boolean inscriptionEvenement, String nomPrenomPediatre,
+			String situationParentale, boolean certificatMedicale,
+			boolean autorisationPrisePhoto, String nomPrenomPediatre,
 			String telephonePortablePediatre, int nombreFreres, int nombreSoeur) {
 		super(nom, prenom, photo, nomPhoto);
 		this.sexe = sexe;
@@ -314,16 +273,19 @@ public class  Enfant extends Personnage implements Serializable
 		this.langue = langue;
 		this.antecedantsMedicaux = antecedantsMedicaux;
 		this.situationParentale = situationParentale;
-		this.dateInscription = dateInscription;
 		this.certificatMedicale = certificatMedicale;
 		this.autorisationPrisePhoto = autorisationPrisePhoto;
-		this.inscriptionEvenement = inscriptionEvenement;
 		this.nomPrenomPediatre = nomPrenomPediatre;
 		this.telephonePortablePediatre = telephonePortablePediatre;
 		this.nombreFreres = nombreFreres;
 		this.nombreSoeur = nombreSoeur;
 	}
 	
+	@Override
+	public String toString() {
+	
+		return "Enfant";
+	}
 	
 		
 	

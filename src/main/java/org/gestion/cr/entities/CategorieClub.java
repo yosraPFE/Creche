@@ -1,19 +1,23 @@
 package org.gestion.cr.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.crypto.Data;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class CategorieClub implements Serializable
@@ -34,19 +38,23 @@ public class CategorieClub implements Serializable
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_CATEG_CLUB")
+	
 	private long idCateg;
+	
+	
+	
 	
 	
 	private String labelle;
 	
 	private double prix;
-
+	
+	//@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private String date;
 	
-	@ManyToOne
-	@JoinColumn(name="ID_CLUBS")
-	private Clubs clubs;
+	
+	@OneToMany(mappedBy="categorieClub",fetch=FetchType.LAZY)
+	private Collection<Clubs> clubs;
 	
 	//generation des guetteurs et des setteurs
 	public long getIdCateg()
@@ -83,16 +91,15 @@ public class CategorieClub implements Serializable
 	{
 		this.date = date;
 	}
-	public Clubs getClubs() 
-	{
+	
+	
+	
+	public Collection<Clubs> getClubs() {
 		return clubs;
 	}
-	public void setClubs(Clubs clubs) 
-	{
+	public void setClubs(Collection<Clubs> clubs) {
 		this.clubs = clubs;
 	}
-	
-	
 	//generation du constructeur sans parametres
 	public CategorieClub() 
 	{

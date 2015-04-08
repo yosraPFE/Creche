@@ -1,9 +1,9 @@
 package org.gestion.cr.entities;
 
 import java.io.Serializable;
+
 import java.util.Collection;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+
+
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Evennement implements Serializable 
@@ -26,18 +29,20 @@ public class Evennement implements Serializable
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_EVENEMENT")
+	
 	private long idEvenement;
 	
-	
+	@NotEmpty
 	private String nom;
+	@NotEmpty
 	private String type;
-	private String inscription;
-	private double prix;
-	private Date date;
+	private double fraix;
+	
+	//@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	private String date;
 	
 	@ManyToMany
-	@JoinTable(name="EVEN_ENF",joinColumns=@JoinColumn(name="ID_EVENEMENT")
+	@JoinTable(name="EVEN_ENF",joinColumns=@JoinColumn(name="idEvenement")
 	,inverseJoinColumns=@JoinColumn(name="ID_ENFANT"))
 	private Collection<Enfant> enfants;
 	
@@ -74,32 +79,23 @@ public class Evennement implements Serializable
 		this.type = type;
 	}
 
-	public String getInscription() 
-	{
-		return inscription;
+	
+
+	public double getFraix() {
+		return fraix;
 	}
 
-	public void setInscription(String inscription) 
-	{
-		this.inscription = inscription;
+	public void setFraix(double fraix) {
+		this.fraix = fraix;
 	}
 
-	public double getPrix() 
-	{
-		return prix;
-	}
-
-	public void setPrix(double prix) 
-	{
-		this.prix = prix;
-	}
-
-	public Date getDate() 
+	
+	public String getDate() 
 	{
 		return date;
 	}
 
-	public void setDate(Date date) 
+	public void setDate(String date) 
 	{
 		this.date = date;
 	}
@@ -120,18 +116,18 @@ public class Evennement implements Serializable
 		super();
 		
 	}
-	
-    //Generation des constructeurs avec parametres
-	public Evennement(String nom, String type, String inscription, double prix,
-			Date date) 
-	{
+
+	//Generation des constructeurs avec parametres
+	public Evennement(String nom, String type, double fraix, String date) {
 		super();
 		this.nom = nom;
 		this.type = type;
-		this.inscription = inscription;
-		this.prix = prix;
+		this.fraix = fraix;
+		
 		this.date = date;
 	}
+	
+    
 	
 	
 	

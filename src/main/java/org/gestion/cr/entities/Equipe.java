@@ -1,6 +1,7 @@
 package org.gestion.cr.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,6 +14,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -20,36 +24,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 
 
-
-
-/*une annotation specifier pour l'heritage et "SINGLE_TABLE" c a d que tous les type de cette Classe
-*mere "Equipe" sont stocké dans le mem tableau(un seul tableau))*/
-
-
-
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 
-
-
-
-/*toutes les types de la classe mere c a d les classes heritants de la classe mere(Equipe)
- * sont stoché dans  la meme table qui contient une colone qui a le nom "TYPE_EQUIPE"
- * qui va faire la differences entre les differetes type de la table Equipe
- * et cette colonne a un type chaine de caractere (String) et le nombre de caractere de nom du type
- * a une maximum longueur 16 (length=16)*/
-
-
-
-
 @DiscriminatorColumn(name="TYPE_EQUIPE",discriminatorType=DiscriminatorType.STRING,length=16)
-
-
-
-/*c a d que si je crai un objet de type Equipe Dans la table (classe) Personnage le, nom "TYPE_EQUIPE"
- * va etre egale a EQ
- */
-
-
 
 @DiscriminatorValue("Equipe")
 
@@ -76,7 +53,10 @@ public class Equipe extends Personnage implements Serializable
 	private String motPasse;
 	
 	
-	
+	@ManyToMany
+	@JoinTable(name="MAT_EQ",joinColumns=@JoinColumn(name="ID_EQUIPE")
+	,inverseJoinColumns=@JoinColumn(name="idMateriel"))
+	private Collection<Materiels> materiels;
 	
 	//generation des guetteurs et des setteurs
 	public String getDateNaissance() 
@@ -128,7 +108,12 @@ public class Equipe extends Personnage implements Serializable
 		this.motPasse = motPasse;
 	}
 	
-	
+	public Collection<Materiels> getMateriels() {
+		return materiels;
+	}
+	public void setMateriels(Collection<Materiels> materiels) {
+		this.materiels = materiels;
+	}
 	//generation du constructeur sans parametres
 	public Equipe() 
 	{
@@ -150,7 +135,11 @@ public class Equipe extends Personnage implements Serializable
 	
 	
 
-	
+	@Override
+	public String toString() {
+		
+		return "Equipe";
+	}
 	
 	
 	

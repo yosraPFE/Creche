@@ -10,6 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,81 +27,82 @@ public class PlanningHorraires implements Serializable
 	 *
 	 */
 	
-	
-	/*
-	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
-	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
-	 * GenerationType.SEQUENCE:attribuer les clés primaires pour l'entité en utilisant une colonne de séquence de base de données.
-	 * GenerationType.TABLE :attribuer les clés primaires pour l'entité en utilisant une table de base de données sous-jacente pour garantir l'unicité
-	 */
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_PLANNING_HORRAIRES")
+	
 	private long idPlanning;
 	
-	@NotEmpty
-	private String type;
+	
+	
+	
 	
 	private double prix;
 	
 	
-	//mappedBy reference une propriété de l'entité cible
 	
-	@OneToMany(mappedBy="plannigHorraires",fetch=FetchType.LAZY)
-	private Collection<Tarif> tarifs;
+	@ManyToMany(mappedBy="planningHorraires") 
+    private Collection<Inscription> inscriptions;
+	
+	
+	@ManyToOne
+	@JoinColumn(name="idGenrePlanning")
+	private GenrePlanning genresPlannings;
 	
 	//generation du guetteurs et du setteurs
-	public long getIdPlanning() 
-	{
+	
+	
+	public long getIdPlanning() {
 		return idPlanning;
 	}
-	public void setIdPlanning(long idPlanning)
-	{
+
+	public void setIdPlanning(long idPlanning) {
 		this.idPlanning = idPlanning;
 	}
+
 	
-	public String getType() 
-	{
-		return type;
-	}
-	
-	public void setType(String type) 
-	{
-		this.type = type;
-	}
-	
-	
-	public double getPrix() 
-	{
+
+	public double getPrix() {
 		return prix;
 	}
-	public void setPrix(double prix)
-	{
+
+	public void setPrix(double prix) {
 		this.prix = prix;
 	}
-	public Collection<Tarif> getTarifs() 
-	{
-		return tarifs;
+
+	
+	
+	
+	
+	public GenrePlanning getGenresPlannings() {
+		return genresPlannings;
 	}
-	public void setTarifs(Collection<Tarif> tarifs) 
-	{
-		this.tarifs = tarifs;
+
+	public void setGenresPlannings(GenrePlanning genresPlannings) {
+		this.genresPlannings = genresPlannings;
 	}
 	
 	
+
+	public Collection<Inscription> getInscriptions() {
+		return inscriptions;
+	}
+
+	public void setInscriptions(Collection<Inscription> inscriptions) {
+		this.inscriptions = inscriptions;
+	}
+
 	//generation du constructeur sans parametres
 	public PlanningHorraires() 
 	{
 		super();
 		
 	}
-	
+
 	//generation du constructeur avec parametres
-	public PlanningHorraires(String type, double prix) 
+	public PlanningHorraires( double prix) 
 	{
 		super();
-		this.type = type;
+		
 		this.prix = prix;
 	}
 	

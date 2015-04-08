@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-//classe heritante de la classe mere Personnage
+
 @DiscriminatorValue("Accompagnateur")
 
 public class Accompagnateur extends Personnage implements Serializable 
@@ -38,14 +38,7 @@ public class Accompagnateur extends Personnage implements Serializable
 	@NotEmpty
 	private String telephonePortable;
 	
-	
-	
-	
-	
-	/*pour l'annotation ManyToMany on declare un table de jointure qui contient les deux clé etranger
-	 * de deux tables associative AccompagnateurAbsence et Enfant
-     */
-	
+
 	
 	@ManyToMany
 	@JoinTable(name="ACC_ENF",joinColumns=@JoinColumn(name="ID_ACOMP_ABSENCE")
@@ -78,13 +71,6 @@ public class Accompagnateur extends Personnage implements Serializable
 	{
 		this.telephonePortable = telephonePortable;
 	}
-	
-	//generation du constructeur sans parametres
-	public Accompagnateur() 
-	{
-		super();
-		
-	}
 	public Collection<Enfant> getEnfants() 
 	{
 		return enfants;
@@ -93,6 +79,14 @@ public class Accompagnateur extends Personnage implements Serializable
 	{
 		this.enfants = enfants;
 	}
+	
+	//generation du constructeur sans parametres
+	public Accompagnateur() 
+	{
+		super();
+		
+	}
+	
 	
 	//generateur du constructeur avec parametres
 	public Accompagnateur(String nom, String prenom, byte[] photo,
@@ -106,8 +100,10 @@ public class Accompagnateur extends Personnage implements Serializable
 		
 	}
 	
-	
-	
-	
+	@Override
+	public String toString() {
+		
+		return "Accompagnateur";
+	}
 
 }

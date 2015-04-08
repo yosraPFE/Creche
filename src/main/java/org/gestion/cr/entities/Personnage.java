@@ -19,21 +19,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 
-
-/*une annotation specifier pour l'heritage
- *SINGLE_TABLE :c a d que tous les type de la Classe mere "Personnage" sont stocké dans le mem tableau(un seul tableau))
- *JOINED:ser a enregistrer les champs de chaque entité dans sa propre table
- *TABLE_PER_CLASS:inverse de SINGLE_TABLE :c a d envoyer tous les champs de toutes les entités vers table de juin unique
- */
-
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-
-
-/*les classes heritantes de la classe mere sont stockés dans  la meme table qui contient une colone 
- * qui a le nom "TYPE_PERSONNAGE"
- * qui va faire la differences entre les differetes type de la table Personnage
- * et cette colonne a un type Stringe  qui est  le nombre de caractere de nom du type du maximum longueur 22 */
-
 
 @DiscriminatorColumn(name="TYPE_PERSONNAGE",discriminatorType=DiscriminatorType.STRING,length=22)
 
@@ -45,31 +31,21 @@ public class Personnage implements Serializable
 	 *
 	 */
 	
-	
-	/*
-	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
-	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
-	 * GenerationType.SEQUENCE:attribuer les clés primaires pour l'entité en utilisant une colonne de séquence de base de données.
-	 * GenerationType.TABLE :attribuer les clés primaires pour l'entité en utilisant une table de base de données sous-jacente pour garantir l'unicité
-	 */
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_PERSONNAGE")
+	
 	private long idPerson;
 	
-	@NotEmpty
+	
 	
 	private String nom;
 	
-	@NotEmpty
+	
 	
 	private String prenom;
 	
 	
 	private String nomPhoto;
-	//une photo est un tableau de byte
-	//byte[]:entier compri entre -128 jusqua 127
 	
 	@Lob
 	private byte[] photo;
@@ -137,7 +113,11 @@ public class Personnage implements Serializable
 		this.nomPhoto = nomPhoto;
 	}
 	
-	
+	@Override
+	public String toString() {
+		
+		return "Personnage";
+	}
 	
 	
 

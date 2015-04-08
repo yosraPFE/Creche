@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Consultation implements Serializable
 {
@@ -26,18 +28,18 @@ public class Consultation implements Serializable
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_CONSULTATION")
+	
 	private long idConsultation;
 	
-	
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date date;
 	private float tailleEnfant;
 	private float poidsEnfants;
-	private String Description;
+	private String description;
 	
 	
 	@ManyToMany
-	@JoinTable(name="CONSULT_ENFANT_EqSANI",joinColumns=@JoinColumn(name="ID_CONSULTATION")
+	@JoinTable(name="CONSULT_ENFANT_EqSANI",joinColumns=@JoinColumn(name="idConsultation")
 	,inverseJoinColumns=@JoinColumn(name="ID_ENFANT"))
 	private Collection<Enfant> enfants;
 	
@@ -92,17 +94,16 @@ public class Consultation implements Serializable
 	{
 		this.poidsEnfants = poidsEnfants;
 	}
+ 
+	
 
-
-	public String getDescription() 
-	{
-		return Description;
+	public String getDescription() {
+		return description;
 	}
 
 
-	public void setDescription(String description) 
-	{
-		Description = description;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 
@@ -137,27 +138,16 @@ public class Consultation implements Serializable
 	}
 
 	//Generation des constructeurs avec parametres
+
+
 	public Consultation(Date date, float tailleEnfant, float poidsEnfants,
-			String description) 
-	{
+			String description) {
 		super();
 		this.date = date;
 		this.tailleEnfant = tailleEnfant;
 		this.poidsEnfants = poidsEnfants;
-		Description = description;
+		this.description = description;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 

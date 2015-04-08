@@ -2,13 +2,9 @@ package org.gestion.cr.entities;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,13 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
-
-import org.gestion.cr.entities.Annee;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 public class Classe implements Serializable
@@ -35,18 +24,9 @@ public class Classe implements Serializable
 	
 	
 	
-	
-	/*
-	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
-	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
-	 * GenerationType.SEQUENCE:attribuer les clés primaires pour l'entité en utilisant une colonne de séquence de base de données.
-	 * GenerationType.TABLE :attribuer les clés primaires pour l'entité en utilisant une table de base de données sous-jacente pour garantir l'unicité
-	 */
-	
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID_CLASSE")
+	
 	private long idClass;
 	
 	private String nom;
@@ -56,23 +36,23 @@ public class Classe implements Serializable
 	
 	
 	@ManyToMany
-	@JoinTable(name="CLASS_ANN_ENF",joinColumns=@JoinColumn(name="ID_CLASSE")
-	,inverseJoinColumns=@JoinColumn(name="ID_ANNEE"))
-	private Collection<Annee> annees;//au lieu de annee getItems(){return items.values();}
+	@JoinTable(name="CLASS_INSC_ENF",joinColumns=@JoinColumn(name="idClass")
+	,inverseJoinColumns=@JoinColumn(name="idinscription"))
+	private Collection<Inscription> inscriptions;
 	
 	
-	//mappedBy reference une propriété de l'entité cible
+	
 	@ManyToMany(mappedBy="classes")
 	private Collection<EquipeEducatif> equipeEducatifs;
 	
 	@ManyToOne
-	@JoinColumn(name="ID_CRECHE")
+	@JoinColumn(name="idCreche")
 	private Creche creche;
 	
 	
 	
 	@ManyToMany
-	@JoinTable(name="CLASS_ANN_ENF",joinColumns=@JoinColumn(name="ID_CLASSE")
+	@JoinTable(name="CLASS_INSC_ENF",joinColumns=@JoinColumn(name="idClass")
 	,inverseJoinColumns=@JoinColumn(name="ID_ENFANT"))
 	private Collection<Enfant> enfants;
 	
@@ -83,9 +63,7 @@ public class Classe implements Serializable
 	 * cascade=CascadeType.REFRESH:cascade opération de rafraîchissement
 	 * cascade=CascadeType.REMOVE:fonctionnement en cascade remove
 	 */
-	@ManyToOne
-	@JoinColumn(name="ID_NOM_CLASSE")
-	private NomClass nomClasse;
+	
 	
 	
 	//Generation des guetteurs et des setteurs
@@ -106,13 +84,12 @@ public class Classe implements Serializable
 		this.nombrePlaces = nombrePlaces;
 	}
 	
-	public Collection<Annee> getAnnees() 
-	{
-		return annees;
+	
+	public Collection<Inscription> getInscriptions() {
+		return inscriptions;
 	}
-	public void setAnnees(Collection<Annee> annees) 
-	{
-		this.annees = annees;
+	public void setInscriptions(Collection<Inscription> inscriptions) {
+		this.inscriptions = inscriptions;
 	}
 	public Collection<EquipeEducatif> getEquipeEducatifs() 
 	{
@@ -138,14 +115,7 @@ public class Classe implements Serializable
 	{
 		this.enfants = enfants;
 	}
-	public NomClass getNomClasse() 
-	{
-		return nomClasse;
-	}
-	public void setNomClasse(NomClass nomClasse)
-	{
-		this.nomClasse = nomClasse;
-	}
+	
 	
 	
 	public String getNom()

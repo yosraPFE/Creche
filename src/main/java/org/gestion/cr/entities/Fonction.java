@@ -24,22 +24,11 @@ public class Fonction implements Serializable
 	 *
 	 */
 	
-	
-	
-	/*
-	 * GenerationType.IDENTITY:c a d attribuer  les clés primaires pour l'entité en utilisant une colonne d'identité de base de données.
-	 * GenerationType.AUTO :c a d choisir une stratégie appropriée pour la base de données particulière.
-	 * GenerationType.SEQUENCE:attribuer les clés primaires pour l'entité en utilisant une colonne de séquence de base de données.
-	 * GenerationType.TABLE :attribuer les clés primaires pour l'entité en utilisant une table de base de données sous-jacente pour garantir l'unicité
-	 */
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY )
-	@Column(name="ID_FONCTION")
 	private long idFonction;
 	
-	@NotEmpty
-	@Size(min=4)
+	
 	private String labelle;
 	
 	//mappedBy reference une propriété de l'entité cible
@@ -48,8 +37,7 @@ public class Fonction implements Serializable
 	@OneToMany(mappedBy="fonction",fetch=FetchType.LAZY)
 	private Collection<EquipeSanitaire> equipeSanitaires;
 	
-	@OneToMany(mappedBy="fonction",fetch=FetchType.LAZY)
-	private Collection<EquipeTechnique> equipeTechniques;
+	
 	
 	@OneToMany(mappedBy="fonction",fetch=FetchType.LAZY)
 	private Collection<EquipeEducatif>  equipeEducatifs;
@@ -81,14 +69,7 @@ public class Fonction implements Serializable
 	{
 		this.equipeSanitaires = equipeSanitaires;
 	}
-	public Collection<EquipeTechnique> getEquipeTechniques() 
-	{
-		return equipeTechniques;
-	}
-	public void setEquipeTechniques(Collection<EquipeTechnique> equipeTechniques) 
-	{
-		this.equipeTechniques = equipeTechniques;
-	}
+	
 	public Collection<EquipeEducatif> getEquipeEducatifs() 
 	{
 		return equipeEducatifs;

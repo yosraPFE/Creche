@@ -3,11 +3,9 @@ package org.gestion.cr.controllers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
 import org.apache.commons.io.IOUtils;
 import org.gestion.cr.entities.Accompagnateur;
 import org.gestion.cr.metier.IAdminMetier;
@@ -25,8 +23,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping(value="/adminAccomp")
 public class AccompagnateurAjoutAdminController implements HandlerExceptionResolver
-
 {
+
+	/**
+	 * 
+	 * @author YOSRA
+	 *
+	 */
 	
 	@Autowired
 	private IAdminMetier metier;
@@ -68,15 +71,14 @@ public class AccompagnateurAjoutAdminController implements HandlerExceptionResol
 			file.transferTo(new File(path+"/"+"ACCOMPAGNATEUR_" + idAccompagnateur + "_" + file.getOriginalFilename()));//il peut construire le nouveau nom
 			accomp.setNomPhoto(path+"/"+"ACCOMPAGNATEUR_" +idAccompagnateur + "_" + file.getOriginalFilename());//affecter le nom de la photo a l'acc precedement cree
 			metier.modifierAccompagnateurs(accomp);
+			
 		}
-		
 		
 	
 		
+		model.addAttribute("accompagnateurAjoute",metier.getAccompagnateur(accomp.getIdPerson()));
 		
-		model.addAttribute("accompagnateurs",metier.getAccompagnateur(accomp.getIdPerson()));
 		model.addAttribute("accompagnateur", new Accompagnateur());
-		
 		
 		
 		
@@ -103,14 +105,12 @@ public class AccompagnateurAjoutAdminController implements HandlerExceptionResol
 		
 		ModelAndView mv=new ModelAndView();
 		mv.addObject("accompagnateur", new Accompagnateur());
-		mv.addObject("accompagnateurs",metier.listAccompagnateurs());
+		
 		mv.addObject("exception", ex.getMessage());
 		mv.setViewName("accompagnateursAjout");
 		
 		return mv;
 	}
-	
-	
 	
 
 

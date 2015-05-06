@@ -3,14 +3,21 @@ package org.gestion.cr.controllers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
+import org.gestion.cr.entities.Classe;
 import org.gestion.cr.entities.Enfant;
+import org.gestion.cr.entities.Inscription;
+import org.gestion.cr.entities.Parent;
 import org.gestion.cr.metier.IAdminMetier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -33,17 +40,22 @@ public class EnfantListeAdminController implements HandlerExceptionResolver
 	 * @author YOSRA
 	 *
 	 */
-	
-	private int page = 0;
-	private int nbrLignesEnfans = 4;
-	private int nbrPages;
-
 	@Autowired
 	private IAdminMetier metier;
+	
 	
 	@Autowired 
 	private HttpServletRequest request;
 
+	
+	/*
+	private int page = 0;
+	private int nbrLignesEnfans = 4;
+	private int nbrPages;
+
+	
+	
+	
 	public int getPage() {
 		return page;
 	}
@@ -66,23 +78,173 @@ public class EnfantListeAdminController implements HandlerExceptionResolver
 
 	public void setNbrPages(int nbrPages) {
 		this.nbrPages = nbrPages;
-	}
+	}*/
 
 	// index
 	@RequestMapping(value = "/index")
-	public String index(Model model) {
+	public String index(Model model) throws ParseException {
+		
 		model.addAttribute("enfant", new Enfant());
-		chargerModel(model);
+		
+		List<Enfant> listEnfant = metier.listEnfants();
+		
+		model.addAttribute("enfants", listEnfant);
+		System.out.println("1");
+	
+		Date di = new Date();
+		SimpleDateFormat dfi = new SimpleDateFormat("yyyy");
+		String yearIns = dfi.format(di);	
+		System.out.println("2");
+
+		
+		List<Inscription> listInscriptionsFn = metier.listInscriptions();
+		List<String> listDatesInscriptions = new ArrayList<String>(listEnfant.size());
+		List<String> listNomsClassesFn = new ArrayList<String>(listDatesInscriptions.size());
+		
+		
+		System.out.println("3");
+		int index = 0;
+		for(Enfant fn : listEnfant){
+			System.out.println("4");
+			
+			listDatesInscriptions.add(index, "Pas Inscrit");
+			listNomsClassesFn.add(index, "Pas Inscrit");
+			
+			for(Inscription ins : listInscriptionsFn){
+				if(ins.getEnfant().getIdPerson() == fn.getIdPerson() && ins.getAnnee().equalsIgnoreCase(yearIns)){
+					listDatesInscriptions.set(index, ins.getDateInscription().toString());
+					listNomsClassesFn.set(index, ins.getClasse().getNom());
+				}
+			}
+			index ++;
+			
+		}
+		
+		
+		
+		
+		
+		
+	    model.addAttribute("listDatesInscriptions", listDatesInscriptions);
+		model.addAttribute("listNomsClassesFn", listNomsClassesFn);
+		
+		//chargerModel(model);
 		return "enfantsListe";
 
 	}
+	// index
+		@RequestMapping(value = "/indexReturn")
+		public String indexReturn(Model model, Long InscriAjoute) {
+			
+			model.addAttribute("InscriAjoute", InscriAjoute);
+			model.addAttribute("enfant", new Enfant());
+			//chargerModel(model);
+			List<Enfant> listEnfant = metier.listEnfants();
+			
+			model.addAttribute("enfants", listEnfant);
+			System.out.println("1");
+		
+			Date di = new Date();
+			SimpleDateFormat dfi = new SimpleDateFormat("yyyy");
+			String yearIns = dfi.format(di);	
+			System.out.println("2");
+
+			
+			List<Inscription> listInscriptionsFn = metier.listInscriptions();
+			List<String> listDatesInscriptions = new ArrayList<String>(listEnfant.size());
+			List<String> listNomsClassesFn = new ArrayList<String>(listDatesInscriptions.size());
+			
+			
+			System.out.println("3");
+			int index = 0;
+			for(Enfant fn : listEnfant){
+				System.out.println("4");
+				
+				listDatesInscriptions.add(index, "Pas Inscrit");
+				listNomsClassesFn.add(index, "Pas Inscrit");
+				
+				for(Inscription ins : listInscriptionsFn){
+					if(ins.getEnfant().getIdPerson() == fn.getIdPerson() && ins.getAnnee().equalsIgnoreCase(yearIns)){
+						listDatesInscriptions.set(index, ins.getDateInscription().toString());
+						listNomsClassesFn.set(index, ins.getClasse().getNom());
+					}
+				}
+				index ++;
+				
+			}
+			
+			
+			
+			
+			
+			
+		    model.addAttribute("listDatesInscriptions", listDatesInscriptions);
+			model.addAttribute("listNomsClassesFn", listNomsClassesFn);
+			
+			return "enfantsListe";
+
+		}
+		
+		
+		@RequestMapping(value = "/indexReturnFromConsultation")
+		public String indexReturnFromConsultation(Model model, Long ConsuAjoute) {
+			
+			model.addAttribute("ConsuAjoute", ConsuAjoute);
+			model.addAttribute("enfant", new Enfant());
+			//chargerModel(model);
+			model.addAttribute("enfants", metier.listEnfants());
+			return "enfantsListe";
+
+		}
 
 	@RequestMapping(value = "/validerModificationEnf")
 	public String validerModificationEnf(@Valid Enfant enf,
 			BindingResult bindingResult, Model model, MultipartFile file)
 			throws IOException {
 		if (bindingResult.hasErrors()) {
-			chargerModel(model);
+			//chargerModel(model);
+			List<Enfant> listEnfant = metier.listEnfants();
+			
+			model.addAttribute("enfants", listEnfant);
+			System.out.println("1");
+		
+			Date di = new Date();
+			SimpleDateFormat dfi = new SimpleDateFormat("yyyy");
+			String yearIns = dfi.format(di);	
+			System.out.println("2");
+
+			
+			List<Inscription> listInscriptionsFn = metier.listInscriptions();
+			List<String> listDatesInscriptions = new ArrayList<String>(listEnfant.size());
+			List<String> listNomsClassesFn = new ArrayList<String>(listDatesInscriptions.size());
+			
+			
+			System.out.println("3");
+			int index = 0;
+			for(Enfant fn : listEnfant){
+				System.out.println("4");
+				
+				listDatesInscriptions.add(index, "Pas Inscrit");
+				listNomsClassesFn.add(index, "Pas Inscrit");
+				
+				for(Inscription ins : listInscriptionsFn){
+					if(ins.getEnfant().getIdPerson() == fn.getIdPerson() && ins.getAnnee().equalsIgnoreCase(yearIns)){
+						listDatesInscriptions.set(index, ins.getDateInscription().toString());
+						listNomsClassesFn.set(index, ins.getClasse().getNom());
+					}
+				}
+				index ++;
+				
+			}
+			
+			
+			
+			
+			
+			
+		    model.addAttribute("listDatesInscriptions", listDatesInscriptions);
+			model.addAttribute("listNomsClassesFn", listNomsClassesFn);
+			
 			return ("enfantsListe");
 		}
 		Long ref = enf.getIdPerson();
@@ -93,10 +255,7 @@ public class EnfantListeAdminController implements HandlerExceptionResolver
 				Enfant enfen = metier.getEnfant(enf.getIdPerson());
 				enf.setNomPhoto(enfen.getNomPhoto());
 			} else {
-				/*ServletContext servletContext = request.getSession().getServletContext();
-				String relativeWebPath = "/resources/images/imagesEnfants";
-				String absoluteDiskPath = servletContext.getRealPath(relativeWebPath);
-				String path = absoluteDiskPath ;*/
+				
 				String path = "C:/Users/YOSRA/Desktop/PFE/ImageEnfants";
 				file.transferTo(new File(path + "/" + "ENFANT_"
 						+ enf.getIdPerson() + "_" + file.getOriginalFilename()));
@@ -105,49 +264,119 @@ public class EnfantListeAdminController implements HandlerExceptionResolver
 			}
 			metier.modifierEnfant(enf);
 
-			if (enf.getSexe().equals("Homme")) {
-				model.addAttribute("enfants", metier.listEnfants(0, 4));
-			} else if (enf.getSexe().equals("Femme")) {
-				model.addAttribute("enfants", metier.listEnfants(0, 4));
-			}
 			
 			
-			if (enf.getLangue().equals("Arabe")){
-				model.addAttribute("enfants", metier.listEnfants(0, 4));
-			} else if (enf.getLangue().equals("Français")) {
-				model.addAttribute("enfants", metier.listEnfants(0, 4));
-			}else if (enf.getLangue().equals("Anglais")) {
-				model.addAttribute("enfants", metier.listEnfants(0, 4));
-			}
-
-			if (enf.getSituationParentale().equals("MARIE")) {
-				model.addAttribute("enfants", metier.listEnfants(0, 4));
-			} else if (enf.getSituationParentale().equals("DIVORCE")) {
-				model.addAttribute("enfants", metier.listEnfants(0, 4));
-			}
-
-			else if (enf.getSituationParentale().equals("PERE VEUF")) {
-				model.addAttribute("enfants", metier.listEnfants(0, 4));
-			}
-
-			else if (enf.getSituationParentale().equals("MERE VEUVE")) {
-				model.addAttribute("enfants", metier.listEnfants(0, 4));
-			}
 
 			model.addAttribute("enfant", new Enfant());
-			chargerModel(model);
+			//chargerModel(model);
+			List<Enfant> listEnfant = metier.listEnfants();
+			
+			model.addAttribute("enfants", listEnfant);
+			System.out.println("1");
+		
+			Date di = new Date();
+			SimpleDateFormat dfi = new SimpleDateFormat("yyyy");
+			String yearIns = dfi.format(di);	
+			System.out.println("2");
+
+			
+			List<Inscription> listInscriptionsFn = metier.listInscriptions();
+			List<String> listDatesInscriptions = new ArrayList<String>(listEnfant.size());
+			List<String> listNomsClassesFn = new ArrayList<String>(listDatesInscriptions.size());
+			
+			
+			System.out.println("3");
+			int index = 0;
+			for(Enfant fn : listEnfant){
+				System.out.println("4");
+				
+				listDatesInscriptions.add(index, "Pas Inscrit");
+				listNomsClassesFn.add(index, "Pas Inscrit");
+				
+				for(Inscription ins : listInscriptionsFn){
+					if(ins.getEnfant().getIdPerson() == fn.getIdPerson() && ins.getAnnee().equalsIgnoreCase(yearIns)){
+						listDatesInscriptions.set(index, ins.getDateInscription().toString());
+						listNomsClassesFn.set(index, ins.getClasse().getNom());
+					}
+				}
+				index ++;
+				
+			}
+			
+			
+			
+			
+			
+			
+		    model.addAttribute("listDatesInscriptions", listDatesInscriptions);
+			model.addAttribute("listNomsClassesFn", listNomsClassesFn);
+			
 		}
 		return "enfantsListe";
 	}
+	
+	
+	
+	
+	
 
 	@RequestMapping(value = "/modifierListeEnfant")
 	public String modifierListeEnfant(Long idEnfant, Model model) {
 		Enfant enf = metier.getEnfant(idEnfant);
 		model.addAttribute("enfant", enf);
-		chargerModel(model);
+		//chargerModel(model);
+List<Enfant> listEnfant = metier.listEnfants();
+		
+		model.addAttribute("enfants", listEnfant);
+		System.out.println("1");
+	
+		Date di = new Date();
+		SimpleDateFormat dfi = new SimpleDateFormat("yyyy");
+		String yearIns = dfi.format(di);	
+		System.out.println("2");
+
+		
+		List<Inscription> listInscriptionsFn = metier.listInscriptions();
+		List<String> listDatesInscriptions = new ArrayList<String>(listEnfant.size());
+		List<String> listNomsClassesFn = new ArrayList<String>(listDatesInscriptions.size());
+		
+		
+		System.out.println("3");
+		int index = 0;
+		for(Enfant fn : listEnfant){
+			System.out.println("4");
+			
+			listDatesInscriptions.add(index, "Pas Inscrit");
+			listNomsClassesFn.add(index, "Pas Inscrit");
+			
+			for(Inscription ins : listInscriptionsFn){
+				if(ins.getEnfant().getIdPerson() == fn.getIdPerson() && ins.getAnnee().equalsIgnoreCase(yearIns)){
+					listDatesInscriptions.set(index, ins.getDateInscription().toString());
+					listNomsClassesFn.set(index, ins.getClasse().getNom());
+				}
+			}
+			index ++;
+			
+		}
+		
+		
+		
+		
+		
+		
+	    model.addAttribute("listDatesInscriptions", listDatesInscriptions);
+		model.addAttribute("listNomsClassesFn", listNomsClassesFn);
+		
 
 		return "enfantsListe";
 	}
+	
+	
+	
+	
+	
+	
+
 
 	// photo
 	@RequestMapping(value = "photoEnf", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -159,16 +388,64 @@ public class EnfantListeAdminController implements HandlerExceptionResolver
 	}
 
 	@RequestMapping(value = "/supprimerListeEnfant")
-	public String supprimerListeEnfant(Long idEnfant, Model model) {
+	public String supprimerListeEnfant(Long idEnfant,Model model) {
 
-		setPage(page);
+		//setPage(page);
+		/*Enfant enf = metier.getEnfant(idEnfant);
+		List<Parent> parents = (List<Parent>) enf.getParents();
+		System.out.println(parents.size());
+		for (Parent p : parents){
+			System.out.println(p.getIdPerson());
+			metier.supprimerEnfantDeListeParent(p.getIdPerson(), idEnfant);
+			metier.modifierParent(p);
+		}*/
 		metier.supprimerEnfant(idEnfant);
 		model.addAttribute("enfant", new Enfant());
-		chargerModel(model);
+		//chargerModel(model);
+List<Enfant> listEnfant = metier.listEnfants();
+		
+		model.addAttribute("enfants", listEnfant);
+		System.out.println("1");
+	
+		Date di = new Date();
+		SimpleDateFormat dfi = new SimpleDateFormat("yyyy");
+		String yearIns = dfi.format(di);	
+		System.out.println("2");
+
+		
+		List<Inscription> listInscriptionsFn = metier.listInscriptions();
+		List<String> listDatesInscriptions = new ArrayList<String>(listEnfant.size());
+		List<String> listNomsClassesFn = new ArrayList<String>(listDatesInscriptions.size());
+		
+		
+		System.out.println("3");
+		int index = 0;
+		for(Enfant fn : listEnfant){
+			System.out.println("4");
+			
+			listDatesInscriptions.add(index, "Pas Inscrit");
+			listNomsClassesFn.add(index, "Pas Inscrit");
+			
+			for(Inscription ins : listInscriptionsFn){
+				if(ins.getEnfant().getIdPerson() == fn.getIdPerson() && ins.getAnnee().equalsIgnoreCase(yearIns)){
+					listDatesInscriptions.set(index, ins.getDateInscription().toString());
+					listNomsClassesFn.set(index, ins.getClasse().getNom());
+				}
+			}
+			index ++;
+			
+		}
+		
+		
+		
+		
+	    model.addAttribute("listDatesInscriptions", listDatesInscriptions);
+		model.addAttribute("listNomsClassesFn", listNomsClassesFn);
+		
 
 		return "enfantsListe";
 	}
-
+/*
 	@RequestMapping(value = "chargerModel")
 	public void chargerModel(Model model) {
 
@@ -181,7 +458,9 @@ public class EnfantListeAdminController implements HandlerExceptionResolver
 		model.addAttribute("enfants",
 				metier.listEnfants(pos, getNbrLignesEnfans()));
 
-	}
+	}*/
+	
+	/*
 
 	@RequestMapping(value = "/indexPage")
 	public String changerPage(Model model, int page) {
@@ -189,7 +468,7 @@ public class EnfantListeAdminController implements HandlerExceptionResolver
 		model.addAttribute("enfant", new Enfant());
 		chargerModel(model);
 		return "enfantsListe";
-	}
+	}*/
 
 	@RequestMapping
 	@Override
@@ -197,7 +476,7 @@ public class EnfantListeAdminController implements HandlerExceptionResolver
 			HttpServletResponse response, Object arg2, Exception ex) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("enfant", new Enfant());
-		mv.addObject("enfants", metier.listEnfants(0,4));
+		mv.addObject("enfants", metier.listEnfants());
 		mv.addObject("exception", ex.getMessage());
 		mv.setViewName("enfantsListe");
 		return mv;

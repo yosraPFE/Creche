@@ -2,10 +2,13 @@ package org.gestion.cr.controllers;
 
 import java.io.IOException;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import org.gestion.cr.entities.Clubs;
+
+import org.gestion.cr.entities.Club;
+
 import org.gestion.cr.metier.IAdminMetier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,38 +27,13 @@ public class ClubsListeAdminController implements HandlerExceptionResolver
 	 * @author YOSRA
 	 *
 	 */
-	private int page = 0;
-	private int nbrLignesClubs = 4;
-	private int nbrPages;
+	
 
 	@Autowired
 	private IAdminMetier metier;
 
-	public int getPage() {
-		return page;
-	}
-
-	public void setPage(int page) {
-		this.page = page;
-	}
-
 	
-	public int getNbrLignesClubs() {
-		return nbrLignesClubs;
-	}
-
-	public void setNbrLignesClubs(int nbrLignesClubs) {
-		this.nbrLignesClubs = nbrLignesClubs;
-	}
-
-	public int getNbrPages() {
-		return nbrPages;
-	}
-
-	public void setNbrPages(int nbrPages) {
-		this.nbrPages = nbrPages;
-	}
-
+	
 	// index
 	@RequestMapping(value = "/index")
 	public String index(Model model) {
@@ -63,19 +41,19 @@ public class ClubsListeAdminController implements HandlerExceptionResolver
 		model.addAttribute("CategorieClubs",metier.listCategorieClubs());
 		model.addAttribute("inscriptions",metier.listInscriptions());
 		
-		model.addAttribute("club", new Clubs());
-		chargerModel(model);
+		model.addAttribute("club", new Club());
+		model.addAttribute("clubs", metier.listClubs());
 		return "clubsListe";
 
 	}
 
 	@RequestMapping(value = "/validerModificationClub")
-	public String validerModificationClub(@Valid Clubs club,
+	public String validerModificationClub(@Valid Club club,
 			BindingResult bindingResult, Model model)
 			throws IOException 
 	  {
 		if (bindingResult.hasErrors()) {
-			chargerModel(model);
+			model.addAttribute("clubs", metier.listClubs());
 			return ("clubsListe");
 		}
 		Long ref = club.getIdClub();
@@ -87,8 +65,8 @@ public class ClubsListeAdminController implements HandlerExceptionResolver
 			model.addAttribute("CategorieClubs",metier.listCategorieClubs());
 			model.addAttribute("inscriptions",metier.listInscriptions());
 			metier.modifierClubs(club);
-			model.addAttribute("club", new Clubs());
-			chargerModel(model);
+			model.addAttribute("club", new Club());
+			model.addAttribute("clubs", metier.listClubs());
 		}
 		return "clubsListe";
 	}
@@ -99,10 +77,10 @@ public class ClubsListeAdminController implements HandlerExceptionResolver
 		model.addAttribute("CategorieClubs",metier.listCategorieClubs());
 		model.addAttribute("inscriptions",metier.listInscriptions());
 		
-		Clubs club = metier.getClubs(idClubs);
+		Club club = metier.getClubs(idClubs);
 		model.addAttribute("club", club);
 
-		chargerModel(model);
+		model.addAttribute("clubs", metier.listClubs());
 
 		return "clubsListe";
 	}
@@ -113,46 +91,27 @@ public class ClubsListeAdminController implements HandlerExceptionResolver
 	public String supprimerListeClubs(Long idClubs,
 			Model model) {
 
-		setPage(page);
+		
 		model.addAttribute("CategorieClubs",metier.listCategorieClubs());
 		model.addAttribute("inscriptions",metier.listInscriptions());
 		
 		metier.supprimerClubs(idClubs);
-		model.addAttribute("club", new Clubs());
-		chargerModel(model);
+		model.addAttribute("club", new Club());
+		model.addAttribute("clubs", metier.listClubs());
 
 		return "clubsListe";
 	}
 
-	@RequestMapping(value = "chargerModel")
-	public void chargerModel(Model model) {
 
-		int pos = getNbrLignesClubs() * getPage();
-		long nbAc = metier.getNombreClubs();
-		setNbrPages((int) (nbAc / getNbrLignesClubs()) + 1);
-
-		model.addAttribute("nbrPages", getNbrPages());
-		model.addAttribute("page", getPage());
-		model.addAttribute("clubs",
-				metier.listClubs(pos, getNbrLignesClubs()));
-
-	}
-
-	@RequestMapping(value = "/indexPage")
-	public String changerPage(Model model, int page) {
-		setPage(page);
-		model.addAttribute("club", new Clubs());
-		chargerModel(model);
-		return "clubsListe";
-	}
+	
 
 	@RequestMapping
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request,
 			HttpServletResponse response, Object arg2, Exception ex) {
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("club", new Clubs());
-		mv.addObject("clubs", metier.listClubs(0, 4));
+		mv.addObject("club", new Club());
+		mv.addObject("clubs", metier.listClubs());
 		mv.addObject("exception", ex.getMessage());
 		mv.setViewName("clubsListe");
 		return mv;

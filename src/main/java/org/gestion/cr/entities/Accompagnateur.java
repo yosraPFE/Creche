@@ -1,109 +1,91 @@
 package org.gestion.cr.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 @Entity
+public class Accompagnateur extends Personne implements Serializable {
 
-@DiscriminatorValue("Accompagnateur")
+	private String cin;
 
-public class Accompagnateur extends Personnage implements Serializable 
-{
-	/**
-	 * 
-	 * @author YOSRA
-	 *
-	 */
-	
-	
-	@NotEmpty
-	private String cin;	
-	@Size(min=5)
+	@Size(min = 5)
 	private String description;
-	@NotEmpty
-	private String telephonePortable;
-	
 
-	
-	@ManyToMany
-	@JoinTable(name="ACC_ENF",joinColumns=@JoinColumn(name="ID_ACOMP_ABSENCE")
-	,inverseJoinColumns=@JoinColumn(name="ID_ENFANT"))
-	private Collection<Enfant> enfants;
-	
-	
-	//generation  des guetteurs et des setteurs
-	public String getCin() 
-	{
+	private String telephonePortable;
+
+	private boolean active;
+
+	private String sexe;
+
+	@ManyToMany(mappedBy = "accompagnateur")
+	private Set<Enfant> enfants = new HashSet<Enfant>();
+
+	public Accompagnateur(String nom, String prenom, String nomPhoto,
+			 String cin, String description,
+			String telephonePortable, boolean active) {
+		super(nom, prenom, nomPhoto);
+		this.cin = cin;
+		this.description = description;
+		this.telephonePortable = telephonePortable;
+		this.active = active;
+	}
+
+	public Accompagnateur() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getCin() {
 		return cin;
 	}
-	public void setCin(String cin) 
-	{
+
+	public void setCin(String cin) {
 		this.cin = cin;
 	}
-	public String getDescription() 
-	{
-		return description;
-	}
-	public void setDescription(String description) 
-	{
-		this.description = description;
-	}
-	public String getTelephonePortable() 
-	{
+
+	public String getTelephonePortable() {
 		return telephonePortable;
 	}
-	public void setTelephonePortable(String telephonePortable)
-	{
+
+	public void setTelephonePortable(String telephonePortable) {
 		this.telephonePortable = telephonePortable;
 	}
-	public Collection<Enfant> getEnfants() 
-	{
+
+	public Set<Enfant> getEnfants() {
 		return enfants;
 	}
-	public void setEnfants(Collection<Enfant> enfants) 
-	{
+
+	public void setEnfants(Set<Enfant> enfants) {
 		this.enfants = enfants;
 	}
-	
-	//generation du constructeur sans parametres
-	public Accompagnateur() 
-	{
-		super();
-		
+
+	public String getDescription() {
+		return description;
 	}
-	
-	
-	//generateur du constructeur avec parametres
-	public Accompagnateur(String nom, String prenom, byte[] photo,
-			String nomPhoto, String cin, String description,
-			String telephonePortable) 
-	{
-		super(nom, prenom, photo, nomPhoto);
-		this.cin = cin;
+
+	public void setDescription(String description) {
 		this.description = description;
-		this.telephonePortable = telephonePortable;
-		
 	}
-	
-	@Override
-	public String toString() {
-		
-		return "Accompagnateur";
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public String getSexe() {
+		return sexe;
+	}
+
+	public void setSexe(String sexe) {
+		this.sexe = sexe;
 	}
 
 }

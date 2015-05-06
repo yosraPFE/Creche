@@ -25,44 +25,20 @@ public class TypeMaterielsListeAdminController implements HandlerExceptionResolv
 	 * @author YOSRA
 	 *
 	 */
-	private int page = 0;
-	private int nbrLignesTypesMateriels = 4;
-	private int nbrPages;
+	
 
 	@Autowired
 	private IAdminMetier metier;
 
-	public int getPage() {
-		return page;
-	}
 
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	
-
-	public int getNbrLignesTypesMateriels() {
-		return nbrLignesTypesMateriels;
-	}
-
-	public void setNbrLignesTypesMateriels(int nbrLignesTypesMateriels) {
-		this.nbrLignesTypesMateriels = nbrLignesTypesMateriels;
-	}
-
-	public int getNbrPages() {
-		return nbrPages;
-	}
-
-	public void setNbrPages(int nbrPages) {
-		this.nbrPages = nbrPages;
-	}
 
 	// index
 	@RequestMapping(value = "/index")
 	public String index(Model model) {
 		model.addAttribute("typeMateriel", new TypeMateriels());
-		chargerModel(model);
+		model.addAttribute("typeMateriels", metier.listTypeMateriels());
+		
+		
 		return "typeMaterielsListe";
 
 	}
@@ -73,10 +49,10 @@ public class TypeMaterielsListeAdminController implements HandlerExceptionResolv
 			throws IOException 
 	  {
 		if (bindingResult.hasErrors()) {
-			chargerModel(model);
+			model.addAttribute("typeMateriels", metier.listTypeMateriels());
 			return ("typeMaterielsListe");
 		}
-		Long ref = tpMat.getIdTypeMateriel();
+		Long ref = tpMat.getIdTypeMateriels();
 		String referrerAffiliateId = null;
 		if (ref != null) 
 		{
@@ -85,7 +61,7 @@ public class TypeMaterielsListeAdminController implements HandlerExceptionResolv
 			
 			metier.modifierTypeMateriels(tpMat);
 			model.addAttribute("typeMateriel", new TypeMateriels());
-			chargerModel(model);
+			model.addAttribute("typeMateriels", metier.listTypeMateriels());
 		}
 		return "typeMaterielsListe";
 	}
@@ -96,7 +72,7 @@ public class TypeMaterielsListeAdminController implements HandlerExceptionResolv
 		TypeMateriels tpMat = metier.getTypeMateriels(idTypeMateriels);
 		model.addAttribute("typeMateriel", tpMat);
 
-		chargerModel(model);
+		model.addAttribute("typeMateriels", metier.listTypeMateriels());
 
 		return "typeMaterielsListe";
 	}
@@ -107,35 +83,17 @@ public class TypeMaterielsListeAdminController implements HandlerExceptionResolv
 	public String supprimerListeTypeMateriels(Long idTypeMateriels,
 			Model model) {
 
-		setPage(page);
+		
 		metier.supprimerTypeMateriels(idTypeMateriels);
 		model.addAttribute("typeMateriel", new TypeMateriels());
-		chargerModel(model);
+		model.addAttribute("typeMateriels", metier.listTypeMateriels());
 
 		return "typeMaterielsListe";
 	}
 
-	@RequestMapping(value = "chargerModel")
-	public void chargerModel(Model model) {
+	
 
-		int pos = getNbrLignesTypesMateriels() * getPage();
-		long nbAc = metier.getNombreTypesMateriels();
-		setNbrPages((int) (nbAc / getNbrLignesTypesMateriels()) + 1);
-
-		model.addAttribute("nbrPages", getNbrPages());
-		model.addAttribute("page", getPage());
-		model.addAttribute("typeMateriels",
-				metier.listTypeMateriels(pos, getNbrLignesTypesMateriels()));
-
-	}
-
-	@RequestMapping(value = "/indexPage")
-	public String changerPage(Model model, int page) {
-		setPage(page);
-		model.addAttribute("typeMateriel", new TypeMateriels());
-		chargerModel(model);
-		return "typeMaterielsListe";
-	}
+	
 
 	@RequestMapping
 	@Override
@@ -143,7 +101,7 @@ public class TypeMaterielsListeAdminController implements HandlerExceptionResolv
 			HttpServletResponse response, Object arg2, Exception ex) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("typeMateriel", new TypeMateriels());
-		mv.addObject("typeMateriels", metier.listTypeMateriels(0,4));
+		mv.addObject("typeMateriels", metier.listTypeMateriels());
 		mv.addObject("exception", ex.getMessage());
 		mv.setViewName("typeMaterielsListe");
 		return mv;

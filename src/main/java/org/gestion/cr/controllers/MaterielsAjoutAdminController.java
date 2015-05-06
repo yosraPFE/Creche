@@ -2,10 +2,13 @@ package org.gestion.cr.controllers;
 
 import java.io.IOException;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import org.gestion.cr.entities.Materiels;
+
+import org.gestion.cr.entities.Materiel;
+
 import org.gestion.cr.metier.IAdminMetier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,7 +39,7 @@ public class MaterielsAjoutAdminController implements HandlerExceptionResolver
 		model.addAttribute("stocks",metier.listStock());
 		model.addAttribute("typeMateriels",metier.listTypeMateriels());
 		
-		model.addAttribute("materiel", new Materiels());
+		model.addAttribute("materiel", new Materiel());
 		
 		
 		return "materielsAjout";
@@ -46,7 +49,7 @@ public class MaterielsAjoutAdminController implements HandlerExceptionResolver
 	
 	
 	@RequestMapping(value="/ajouterMateriel")
-	public String ajouterMateriel(@Valid Materiels mat,BindingResult bindingResult,
+	public String ajouterMateriel(@Valid Materiel mat,BindingResult bindingResult,
 			Model model) throws IOException
 	{
 		
@@ -57,18 +60,18 @@ public class MaterielsAjoutAdminController implements HandlerExceptionResolver
 			model.addAttribute("stocks",metier.listStock());
 			model.addAttribute("typeMateriels",metier.listTypeMateriels());
 			
-			model.addAttribute("materiel", new Materiels());
+			model.addAttribute("materiel", new Materiel());
 			return("materielsAjout");
 		}
 		
 		model.addAttribute("stocks",metier.listStock());
 		model.addAttribute("typeMateriels",metier.listTypeMateriels());
 		
-		Long idMateriels = metier.ajouterMateriels(mat, mat.getStock().getIdStock(), mat.getTypeMateriel().getIdTypeMateriel());
+		Long idMateriels = metier.ajouterMateriels(mat, mat.getStock().getIdStock(), mat.getTypeMateriels().getIdTypeMateriels());
 		
 		model.addAttribute("materielAjoute",metier.getMateriels(idMateriels));
 		
-		model.addAttribute("materiel", new Materiels());
+		model.addAttribute("materiel", new Materiel());
 		
 	
 	return "materielsAjout";
@@ -82,7 +85,7 @@ public class MaterielsAjoutAdminController implements HandlerExceptionResolver
 	{
 		
 		ModelAndView mv=new ModelAndView();
-		mv.addObject("materiel", new Materiels());
+		mv.addObject("materiel", new Materiel());
 		
 		mv.addObject("exception", ex.getMessage());
 		mv.setViewName("materielsAjout");

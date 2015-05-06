@@ -24,44 +24,23 @@ public class PlanningHorrairesListeAdminController implements HandlerExceptionRe
 	 * @author YOSRA
 	 *
 	 */
-	private int page = 0;
-	private int nbrLignesPlanningsHorraires = 4;
-	private int nbrPages;
+
 
 	@Autowired
 	private IAdminMetier metier;
 
-	public int getPage() {
-		return page;
-	}
+	
 
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	public int getNbrLignesPlanningsHorraires() {
-		return nbrLignesPlanningsHorraires;
-	}
-
-	public void setNbrLignesPlanningsHorraires(int nbrLignesPlanningsHorraires) {
-		this.nbrLignesPlanningsHorraires = nbrLignesPlanningsHorraires;
-	}
-
-	public int getNbrPages() {
-		return nbrPages;
-	}
-
-	public void setNbrPages(int nbrPages) {
-		this.nbrPages = nbrPages;
-	}
 
 	// index
 	@RequestMapping(value = "/index")
 	public String index(Model model) {
 		
-		model.addAttribute("genrePlannings",metier.listGenrePlanning());
+		
 		model.addAttribute("planningHorraire", new PlanningHorraires());
-		chargerModel(model);
+		
+		model.addAttribute("planningHorraires", metier.listPlanningHorraires());
+		
 		return "planningHorrairesListe";
 
 	}
@@ -72,19 +51,18 @@ public class PlanningHorrairesListeAdminController implements HandlerExceptionRe
 			throws IOException 
 	  {
 		if (bindingResult.hasErrors()) {
-			chargerModel(model);
+			model.addAttribute("planningHorraires", metier.listPlanningHorraires());
 			return ("planningHorrairesListe");
 		}
-		Long ref = plHor.getIdPlanning();
+		Long ref = plHor.getIdPlanningH();
 		String referrerAffiliateId = null;
 		if (ref != null) 
 		{
 			referrerAffiliateId = Long.toString(ref);
-			
-			model.addAttribute("genrePlannings",metier.listGenrePlanning());
+		
 			metier.modifierPlanningHorraires(plHor);
 			model.addAttribute("planningHorraire", new PlanningHorraires());
-			chargerModel(model);
+			model.addAttribute("planningHorraires", metier.listPlanningHorraires());
 		}
 		return "planningHorrairesListe";
 	}
@@ -92,11 +70,11 @@ public class PlanningHorrairesListeAdminController implements HandlerExceptionRe
 	@RequestMapping(value = "/modifierListePlanningHorraires")
 	public String modifierListePlanningHorraires(Long idPlanningHo, Model model) {
 		
-		model.addAttribute("genrePlannings",metier.listGenrePlanning());
+		
 		PlanningHorraires plHor = metier.getPlanningHorraires(idPlanningHo);
 		model.addAttribute("planningHorraire", plHor);
 
-		chargerModel(model);
+		model.addAttribute("planningHorraires", metier.listPlanningHorraires());
 
 		return "planningHorrairesListe";
 	}
@@ -107,44 +85,24 @@ public class PlanningHorrairesListeAdminController implements HandlerExceptionRe
 	public String supprimerListePlanningHorraires(Long idPlanningHo,
 			Model model) {
 
-		setPage(page);
-		model.addAttribute("genrePlannings",metier.listGenrePlanning());
+		
 		metier.supprimerPlanningHorraires(idPlanningHo);
 		model.addAttribute("planningHorraire", new PlanningHorraires());
-		chargerModel(model);
+		model.addAttribute("planningHorraires", metier.listPlanningHorraires());
 
 		return "planningHorrairesListe";
 	}
 
-	@RequestMapping(value = "chargerModel")
-	public void chargerModel(Model model) {
+	
 
-		int pos = getNbrLignesPlanningsHorraires() * getPage();
-		long nbAc = metier.getNombrePlanningHorraires();
-		setNbrPages((int) (nbAc / getNbrLignesPlanningsHorraires()) + 1);
-
-		model.addAttribute("nbrPages", getNbrPages());
-		model.addAttribute("page", getPage());
-		model.addAttribute("planningHorraires",
-				metier.listPlanningHorraires(pos, getNbrLignesPlanningsHorraires()));
-
-	}
-
-	@RequestMapping(value = "/indexPage")
-	public String changerPage(Model model, int page) {
-		setPage(page);
-		model.addAttribute("planningHorraire", new PlanningHorraires());
-		chargerModel(model);
-		return "planningHorrairesListe";
-	}
-
+	
 	@RequestMapping
 	@Override
 	public ModelAndView resolveException(HttpServletRequest request,
 			HttpServletResponse response, Object arg2, Exception ex) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("planningHorraire", new PlanningHorraires());
-		mv.addObject("planningHorraires", metier.listPlanningHorraires(0, 4));
+		mv.addObject("planningHorraires", metier.listPlanningHorraires());
 		mv.addObject("exception", ex.getMessage());
 		mv.setViewName("planningHorrairesListe");
 		return mv;

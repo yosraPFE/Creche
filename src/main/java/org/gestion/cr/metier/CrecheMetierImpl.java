@@ -1,25 +1,36 @@
 package org.gestion.cr.metier;
 
+import java.util.Date;
 import java.util.List;
+
 import org.gestion.cr.dao.ICrecheDAO;
 import org.gestion.cr.entities.Accompagnateur;
 import org.gestion.cr.entities.CategorieClub;
+import org.gestion.cr.entities.CategorieClubEquipeEducatif;
 import org.gestion.cr.entities.Classe;
-import org.gestion.cr.entities.Clubs;
+import org.gestion.cr.entities.ClasseEquipeEducatif;
+import org.gestion.cr.entities.Club;
+import org.gestion.cr.entities.ClubEnfant;
 import org.gestion.cr.entities.Consultation;
 import org.gestion.cr.entities.Creche;
 import org.gestion.cr.entities.Enfant;
 import org.gestion.cr.entities.Equipe;
 import org.gestion.cr.entities.EquipeEducatif;
 import org.gestion.cr.entities.EquipeSanitaire;
-import org.gestion.cr.entities.Evennement;
+import org.gestion.cr.entities.Evenement;
+import org.gestion.cr.entities.EvennementEnfant;
 import org.gestion.cr.entities.Fonction;
 import org.gestion.cr.entities.Fournisseur;
-import org.gestion.cr.entities.GenrePlanning;
+import org.gestion.cr.entities.HistoriqueClub;
+import org.gestion.cr.entities.HistoriquePlaning;
 import org.gestion.cr.entities.Inscription;
-import org.gestion.cr.entities.Materiels;
+import org.gestion.cr.entities.Materiel;
+import org.gestion.cr.entities.MatrielSanitaUtiliser;
+import org.gestion.cr.entities.MatrielUtiliser;
 import org.gestion.cr.entities.Parent;
-import org.gestion.cr.entities.Personnage;
+import org.gestion.cr.entities.Payment;
+import org.gestion.cr.entities.Personne;
+import org.gestion.cr.entities.PlanningEnfant;
 import org.gestion.cr.entities.PlanningHorraires;
 import org.gestion.cr.entities.Stock;
 import org.gestion.cr.entities.TypeMateriels;
@@ -47,37 +58,59 @@ public class CrecheMetierImpl implements IAdminMetier
 
 
 	@Override
-	public List<CategorieClub> listCategorieClubs() 
-	{
-		
-		return dao.listCategorieClubs();
-	}
-
-
-	@Override
-	public List<CategorieClub> categorieClubParNom(String nomCategorieClub) 
-	{
-	
-		return dao.categorieClubParNom(nomCategorieClub);
-	}
-
-
-	
-
-
-	@Override
 	public CategorieClub getCategorieClub(Long idCategorieClub) {
 	
 		return dao.getCategorieClub(idCategorieClub);
 	}
 
-
 	@Override
-	public List<PlanningHorraires> listPlanningHorraires() {
+	public long getNombreCategorieClubs() {
 		
-		return dao.listPlanningHorraires();
+		return dao.getNombreCategorieClubs();
 	}
 
+	@Override
+	public List<CategorieClub> listCategorieClubs() {
+		
+		return dao.listCategorieClubs();
+	}
+
+	@Override
+	public List<CategorieClub> listCategorieClubs(int position,
+			int nbrCategorieClubs) {
+	
+		return dao.listCategorieClubs(position, nbrCategorieClubs);
+	}
+
+	@Override
+	public List<Club> clubsParNom(String nomClub) {
+		
+		return dao.clubsParNom(nomClub);
+	}
+
+	@Override
+	public Club getClubs(Long idClubs) {
+		
+		return dao.getClubs(idClubs);
+	}
+
+	@Override
+	public long getNombreClubs() {
+	
+		return dao.getNombreClubs();
+	}
+
+	@Override
+	public List<Club> listClubs() {
+		
+		return dao.listClubs();
+	}
+
+	@Override
+	public List<Club> listClubs(int position, int nbrClubs) {
+		
+		return dao.listClubs();
+	}
 
 	@Override
 	public PlanningHorraires getPlanningHorraires(Long idPlanningHorraires) {
@@ -85,69 +118,1557 @@ public class CrecheMetierImpl implements IAdminMetier
 		return dao.getPlanningHorraires(idPlanningHorraires);
 	}
 
+	@Override
+	public long getNombrePlanningHorraires() {
+		
+		return dao.getNombrePlanningHorraires();
+	}
 
 	@Override
-	public List<Inscription> getInscriptionByPlannigHorraires(
-			Long idPlanningHorraires) {
+	public List<PlanningHorraires> listPlanningHorraires() {
+	
+		return dao.listPlanningHorraires();
+	}
+
+	@Override
+	public List<PlanningHorraires> listPlanningHorraires(int position,
+			int nbrPlanningHorraires) {
+	
+		return dao.listPlanningHorraires(position, nbrPlanningHorraires);
+	}
+
+	/*@Override
+	public List<Creche> crecheParNom(String nomCreche) {
 		
-		return dao.getInscriptionByPlannigHorraires(idPlanningHorraires);
+		return dao.crecheParNom(nomCreche);
+	}
+
+	@Override
+	public Creche getCreche(Long idCreche) {
+		
+		return dao.getCreche(idCreche);
+	}
+
+	@Override
+	public long getNombreCreches() {
+		
+		return dao.getNombreCreches();
+	}
+
+	@Override
+	public List<Creche> listCreches() {
+		
+		return dao.listCreches();
+	}
+
+	@Override
+	public List<Creche> listCreches(int position, int nbrCreches) {
+		
+		return dao.listCreches(position, nbrCreches);
+	}*/
+
+	@Override
+	public Classe getClasse(Long idClasse) {
+		
+		return dao.getClasse(idClasse);
+	}
+
+
+
+	@Override
+	public long getNombreClasses() {
+		
+		return dao.getNombreClasses();
+	}
+
+	@Override
+	public List<Classe> listClasse() {
+		
+		return dao.listClasse();
+	}
+
+	@Override
+	public List<Classe> listClasse(int position, int nbrClasses) {
+		
+		return dao.listClasse(position, nbrClasses);
+	}
+
+	@Override
+	public List<Enfant> getEnfantsByClasse(Long idClasse) {
+		
+		return dao.getEnfantsByClasse(idClasse);
+	}
+
+	@Override
+	public List<EquipeSanitaire> equipeSanitaireParNom(String nom) {
+	
+		return dao.equipeSanitaireParNom(nom);
+	}
+
+	@Override
+	public List<EquipeSanitaire> equipeSanitaireParFonction(Long idFonction) {
+		
+		return dao.equipeSanitaireParFonction(idFonction);
+	}
+
+	@Override
+	public EquipeSanitaire getEquipeSanitaire(Long idEquipeSanitaire) {
+		
+		return dao.getEquipeSanitaire(idEquipeSanitaire);
+	}
+
+	@Override
+	public long getNombreEquipesSan() {
+		
+		return dao.getNombreEquipesSan();
+	}
+
+	@Override
+	public List<EquipeSanitaire> listEquipeSanitaires() {
+		
+		return dao.listEquipeSanitaires();
+	}
+
+	@Override
+	public List<EquipeSanitaire> listEquipeSanitaires(int position,
+			int nbrEquipesSan) {
+		
+		return dao.listEquipeSanitaires(position, nbrEquipesSan);
+	}
+
+	@Override
+	public EquipeEducatif getEquipeEducatif(Long idEquipeEducatif) {
+	
+		return dao.getEquipeEducatif(idEquipeEducatif);
+	}
+
+	@Override
+	public List<EquipeEducatif> equipeEducatifParNom(String nom) {
+		
+		return dao.equipeEducatifParNom(nom);
+	}
+
+	@Override
+	public List<EquipeEducatif> equipeEducatifParFonction(Long idFonction) {
+		
+		return dao.equipeEducatifParFonction(idFonction);
+	}
+
+	@Override
+	public long getNombreEquipesEdu() {
+		
+		return dao.getNombreEquipesEdu();
+	}
+
+	@Override
+	public List<EquipeEducatif> listEquipeEducatif() {
+		
+		return dao.listEquipeEducatif();
+	}
+
+	@Override
+	public List<EquipeEducatif> listEquipeEducatif(int position,
+			int nbrEquipesEdu) {
+		
+		return dao.listEquipeEducatif(position, nbrEquipesEdu);
+	}
+
+	@Override
+	public Fonction getFonction(Long idFonction) {
+		
+		return dao.getFonction(idFonction);
+	}
+
+	@Override
+	public long getNombreFonctions() {
+		
+		return dao.getNombreFonctions();
+	}
+
+	@Override
+	public List<Fonction> listFonctions() {
+		
+		return dao.listFonctions();
+	}
+
+	@Override
+	public List<Fonction> listFonctions(int position, int nbrFonctions) {
+	
+		return dao.listFonctions(position, nbrFonctions);
+	}
+
+	@Override
+	public List<Accompagnateur> accompagnateurParNom(String nom) {
+		
+		return dao.accompagnateurParNom(nom);
+	}
+
+	@Override
+	public Accompagnateur getAccompagnateur(Long idAccompagnateur) {
+		
+		return dao.getAccompagnateur(idAccompagnateur);
+	}
+
+	@Override
+	public long getNombreAccompagnateurs() {
+		
+		return dao.getNombreAccompagnateurs();
+	}
+
+	@Override
+	public List<Accompagnateur> listAccompagnateurs() {
+		
+		return dao.listAccompagnateurs();
+	}
+
+	@Override
+	public List<Accompagnateur> listAccompagnateurs(int position,
+			int nbrAccompagnateurs) {
+		
+		return dao.listAccompagnateurs(position, nbrAccompagnateurs);
+	}
+
+	@Override
+	public List<Enfant> getEnfantsByAccompagnateur(Long idAccompagnateur) {
+		
+		return dao.getEnfantsByAccompagnateur(idAccompagnateur);
+	}
+
+	@Override
+	public Inscription getInscription(Long idEnf, Long idClas, String d) {
+		
+		return dao.getInscription(idEnf, idClas, d);
+	}
+
+	@Override
+	public Long getInscriptionEnf(Long idEnf, String annee) {
+		
+		return dao.getInscriptionEnf(idEnf, annee);
+	}
+
+	@Override
+	public long getNombreInscriptions() {
+		
+		return getNombreInscriptions();
+	}
+
+	@Override
+	public List<Inscription> listInscriptions() {
+		
+		return dao.listInscriptions();
+	}
+
+	@Override
+	public List<Inscription> listInscriptions(int position, int nbrInscriptions) {
+		
+		return dao.listInscriptions(position, nbrInscriptions);
+	}
+
+	@Override
+	public Consultation getConsulation(Long idEnf, Long idEqSan, String d) {
+		
+		return dao.getConsulation(idEnf, idEqSan, d);
+	}
+
+	@Override
+	public long getNombreConsultations() {
+	
+		return dao.getNombreConsultations();
+	}
+
+	@Override
+	public List<Consultation> listConsultations() {
+		
+		return dao.listConsultations();
+	}
+
+	@Override
+	public List<Consultation> listConsultations(int position,
+			int nbrConsultations) {
+		
+		return dao.listConsultations();
+	}
+
+	@Override
+	public List<Parent> parentParNom(String nomParent) {
+		
+		return dao.parentParNom(nomParent);
+	}
+
+	@Override
+	public Parent getParent(Long idParent) {
+	
+		return dao.getParent(idParent);
+	}
+
+	@Override
+	public Parent getParentbycin(String cin) {
+		
+		return dao.getParentbycin(cin);
+	}
+
+	/*@Override
+	public List<Parent> listPere(String genre) {
+		
+		return dao.listPere(genre);
+	}
+*/
+	/*@Override
+	public List<Parent> listMere(String genre) {
+	
+		return dao.listMere(genre);
+	}*/
+
+	@Override
+	public List<Parent> listParents(int position, int nbrParents) {
+		
+		return dao.listParents();
+	}
+
+	@Override
+	public List<Parent> listParents() {
+		
+		return dao.listParents();
+	}
+
+	@Override
+	public long getNombreParents() {
+		
+		return dao.getNombreParents();
+	}
+
+	@Override
+	public List<Enfant> getEnfantByParent(Long idParent) {
+		
+		return dao.getEnfantByParent(idParent);
+	}
+
+	@Override
+	public void ajouterEnfantsPourParent(Long idEnfant, Long idParent) {
+		
+		dao.ajouterEnfantsPourParent(idEnfant, idParent);
+		
+	}
+
+	@Override
+	public List<Evenement> evennementParNom(String nom) {
+		
+		return dao.evennementParNom(nom);
+	}
+
+	@Override
+	public Evenement getEvennement(Long idEvennement) {
+		
+		return dao.getEvennement(idEvennement);
+	}
+
+	@Override
+	public long getNombreEvennements() {
+	
+		return dao.getNombreEvennements();
+	}
+
+	@Override
+	public List<Evenement> listEvennements() {
+		
+		return dao.listEvennements();
+	}
+
+	@Override
+	public List<Evenement> listEvennements(int position, int nbrEvennements) {
+		
+		return dao.listEvennements(position, nbrEvennements);
+	}
+
+	@Override
+	public List<Enfant> getEnfantsByEvennement(Long idEvennement) {
+		
+		return dao.getEnfantsByEvennement(idEvennement);
+	}
+
+	@Override
+	public List<Enfant> enfantParNom(String nom) {
+		
+		return dao.enfantParNom(nom);
+	}
+
+	@Override
+	public Enfant getEnfant(Long idEnfant) {
+		
+		return dao.getEnfant(idEnfant);
+	}
+
+	@Override
+	public List<Enfant> enfantCertife() {
+		
+		return dao.enfantCertife();
+	}
+
+	@Override
+	public List<Enfant> enfantPhotoAutorise() {
+		
+		return dao.enfantPhotoAutorise();
+	}
+
+	@Override
+	public List<Enfant> EnfantParMotCle(String mc) {
+	
+		return dao.EnfantParMotCle(mc);
+	}
+
+	@Override
+	public List<Enfant> EnfantParParent(Long idPar) {
+		
+		return dao.EnfantParParent(idPar);
+	}
+
+	@Override
+	public List<Inscription> EnfantParClasse(Long idClas) {
+		
+		return dao.EnfantParClasse(idClas);
+	}
+
+	@Override
+	public List<ClubEnfant> EnfantParClub(Long idClub) {
+		
+		return dao.EnfantParClub(idClub);
+	}
+
+	@Override
+	public List<Enfant> EnfantParEvenement(Long idEve) {
+		
+		return dao.EnfantParEvenement(idEve);
+	}
+
+	@Override
+	public List<Enfant> EnfantParAccompagnaeurt(Long idAcc) {
+		
+		return dao.EnfantParAccompagnaeurt(idAcc);
+	}
+
+	
+
+	@Override
+	public List<Enfant> EnfantSelectionnes() {
+	
+		return dao.EnfantSelectionnes();
+	}
+
+	@Override
+	public List<Accompagnateur> getAccompagnateursByEnfant(Long idEnfant) {
+		
+		return dao.getAccompagnateursByEnfant(idEnfant);
+	}
+
+	@Override
+	public List<Evenement> getEvennementsByEnfant(Long idEnfant) {
+		
+		return dao.getEvennementsByEnfant(idEnfant);
+	}
+
+	@Override
+	public List<Parent> getParentsByEnfant(Long idEnfant) {
+		
+		return dao.getParentsByEnfant(idEnfant);
+	}
+
+	@Override
+	public List<Enfant> listEnfants(int position, int nbrEnfants) {
+		
+		return dao.listEnfants(position, nbrEnfants);
+	}
+
+	@Override
+	public List<Enfant> listEnfants() {
+		
+		return dao.listEnfants();
+	}
+
+	@Override
+	public long getNombreEnfants() {
+		
+		return dao.getNombreEnfants();
+	}
+
+	@Override
+	public List<Fournisseur> fournisseurParNom(String nom) {
+	
+		return dao.fournisseurParNom(nom);
+	}
+
+	@Override
+	public Fournisseur getFournisseur(Long idFournisseur) {
+		
+		return dao.getFournisseur(idFournisseur);
+	}
+
+	@Override
+	public List<Materiel> getMaterielsByFournisseur(Long idFournisseur) {
+		
+		return dao.getMaterielsByFournisseur(idFournisseur);
+	}
+
+	@Override
+	public long getNombreFournisseurs() {
+		
+		return dao.getNombreFournisseurs();
+	}
+
+	@Override
+	public List<Fournisseur> listFournisseurs() {
+		
+		return dao.listFournisseurs();
+	}
+
+	@Override
+	public List<Fournisseur> listFournisseurs(int position, int nbrFournisseurs) {
+		
+		return dao.listFournisseurs(position, nbrFournisseurs);
+	}
+
+	@Override
+	public List<Materiel> materielsParDesignation(String designation) {
+		
+		return dao.materielsParDesignation(designation);
+	}
+
+	@Override
+	public Materiel getMateriels(Long idMateriels) {
+		
+		return dao.getMateriels(idMateriels);
+	}
+
+	@Override
+	public List<Equipe> getEquipeByMateriels(Long idMateriels) {
+		
+		return dao.getEquipeByMateriels(idMateriels);
+	}
+
+	@Override
+	public long getNombreMateriels() {
+	
+		return dao.getNombreMateriels();
+	}
+
+	@Override
+	public List<Materiel> listMateriels() {
+		
+		return dao.listMateriels();
+	}
+
+	@Override
+	public List<Materiel> listMateriels(int position, int nbrMateriels) {
+	
+		return dao.listMateriels(position, nbrMateriels);
+	}
+
+	@Override
+	public TypeMateriels getTypeMateriels(Long idTypeMateriels) {
+		
+		return dao.getTypeMateriels(idTypeMateriels);
+	}
+
+	@Override
+	public long getNombreTypesMateriels() {
+		
+		return dao.getNombreTypesMateriels();
+	}
+
+	@Override
+	public List<TypeMateriels> listTypeMateriels() {
+		
+		return dao.listTypeMateriels();
+	}
+
+	@Override
+	public List<TypeMateriels> listTypeMateriels(int position,
+			int nbrTypesMateriels) {
+		
+		return dao.listTypeMateriels(position, nbrTypesMateriels);
+	}
+
+	@Override
+	public Stock getStock(Long idStock) {
+	
+		return dao.getStock(idStock);
+	}
+
+	@Override
+	public long getNombreStocks() {
+		
+		return dao.getNombreStocks();
+	}
+
+	@Override
+	public List<Stock> listStock() {
+	
+		return dao.listStock();
+	}
+
+	@Override
+	public List<Stock> listStock(int position, int nbrStocks) {
+	
+		return dao.listStock(position, nbrStocks);
+	}
+
+	@Override
+	public Long ajouterCategorieClub(CategorieClub categorieClub) {
+		
+		return dao.ajouterCategorieClub(categorieClub);
+	}
+
+	@Override
+	public void supprimerCategorieClub(Long idCategorieClub) {
+		dao.supprimerCategorieClub(idCategorieClub);
+		
+	}
+
+	@Override
+	public void modifierCategorieClub(CategorieClub categorieClub) {
+		dao.modifierCategorieClub(categorieClub);
+		
+	}
+
+	@Override
+	public Long ajouterClubs(Club club, Long idCtagorieClubs) {
+		
+		return dao.ajouterClubs(club, idCtagorieClubs);
+	}
+
+	@Override
+	public void supprimerClubs(Long idClubs) {
+		
+		dao.supprimerClubs(idClubs);
+		
+	}
+
+	@Override
+	public void modifierClubs(Club clubs) {
+		dao.modifierClubs(clubs);
+		
+	}
+
+	@Override
+	public Long ajouterPlanningHorraires(PlanningHorraires planningHorraires) {
+		
+		return dao.ajouterPlanningHorraires(planningHorraires);
+	}
+
+	@Override
+	public void supprimerPlanningHorraires(Long idPlanningHorraires) {
+		
+		dao.supprimerPlanningHorraires(idPlanningHorraires);
+		
+	}
+
+	@Override
+	public void modifierPlanningHorraires(PlanningHorraires planningHorraires) {
+		
+		dao.modifierPlanningHorraires(planningHorraires);
+		
+	}
+
+/*	@Override
+	public Long ajouterCreche(Creche creche) {
+		
+		return dao.ajouterCreche(creche);
+	}
+
+	@Override
+	public void supprimerCreche(Long idCreche) {
+	
+		dao.supprimerCreche(idCreche);
+		
+	}
+
+	@Override
+	public void modifierCreche(Creche creche) {
+		
+		dao.modifierCreche(creche);
+		
+	}*/
+
+	@Override
+	public Long ajouterClasse(Classe classe) {
+		
+		return dao.ajouterClasse(classe);
+	}
+
+	@Override
+	public void supprimerClasse(Long idClasse) {
+		
+		dao.supprimerClasse(idClasse);
+		
+	}
+
+	@Override
+	public void modifierClasse(Classe classe) {
+		
+		dao.modifierClasse(classe);
+		
+	}
+
+	@Override
+	public Long ajouterEquipeSanitaire(EquipeSanitaire equipeSanitaire,
+			Long idFonction) {
+		
+		return dao.ajouterEquipeSanitaire(equipeSanitaire, idFonction);
+	}
+
+	@Override
+	public void supprimerEquipeSanitaire(Long idEquipeSanitaire) {
+	
+		dao.supprimerEquipeSanitaire(idEquipeSanitaire);
+		
+	}
+
+	@Override
+	public void modifierEquipeSanitaire(EquipeSanitaire equipeSanitaire) {
+	
+		dao.modifierEquipeSanitaire(equipeSanitaire);
+		
+	}
+
+	@Override
+	public Long ajouterEquipeEducatif(EquipeEducatif equipeEducatif,
+			Long idFonction) {
+		
+		return dao.ajouterEquipeEducatif(equipeEducatif, idFonction);
+	}
+
+	@Override
+	public void supprimerEquipeEducatif(Long idEquipeEducatif) {
+	
+		dao.supprimerEquipeEducatif(idEquipeEducatif);
+		
+	}
+
+	@Override
+	public void modifierEquipeEducatif(EquipeEducatif equipeEducatif) {
+		
+		dao.modifierEquipeEducatif(equipeEducatif);
+		
+	}
+
+	@Override
+	public Long ajouterFonction(Fonction fonction) {
+		
+		return dao.ajouterFonction(fonction);
+	}
+
+	@Override
+	public void supprimerFonction(Long idFonction) {
+		
+		dao.supprimerFonction(idFonction);
+		
+	}
+
+	@Override
+	public void modifierFonction(Fonction fonction) {
+		
+		dao.modifierFonction(fonction);
+		
+	}
+
+	@Override
+	public Long ajouterAccompagnateur(Accompagnateur accompagnateur) {
+		
+		return dao.ajouterAccompagnateur(accompagnateur);
+	}
+
+	@Override
+	public void supprimerAccompagnateurs(Long idAccompagnateur) {
+		
+		dao.supprimerAccompagnateurs(idAccompagnateur);
+		
+	}
+
+	@Override
+	public void modifierAccompagnateurs(Accompagnateur accompagnateur) {
+	
+		dao.modifierAccompagnateurs(accompagnateur);
+	}
+
+	@Override
+	public void ajouterEnfantsPourAccompagnateur(Long idEnfant,
+			Long idAccompagnateur) {
+		
+		dao.ajouterEnfantsPourAccompagnateur(idEnfant, idAccompagnateur);
+		
+	}
+
+	
+	@Override
+	public void supprimerInscription(Long idEnf, Long idClas, String d) {
+		
+		dao.supprimerInscription(idEnf, idClas, d);
+		
+	}
+
+	@Override
+	public void modifierInscription(Inscription i) {
+		
+		dao.modifierInscription(i);
+	}
+
+	
+
+	@Override
+	public void supprimerConsultation(Long idEnf, Long idEqSan, String d) {
+		
+		dao.supprimerConsultation(idEnf, idEqSan, d);
+		
+	}
+
+	@Override
+	public void modifierConsultation(Consultation c) {
+		
+		dao.modifierConsultation(c);
+		
+	}
+
+	@Override
+	public Long ajouterParent(Parent parent) {
+		
+		return dao.ajouterParent(parent);
+	}
+
+	@Override
+	public void supprimerParent(Long idParent) {
+		
+		dao.supprimerParent(idParent);
+		
+	}
+
+	@Override
+	public void modifierParent(Parent parent) {
+		
+		dao.modifierParent(parent);
+		
+	}
+
+	@Override
+	public Long ajouterEvennement(Evenement evennement) {
+	
+		return dao.ajouterEvennement(evennement);
+	}
+
+	@Override
+	public void supprimerEvennements(Long idEvennement) {
+		
+		dao.supprimerEvennements(idEvennement);
+		
+	}
+
+	@Override
+	public void modifierEvennements(Evenement evennement) {
+		
+		dao.modifierEvennements(evennement);
+		
+	}
+
+	
+	@Override
+	public Long ajouterEnfant(Enfant enfant) {
+		
+		return dao.ajouterEnfant(enfant);
+	}
+
+	@Override
+	public void supprimerEnfant(Long idEnfant) {
+		
+		dao.supprimerEnfant(idEnfant);
+		
+	}
+
+	@Override
+	public void modifierEnfant(Enfant enfant) {
+		
+		dao.modifierEnfant(enfant);
+		
+	}
+
+	@Override
+	public void ajouterAccompagnateursPourEnfant(Long idAccompagnateur,
+			Long idEnfant) {
+		
+		dao.ajouterAccompagnateursPourEnfant(idAccompagnateur, idEnfant);
+		
+	}
+
+	
+
+	@Override
+	public void ajouterParentsPourEnfant(Long idParent, Long idEnfant) {
+		
+		dao.ajouterParentsPourEnfant(idParent, idEnfant);
+		
+	}
+
+	@Override
+	public Long nbrEnfantClasse(Long idCla) {
+	
+		return dao.nbrEnfantClasse(idCla);
+	}
+
+	@Override
+	public void ajouterEnfantToParent(Long idEnf, Long idPar) {
+	
+		dao.ajouterEnfantToParent(idEnf, idPar);
+		
+	}
+
+	
+	
+	@Override
+	public void ajouterEnfantToAccompagnteur(Long idEnf, Long idAcc) {
+	
+		dao.ajouterEnfantToAccompagnteur(idEnf, idAcc);
+		
+	}
+
+	
+
+	@Override
+	public void ajouterFournisseurToMateriel(Long idFour, Long idMat) {
+		
+		dao.ajouterFournisseurToMateriel(idFour, idMat);
+		
+	}
+
+	@Override
+	public Long ajouterFournisseur(Fournisseur fournisseur) {
+		
+		return dao.ajouterFournisseur(fournisseur);
+	}
+
+	@Override
+	public void supprimerFournisseur(Long idFournisseur) {
+		
+		dao.supprimerFournisseur(idFournisseur);
+		
+	}
+
+	@Override
+	public void modifierFournisseur(Fournisseur fournisseur) {
+		
+		dao.modifierFournisseur(fournisseur);
+		
+	}
+
+	@Override
+	public Long ajouterMateriels(Materiel materiels, Long idTypeMateriels,
+			Long idStock) {
+		
+		return dao.ajouterMateriels(materiels, idTypeMateriels, idStock);
+	}
+
+	@Override
+	public void supprimerMateriels(Long idMateriels) {
+	
+		dao.supprimerMateriels(idMateriels);
+		
+	}
+
+	@Override
+	public void modifierMateriels(Materiel materiels) {
+		
+		dao.modifierMateriels(materiels);
+		
+	}
+
+	@Override
+	public Long ajouterTypeMateriel(TypeMateriels typeMateriels) {
+		
+		return dao.ajouterTypeMateriel(typeMateriels);
+	}
+
+	@Override
+	public void supprimerTypeMateriels(Long idTypeMateriels) {
+	
+		dao.supprimerTypeMateriels(idTypeMateriels);
+		
+	}
+
+	@Override
+	public void modifierTypeMateriels(TypeMateriels typeMateriels) {
+		
+		dao.modifierTypeMateriels(typeMateriels);
+		
+	}
+
+	@Override
+	public Long ajouterStock(Stock stock) {
+		
+		return dao.ajouterStock(stock);
+	}
+
+	@Override
+	public void supprimerStock(Long idStock) {
+	
+		dao.supprimerStock(idStock);
+		
+	}
+
+	@Override
+	public void modifierStock(Stock stock) {
+		
+		dao.modifierStock(stock);
+		
 	}
 
 
 	@Override
-	public List<PlanningHorraires> PlanningHorraireslubParGenrePlanning(
-			Long idGenrePlanning) {
+	public List<MatrielUtiliser> listMatrielUtiliser() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MatrielUtiliser getMatrielUtiliser(Long idMat, 
+			Long idEqTech, Date d) {
 		
-		return dao.PlanningHorraireslubParGenrePlanning(idGenrePlanning);
+		return dao.getMatrielUtiliser(idMat,  idEqTech, d);
+	}
+
+
+
+	@Override
+	public MatrielUtiliser ajouterMatrielUtiliser(MatrielUtiliser m,
+			Long idMat,  Long idEqTech, Date d) {
+		
+		return dao.ajouterMatrielUtiliser(m, idMat, idEqTech, d);
+	}
+
+	@Override
+	public void supprimerMatrielUtiliser(Long idMat ,Long idEqTech,Date d){
+		
+		dao.supprimerMatrielUtiliser(idMat,idEqTech, d);
+		
+	}
+
+	@Override
+	public void modifierMatrielUtiliser(MatrielUtiliser m) {
+		
+		dao.modifierMatrielUtiliser(m);
+		
+		
+	}
+
+	@Override
+	public List<MatrielSanitaUtiliser> listMatrielSanitaireUtiliser() {
+		
+		return dao.listMatrielSanitaireUtiliser();
+	}
+
+	@Override
+	public MatrielSanitaUtiliser getMatrielSanitaireUtiliser(Long idMat,
+			Long idSani, Date d) {
+		
+		return dao.getMatrielSanitaireUtiliser(idMat, idSani, d);
+	}
+
+	@Override
+	public MatrielSanitaUtiliser ajouterMatrielSanitaireUtiliser(
+			MatrielSanitaUtiliser m, Long idMat, Long idSani, Date d) {
+		
+		return dao.ajouterMatrielSanitaireUtiliser(m, idMat, idSani, d);
+	}
+
+	@Override
+	public void supprimerMatrielSanitaireUtiliser(Long idMat, Long idEqSani,
+			Date d) {
+		
+		dao.supprimerMatrielSanitaireUtiliser(idMat, idEqSani, d);
+		
+	}
+
+	@Override
+	public void modifierMatrielSanitaireUtiliser(MatrielSanitaUtiliser me) {
+		dao.modifierMatrielSanitaireUtiliser(me);
+		
+	}
+
+
+	
+
+	@Override
+	public PlanningEnfant getPlanningEnfant(Long idEnf, Long idPlan,Date dateDebutInscription) {
+	
+		return dao.getPlanningEnfant(idEnf, idPlan, dateDebutInscription);
 	}
 
 
 	@Override
-	public List<Clubs> listClubs() {
+	public List<EvennementEnfant> listEvennementEnfant() {
+		 return dao.listEvennementEnfant();
+	}
+
+
+	
+	@Override
+	public ClubEnfant ajouterEnfantClub(ClubEnfant m, Long idClub, Long idEnf,Date dateDebutInscription) {
 		
-		return dao.listClubs();
+		return dao.ajouterEnfantClub(m, idClub, idEnf, dateDebutInscription);
 	}
 
 
 	@Override
-	public List<Clubs> clubsParNom(String nomClubs) {
+	public void supprimerEnfantClub(Long idClub, Long idEnf,Date dateDebutInscription) {
+	
+		dao.supprimerEnfantClub(idClub, idEnf, dateDebutInscription );
 		
-		return dao.clubsParNom(nomClubs);
 	}
 
 
 	@Override
-	public List<Clubs> clubsParInscription(Long idInscription) {
+	public void modifierEnfantClub(ClubEnfant me) {
+	
+		dao.modifierEnfantClub(me);
 		
-		return dao.clubsParInscription(idInscription);
+		
 	}
 
 
 	@Override
-	public Clubs getClubs(Long idClubs) {
-		
-		return dao.getClubs(idClubs);
+	public PlanningEnfant ajouterEnfantPlanning(PlanningEnfant m, Long idEnf,
+			Long idPlan ,Date dateDebutInscription) {
+	
+		return dao.ajouterEnfantPlanning(m, idEnf, idPlan,dateDebutInscription);
 	}
 
 
 	@Override
-	public List<GenrePlanning> listGenrePlanning() {
+	public void supprimerPlanningEnfant(Long idEnf,
+			Long idPlan,Date dateDebutInscription) {
+	
+		dao.supprimerPlanningEnfant(idEnf, idPlan,dateDebutInscription);
 		
-		return dao.listGenrePlanning();
 	}
 
 
 	@Override
-	public List<GenrePlanning> genrePlanningParLabelle(String labelle) {
+	public void modifierPlanningEnfant(PlanningEnfant me) {
 		
-		return dao.genrePlanningParLabelle(labelle);
+		
+		dao.modifierPlanningEnfant(me);
+		
+	}
+
+
+	
+
+
+	@Override
+	public void modifierEvennementEnfant(EvennementEnfant me) {
+	
+		dao.modifierEvennementEnfant(me);
+		
+		
 	}
 
 
 	@Override
-	public GenrePlanning getGenrePlanning(Long idGenrePlanning) {
+	public List<ClubEnfant> listEnfantClub() {
 		
-		return dao.getGenrePlanning(idGenrePlanning);
+		return dao.listEnfantClub();
+	}
+
+
+	@Override
+	public ClubEnfant getEnfantClub(Long idClub, Long idEnf,Date dateDebutInscription) {
+		
+		return dao.getEnfantClub(idClub, idEnf,dateDebutInscription);
+	}
+
+
+	@Override
+	public List<PlanningEnfant> listPlanningEnfant() {
+		
+		return dao.listPlanningEnfant();
+	}
+
+
+	@Override
+	public Inscription ajouterInscription(Inscription i, Long idEnf, Long idClas) {
+		
+	 return	dao.ajouterInscription(i, idEnf, idClas);
+	}
+
+
+	@Override
+	public List<Parent> listParents2(int position, int nbrParents) {
+		
+		return dao.listParents2(position, nbrParents);
+	}
+
+
+	@Override
+	public long getNombreParents2() {
+		
+		return dao.getNombreParents2();
+	}
+
+
+	@Override
+	public Inscription getLastInscriptionEnfant(Long idEnf) {
+		
+		return dao.getLastInscriptionEnfant(idEnf);
+	}
+
+
+	@Override
+	public List<ClubEnfant> ListClubActifsEnfant(Long idEnf) {
+		
+		return dao.ListClubActifsEnfant(idEnf);
+	}
+
+
+	@Override
+	public Long getConsultationEnf(Long idEnf, String d) {
+		
+		return dao.getConsultationEnf(idEnf, d);
+	}
+
+
+	@Override
+	public Consultation ajouterConsultation(Consultation c, Long idEnf,
+			Long idEqSani) {
+		
+		return dao.ajouterConsultation(c, idEnf, idEqSani);
+	}
+
+
+	@Override
+	public EvennementEnfant getEvennementEnfant(Long idEnf, Long idEvene, Date a) {
+		
+		return dao.getEvennementEnfant(idEnf, idEvene, a);
+	}
+
+
+	@Override
+	public EvennementEnfant ajouterEvennementEnfant(EvennementEnfant m,
+			Long idEnf, Long idEvene, Date a) {
+		
+		return dao.ajouterEvennementEnfant(m, idEnf, idEvene, a);
+	}
+
+
+	@Override
+	public void supprimerEvennementEnfant(Long idEnf, Long idEvene, Date a) {
+	dao.supprimerEvennementEnfant(idEnf, idEvene, a);
+		
+	}
+
+
+	@Override
+	public List<PlanningEnfant> ListPlanningActifsEnfant(Long idEnf) {
+		
+		return dao.ListPlanningActifsEnfant(idEnf);
+	}
+
+	/*
+
+	@Override
+	public List<EvennementEnfant> ListEvennementActifsEnfant(Long idEnf) {
+		
+		return dao.ListEvennementActifsEnfant(idEnf);
+	}*/
+
+
+	@Override
+	public List<ClasseEquipeEducatif> listEquipeEducatifClasse() {
+		
+		return dao.listEquipeEducatifClasse();
+	}
+
+
+	
+
+
+	/*
+	@Override
+	public List<ClasseEquipeEducatif> ListClasseActifsEquEducatif(
+			Long idEqEducatif) {
+		
+		return dao.ListClasseActifsEquEducatif(idEqEducatif);
+	}*/
+
+
+	@Override
+	public List<CategorieClubEquipeEducatif> listCategorieClubEquipeEducatif() {
+		
+		return dao.listCategorieClubEquipeEducatif();
+	}
+
+
+
+
+	/*
+	@Override
+	public List<CategorieClubEquipeEducatif> ListCategorieClubActifsEquipeEducatif(
+			Long idEqEduc) {
+	
+		return dao.ListCategorieClubActifsEquipeEducatif(idEqEduc);
+	}*/
+
+
+	
+
+
+
+	@Override
+	public void modifierEquipeEducatifClasse(ClasseEquipeEducatif cl) {
+		
+		dao.modifierEquipeEducatifClasse(cl);
+		
+	}
+
+
+	
+
+
+	
+
+
+	@Override
+	public void modifierCategorieClubEquipeEducatif(
+			CategorieClubEquipeEducatif cat) {
+		
+		dao.modifierCategorieClubEquipeEducatif(cat);
+		
+	}
+
+
+	@Override
+	public void ajouterFournisseurPourMateriel(Long idFournisseur,Long idMateriel) 
+	{
+		dao.ajouterFournisseurPourMateriel(idFournisseur, idMateriel);
+		
+		
+	}
+
+
+	@Override
+	public void ajouterMaterielPourFournisseur(Long idMateriel,Long idFournisseur) {
+		
+		dao.ajouterMaterielPourFournisseur(idMateriel, idFournisseur);
+		
+		
+	}
+
+
+
+
+	@Override
+	public List<EvennementEnfant> ListEvennementActifsEnfant(Long idEnf) {
+		
+		return dao.ListEvennementActifsEnfant(idEnf);
+	}
+
+
+	@Override
+	public ClasseEquipeEducatif getEquipeEducatifClasse(Long idClass,
+			Long idEquipEducatif, Date dateDebutInscrClass) {
+		
+		return dao.getEquipeEducatifClasse(idClass, idEquipEducatif, dateDebutInscrClass);
+	}
+
+
+	@Override
+	public List<ClasseEquipeEducatif> ListClasseActifsEquEducatif(
+			Long idEqEducatif) {
+		
+		return dao.ListClasseActifsEquEducatif(idEqEducatif);
+	}
+
+
+	@Override
+	public CategorieClubEquipeEducatif getCategorieClubEquipeEducatif(
+			Long idCateg, Long idEqEdu, Date dateDebutInscrClub) {
+		
+		return dao.getCategorieClubEquipeEducatif(idCateg, idEqEdu, dateDebutInscrClub);
+	}
+
+
+	@Override
+	public List<CategorieClubEquipeEducatif> ListCategorieClubActifsEquipeEducatif(
+			Long idEqEduc) {
+		
+		return dao.ListCategorieClubActifsEquipeEducatif(idEqEduc);
+	}
+
+
+	@Override
+	public ClasseEquipeEducatif ajouterEquipeEducatifClasse(
+			ClasseEquipeEducatif m, Long idClass, Long idEquipeEducatif,
+			Date dateDebutInscrClass) {
+		
+		return dao.ajouterEquipeEducatifClasse(m, idClass, idEquipeEducatif, dateDebutInscrClass);
+	}
+
+
+	@Override
+	public void supprimerEquipeEducatifClasse(Long idClass,
+			Long idEquipEducatif, Date dateDebutInscrClass) {
+		dao.supprimerEquipeEducatifClasse(idClass, idEquipEducatif, dateDebutInscrClass);
+		
+	}
+
+
+	@Override
+	public CategorieClubEquipeEducatif ajouterCategorieClubEquipeEducatif(
+			CategorieClubEquipeEducatif m, Long idCateg, Long idEquipeEducatif,
+			Date dateDebutInscrClub) {
+	
+		return dao.ajouterCategorieClubEquipeEducatif(m, idCateg, idEquipeEducatif, dateDebutInscrClub);
+	}
+
+
+	@Override
+	public void supprimerCategorieClubEquipeEducatif(Long idCateg,
+			Long idEquipeEducatif, Date dateDebutInscrClubString) {
+		
+		dao.supprimerCategorieClubEquipeEducatif(idCateg, idEquipeEducatif, dateDebutInscrClubString);
+		
+		
+	}
+
+
+	@Override
+	public List<MatrielUtiliser> ListMaterielActifsEqEducatif(Long idEqEducatif) {
+		
+		return dao.ListMaterielActifsEqEducatif(idEqEducatif);
+	}
+
+
+	@Override
+	public List<MatrielSanitaUtiliser> ListMaterielActifsEqSanitaire(
+			Long idSanitaire) {
+		
+		return dao.ListMaterielActifsEqSanitaire(idSanitaire);
+	}
+
+
+	@Override
+	public Inscription getInscriptionEnfAnnee(Long idEnf, String d) {
+		
+		return dao.getInscriptionEnfAnnee(idEnf, d);
+	}
+
+
+/*	@Override
+	public Long ajouterPayment(Payment p) {
+		
+		return dao.ajouterPayment(p);
+	}
+
+
+	@Override
+	public List<Payment> listPayments() {
+		
+		return dao.listPayments();
+	}
+
+
+	@Override
+	public List<Payment> EnfantParPayment(Long idEnf) {
+		
+		return dao.EnfantParPayment(idEnf);
+	}
+*/
+
+	@Override
+	public HistoriquePlaning ajouterPlanningHistor(HistoriquePlaning h,
+			Long idPla) {
+		
+		return dao.ajouterPlanningHistor(h, idPla);
+	}
+
+
+	@Override
+	public List<HistoriquePlaning> listPlanningHistor(Long idPla) {
+	
+		return dao.listPlanningHistor(idPla);
+	}
+
+
+	@Override
+	public HistoriquePlaning countPlaning(Long idPla) {
+		
+		return dao.countPlaning(idPla);
+	}
+
+
+	@Override
+	public void modifierHistoriquePl(HistoriquePlaning h) {
+		
+		dao.modifierHistoriquePl(h);
+		
+	}
+
+
+	@Override
+	public HistoriqueClub ajouterClubHistor(HistoriqueClub h, Long idClub) {
+		
+		return dao.ajouterClubHistor(h, idClub);
+	}
+
+
+	@Override
+	public List<HistoriqueClub> listClubHistor(Long idClub) {
+		
+		return dao.listClubHistor(idClub);
+	}
+
+
+	@Override
+	public HistoriqueClub countClub(Long idClub) {
+	
+		return dao.countClub(idClub);
+	}
+
+
+	@Override
+	public void modifierHistoriqueCl(HistoriqueClub h) {
+		
+		dao.modifierHistoriqueCl(h);
+		
+	}
+
+
+	@Override
+	public Payment ajouterPayment(Payment p, Long idEnfant, String moisPayment) {
+		
+		return dao.ajouterPayment(p, idEnfant, moisPayment);
+	}
+
+
+	@Override
+	public List<Payment> listPayments() {
+		
+		return dao.listPayments();
+	}
+
+
+	@Override
+	public Payment getPayementMoisCourant(Long idEnfant, String moisPayment) {
+	
+		return dao.getPayementMoisCourant(idEnfant, moisPayment);
+	}
+
+
+	@Override
+	public Creche ajouterCreche(Creche creche, String annee) {
+		
+		return dao.ajouterCreche(creche, annee);
+	}
+
+
+	@Override
+	public Creche getCreche(String annee) {
+		
+		return dao.getCreche(annee);
 	}
 
 
@@ -158,1541 +1679,111 @@ public class CrecheMetierImpl implements IAdminMetier
 	}
 
 
-	@Override
-	public List<Creche> crecheParNom(String nomCreche) {
-		
-		return dao.crecheParNom(nomCreche);
-	}
-
-
-	@Override
-	public Creche getCreche(Long idCreche) {
-		
-		return dao.getCreche(idCreche);
-	}
-
-
-	@Override
-	public List<Classe> listClasse() {
-		
-		return dao.listClasse();
-	}
-
-
-	@Override
-	public List<Classe> classeParNom(String nom) {
-		
-		return dao.classeParNom(nom);
-	}
-
-
-	@Override
-	public List<Classe> classeParCreche(Long idCreche) {
-		
-		return dao.classeParCreche(idCreche);
-	}
-
-
-	@Override
-	public List<EquipeEducatif> getEquipeEducatifByClasse(Long idClasse) {
-		
-		return dao.getEquipeEducatifByClasse(idClasse);
-	}
-
-
-	@Override
-	public Classe getClasse(Long idClasse) {
-		
-		return dao.getClasse(idClasse);
-	}
-
-
-	@Override
-	public List<EquipeSanitaire> listEquipeSanitaires() {
-		
-		return dao.listEquipeSanitaires();
-	}
-
-
-	@Override
-	public List<EquipeSanitaire> equipeSanitaireParNom(String nom) {
-		
-		return dao.equipeSanitaireParNom(nom);
-	}
-
-
-	@Override
-	public List<EquipeSanitaire> equipeSanitaireParFonction(Long idFonction) {
-		
-		return dao.equipeSanitaireParFonction(idFonction);
-	}
-
-
-	@Override
-	public EquipeSanitaire getEquipeSanitaire(Long idEquipeSanitaire) {
-		
-		return dao.getEquipeSanitaire(idEquipeSanitaire);
-	}
-
-
-	@Override
-	public List<EquipeEducatif> listEquipeEducatif() {
-		
-		return dao.listEquipeEducatif();
-	}
-
-
-	@Override
-	public List<EquipeEducatif> equipeEducatifParNom(String nom) {
-		
-		return dao.equipeEducatifParNom(nom);
-	}
-
-
-	@Override
-	public List<EquipeEducatif> equipeEducatifParFonction(Long idFonction) {
-		
-		return dao.equipeEducatifParFonction(idFonction);
-	}
-
-
-	@Override
-	public List<Classe> getClassesByEquipeEducatif(Long idEquipeEducatif) {
 	
-		return dao.getClassesByEquipeEducatif(idEquipeEducatif);
-	}
 
 
 	@Override
-	public EquipeEducatif getEquipeEducatif(Long idEquipeEducatif) {
+	public List<Payment> listPaymentEnfant(Long idEnf) {
 		
-		return dao.getEquipeEducatif(idEquipeEducatif);
+		return dao.listPaymentEnfant(idEnf);
 	}
 
 
 	@Override
-	public List<Fonction> listFonctions() {
+	public Payment ajouterPayment(Payment p) {
 		
-		return dao.listFonctions();
+		return dao.ajouterPayment(p);
 	}
 
 
 	@Override
-	public Fonction getFonction(Long idFonction) {
-		
-		return dao.getFonction(idFonction);
+	public void modifierPayment(Payment p) {
+		dao.modifierPayment(p);		
 	}
 
 
 	@Override
-	public List<Accompagnateur> listAccompagnateurs(int position,
-			int nbrAccompagnateurs) {
-		
-		return dao.listAccompagnateurs(position, nbrAccompagnateurs);
-	}
-
-
-	@Override
-	public List<Accompagnateur> accompagnateurParNom(String nom) {
-		
-		return dao.accompagnateurParNom(nom);
-	}
-
-
-	@Override
-	public Accompagnateur getAccompagnateur(Long idAccompagnateur) {
+	public Payment getPaymentAnnuelle(Long idEnf, String annee,String naturePaiement) {
 	
-		return dao.getAccompagnateur(idAccompagnateur);
+		return dao.getPaymentAnnuelle(idEnf, annee, naturePaiement);
 	}
 
 
 	@Override
-	public List<Enfant> getEnfantsByAccompagnateur(Long idAccompagnateur) {
+	public Inscription getInscriAnnuelle(Long idEnf, Long idClass,String annee) {
 		
-		return dao.getEnfantsByAccompagnateur(idAccompagnateur);
+		return dao.getInscriAnnuelle(idEnf, idClass, annee);
 	}
 
 
 	@Override
-	public long getNombreAccompagnateurs() {
+	public Payment getPaymentMensuel(Long idEnf, String anneeMois,String naturePaiement) 
+	{
 		
-		return dao.getNombreAccompagnateurs();
+		return dao.getPaymentMensuel(idEnf, anneeMois,naturePaiement);
+		
 	}
 
 
 	@Override
-	public List<Accompagnateur> listAccompagnateurs() {
+	public List<ClubEnfant> ListClubEnfantParAnnee(Long idEnf, Date dateClub) {
 		
-		return dao.listAccompagnateurs();
+		return dao.ListClubEnfantParAnnee(idEnf, dateClub);
 	}
 
 
 	@Override
-	public List<Inscription> listInscriptions() {
+	public List<ClubEnfant> ListEnfantsActifsClubs(Long idClub) {
 		
+		return dao.ListEnfantsActifsClubs(idClub);
+	}
+
+
+	@Override
+	public List<PlanningEnfant> ListEnfantsActifsPlannings(Long idPlannings) {
+		
+		return dao.ListEnfantsActifsPlannings(idPlannings);
+	}
+
+
+	@Override
+	public List<Inscription> listInscriptionsParClassAnne(Long idClass) {
+	
 		return dao.listInscriptions();
 	}
 
 
 	@Override
-	public Inscription getInscription(Long idInscription) {
+	public List<PlanningEnfant> EnfantParPlanningH(Long idPlan) {
 	
-		return dao.getInscription(idInscription);
+		return dao.EnfantParPlanning(idPlan);
 	}
 
 
 	@Override
-	public List<Inscription> getInscriptionByEnfantbyClasse(Long idEnfant,
-			Long idClasse) {
+	public List<EvennementEnfant> EnfantParEvennement(Long idEvenne) {
 		
-		return dao.getInscriptionByEnfantbyClasse(idEnfant, idClasse);
+		return dao.EnfantParEvennement(idEvenne);
 	}
 
 
 	@Override
-	public List<Enfant> getEnfantByClassebyInscription(Long idClasse,
-			Long idInscription) {
+	public Consultation getConsultationEnfDate(Long idEnf, String date) {
 		
-		return dao.getEnfantByClassebyInscription(idClasse, idInscription);
-	}
-
-
-	@Override
-	public List<Classe> getClassesByEnfantbyInscription(Long idEnfant,
-			Long idInscription) {
-		
-		return dao.getClassesByEnfantbyInscription(idEnfant, idInscription);
-	}
-
-
-	@Override
-	public List<Parent> listParents() {
-		
-		return dao.listParents();
-	}
-
-
-	@Override
-	public List<Parent> parentParNom(String nomParent) {
-		
-		return dao.parentParNom(nomParent);
-	}
-
-
-	@Override
-	public Parent getParent(Long idParent) {
-	
-		return dao.getParent(idParent);
-	}
-
-
-	@Override
-	public List<Enfant> getEnfantByParent(Long idParent) {
-		
-		return dao.getEnfantByParent(idParent);
-	}
-
-
-	@Override
-	public List<Consultation> listConsultations() {
-	
-		return dao.listConsultations();
-	}
-
-
-	@Override
-	public Consultation getConsultation(Long idConsultation) {
-		
-		return dao.getConsultation(idConsultation);
-	}
-
-
-	@Override
-	public List<Consultation> getConsultationsByEnfantbyEquipeSanitaire(
-			Long idEnfant, Long idEquipeSanitaire) {
-		
-		return dao.getConsultationByEnfantByEquipeSanitaire(idEnfant, idEquipeSanitaire);
-	}
-
-
-	@Override
-	public List<Enfant> getEnfantByEqSanitaireyConsultation(
-			Long idEquipeSanitaire, Long idConsultation) {
-		
-		return dao.getEnfantByEqSanitaireyConsultation(idEquipeSanitaire, idConsultation);
-	}
-
-
-	@Override
-	public List<EquipeSanitaire> getEquipeSanitairesByEnfantbyConsultation(
-			Long idEnfant, Long idConsultation) {
-		
-		return dao.getEquipeSanitairesByEnfantbyConsultation(idEnfant, idConsultation);
-	}
-
-
-	@Override
-	public List<Evennement> listEvennements() {
-		
-		return dao.listEvennements();
-	}
-
-
-	@Override
-	public List<Evennement> evennementParNom(String nom) {
-		
-		return dao.evennementParNom(nom);
-	}
-
-
-	@Override
-	public Evennement getEvennement(Long idEvennement) {
-		
-		return dao.getEvennement(idEvennement);
-	}
-
-
-	@Override
-	public List<Enfant> getEnfantsByEvennement(Long idEvennement) {
-		
-		return dao.getEnfantsByEvennement(idEvennement);
-	}
-
-
-	@Override
-	public List<Enfant> listEnfants() {
-		
-		return dao.listEnfants();
-	}
-
-
-	@Override
-	public List<Enfant> enfantParNom(String nom) {
-		
-		return dao.enfantParNom(nom);
-	}
-
-
-	@Override
-	public Enfant getEnfant(Long idEnfant) {
-		
-		return dao.getEnfant(idEnfant);
-	}
-
-
-	@Override
-	public List<Enfant> enfantCertife() {
-		
-		return dao.enfantCertife();
-	}
-
-
-	@Override
-	public List<Enfant> enfantPhotoAutorise() {
-		
-		return dao.enfantPhotoAutorise();
-	}
-
-
-	@Override
-	public List<Enfant> enfantSituationParental() {
-		
-		return dao.enfantSituationParental();
-	}
-
-
-	@Override
-	public List<Accompagnateur> getAccompagnateursByEnfant(Long idEnfant) {
-		
-		return dao.getAccompagnateursByEnfant(idEnfant);
-	}
-
-
-	@Override
-	public List<Evennement> getEvennementsByEnfant(Long idEnfant) {
-		
-		return dao.getEvennementsByEnfant(idEnfant);
-	}
-
-
-	@Override
-	public List<Parent> getParentsByEnfant(Long idEnfant) {
-	
-		return dao.getParentsByEnfant(idEnfant);
-	}
-
-
-	@Override
-	public List<Enfant> getEnfantsByInscriptionByClasse(Long idInscription,
-			Long idClasse) {
-		
-		return dao.getEnfantsByInscriptionByClasse(idInscription, idClasse);
-	}
-
-
-	@Override
-	public List<Enfant> getEnfantsByConsultationByEquipeSanitaire(
-			Long idConsultation, Long idEquipeSanitaire) {
-		
-		return dao.getEnfantsByConsultationByEquipeSanitaire(idConsultation, idEquipeSanitaire);
-	}
-
-
-	@Override
-	public List<Classe> getClassesByInscriptionByEnfant(Long idInscription,
-			Long idEnfant) {
-		
-		return dao.getClassesByInscriptionByEnfant(idInscription, idEnfant);
-	}
-
-
-	@Override
-	public List<EquipeSanitaire> getEquipeSanitaireByConsultationByEnfant(
-			Long idConsultation, Long idEnfant) {
-		
-		return dao.getEquipeSanitaireByConsultationByEnfant(idConsultation, idEnfant);
-	}
-
-
-	@Override
-	public List<Inscription> getInscriptionByEnfantByClasse(Long idEnfant,
-			Long idClasse) {
-		
-		return dao.getInscriptionByEnfantbyClasse(idEnfant, idClasse);
-	}
-
-
-	@Override
-	public List<Consultation> getConsultationByEnfantByEquipeSanitaire(
-			Long idEnfant, Long idEquipeSanitaire) {
-		
-	return dao.getConsultationByEnfantByEquipeSanitaire(idEnfant, idEquipeSanitaire);
-	}
-
-
-	@Override
-	public Enfant enregistrerEnfant(Inscription a, Parent p) {
-	
-		return dao.enregistrerEnfant(a, p);
-	}
-
-
-	@Override
-	public List<Fournisseur> listFournisseurs() {
-		
-		return dao.listFournisseurs();
-	}
-
-
-	@Override
-	public List<Fournisseur> fournisseurParNom(String nom) {
-		
-		return dao.fournisseurParNom(nom);
-	}
-
-
-	@Override
-	public Fournisseur getFournisseur(Long idFournisseur) {
-		
-		return dao.getFournisseur(idFournisseur);
-	}
-
-
-	@Override
-	public List<Materiels> getMaterielsByFournisseur(Long idFournisseur) {
-		
-		return dao.getMaterielsByFournisseur(idFournisseur);
-	}
-
-
-	@Override
-	public List<Materiels> listMateriels() {
-		
-		return dao.listMateriels();
-	}
-
-
-	@Override
-	public List<Materiels> materielsParDesignation(String designation) {
-		
-		return dao.materielsParDesignation(designation);
-	}
-
-
-	@Override
-	public Materiels getMateriels(Long idMateriels) {
-	
-		return dao.getMateriels(idMateriels);
-	}
-
-
-	@Override
-	public List<Fournisseur> getFournisseurByMateriels(Long idMateriels) {
-		
-		return dao.getFournisseurByMateriels(idMateriels);
-	}
-
-
-	@Override
-	public List<Equipe> getEquipeByMateriels(Long idMateriels) {
-	
-		return dao.getEquipeByMateriels(idMateriels);
-	}
-
-
-	@Override
-	public List<Materiels> materielsParFournisseur(Long idFournisseur) {
-	
-		return dao.materielsParFournisseur(idFournisseur);
-	}
-
-
-	@Override
-	public List<Materiels> materielsParEquipe(Long idEquipe) {
-		
-		return dao.materielsParEquipe(idEquipe);
-	}
-
-
-	@Override
-	public List<EquipeSanitaire> materielsParEquipeSanitaire(
-			Long idEquipeSanitaire) {
-		
-		return dao.materielsParEquipeSanitaire(idEquipeSanitaire);
-	}
-
-
-	@Override
-	public List<EquipeEducatif> materielsParEquipeEducatif(Long idEquipeEducatif) {
-		
-		return dao.materielsParEquipeEducatif(idEquipeEducatif);
-	}
-
-
-	@Override
-	public List<Equipe> getEquipeEducatifByMateriels(Long idMateriels) {
-		
-		return dao.getEquipeEducatifByMateriels(idMateriels);
-	}
-
-
-	@Override
-	public List<Equipe> getEquipeSanitaireByMateriels(Long idMateriels) {
-		
-		return dao.getEquipeSanitaireByMateriels(idMateriels);
-	}
-
-
-	@Override
-	public List<TypeMateriels> listTypeMateriels() {
-		
-		return dao.listTypeMateriels();
-	}
-
-
-	@Override
-	public List<TypeMateriels> typeMaterielsParLabelle(String labelle) {
-		
-		return dao.typeMaterielsParLabelle(labelle);
-	}
-
-
-	@Override
-	public TypeMateriels getTypeMateriels(Long idTypeMateriels) {
-		
-		return dao.getTypeMateriels(idTypeMateriels);
-	}
-
-
-	@Override
-	public List<Stock> listStock() {
-		
-		return dao.listStock();
-	}
-
-
-	@Override
-	public Stock getStock(Long idStock) {
-		
-		return dao.getStock(idStock);
+		return dao.getConsultationEnfDate(idEnf, date);
 	}
 
 
 	
 
 
-	@Override
-	public void supprimerCategorieClub(Long idCategorieClub) {
-		
-		dao.supprimerCategorieClub(idCategorieClub);
-		
-	}
 
-
-	@Override
-	public void modifierCategorieClub(CategorieClub categorieClub) {
-		
-		dao.modifierCategorieClub(categorieClub);
-	}
-
-
-	@Override
-	public Long ajouterPlanningHorraires(PlanningHorraires planningHorraires,
-			Long idGenrePlanning) {
-		
-		return dao.ajouterPlanningHorraires(planningHorraires, idGenrePlanning);
-	}
-
-
-	@Override
-	public void supprimerPlanningHorraires(Long idPlanningHorraires) {
-		
-		dao.supprimerPlanningHorraires(idPlanningHorraires);
-		
-	}
-
-
-	@Override
-	public void modifierPlanningHorraires(PlanningHorraires planningHorraires) {
-		
-		dao.modifierPlanningHorraires(planningHorraires);
-	}
-
-
-	@Override
-	public void ajouterInscriptionPourPlanningHorraires(Long idInscription,
-			Long idPlanningHorraires) {
-		
-		dao.ajouterInscriptionPourPlanningHorraires(idInscription, idPlanningHorraires);
-		
+	
 		
 	}
 
 
 	
 
-
-	@Override
-	public void supprimerClubs(Long idClubs) {
-		
-		dao.supprimerClubs(idClubs);
-		
-	}
-
-
-	@Override
-	public void modifierClubs(Clubs clubs) {
-		
-		dao.modifierClubs(clubs);
-	}
-
-
-	@Override
-	public Long ajouterGenrePlanning(GenrePlanning genrePlanning) {
-		
-		return dao.ajouterGenrePlanning(genrePlanning);
-	}
-
-
-	@Override
-	public void supprimerGenrePlanning(Long idGenrePlanning) {
-		
-		dao.supprimerGenrePlanning(idGenrePlanning);
-		
-	}
-
-
-	@Override
-	public void modifierGenrePlanning(GenrePlanning genrePlanning) {
-		
-		dao.modifierGenrePlanning(genrePlanning);
-		
-	}
-
-
-	@Override
-	public Long ajouterCreche(Creche creche) {
-		
-		return dao.ajouterCreche(creche);
-	}
-
-
-	@Override
-	public void supprimerCreche(Long idCreche) {
-		dao.supprimerCreche(idCreche);
-		
-	}
-
-
-	@Override
-	public void modifierCreche(Creche creche) {
-		
-		dao.modifierCreche(creche);
-	}
-
-
-	@Override
-	public Long ajouterClasse(Classe classe, Long idCreche) {
-		
-		return dao.ajouterClasse(classe, idCreche);
-	}
-
-
-	@Override
-	public void supprimerClasse(Long idClasse) {
-		
-		dao.supprimerClasse(idClasse);
-	}
-
-
-	@Override
-	public void modifierClasse(Classe classe) {
-		
-		dao.modifierClasse(classe);
-		
-		
-	}
-
-
-	@Override
-	public void ajouterEquipeEducatifPourClasse(Long idEquipeEducatif,
-			Long idClasse) {
-		
-		dao.ajouterEquipeEducatifPourClasse(idEquipeEducatif, idClasse);
-	}
-
-
-	@Override
-	public Long ajouterEquipeSanitaire(EquipeSanitaire equipeSanitaire,
-			Long idFonction) {
-		
-		return dao.ajouterEquipeSanitaire(equipeSanitaire, idFonction);
-	}
-
-
-	@Override
-	public void supprimerEquipeSanitaire(Long idEquipeSanitaire) {
-		
-		dao.supprimerEquipeSanitaire(idEquipeSanitaire);
-		
-	}
-
-
-	@Override
-	public void modifierEquipeSanitaire(EquipeSanitaire equipeSanitaire) {
-		
-		dao.modifierEquipeSanitaire(equipeSanitaire);
-		
-	}
-
-
-	@Override
-	public Long ajouterEquipeEducatif(EquipeEducatif equipeEducatif,
-			Long idFonction) {
-		
-		return dao.ajouterEquipeEducatif(equipeEducatif, idFonction);
-	}
-
-
-	@Override
-	public void supprimerEquipeEducatif(Long idEquipeEducatif) {
-		
-		dao.supprimerEquipeEducatif(idEquipeEducatif);
-	}
-
-
-	@Override
-	public void modifierEquipeEducatif(EquipeEducatif equipeEducatif) {
-		
-		dao.modifierEquipeEducatif(equipeEducatif);
-	}
-
-
-	@Override
-	public void ajouterClassesPourEquipeEducatifs(Long idClasse,
-			Long idEquipeEducatif) {
-		
-		dao.ajouterClassesPourEquipeEducatifs(idClasse, idEquipeEducatif);
-	}
-
-
-	@Override
-	public Long ajouterFonction(Fonction fonction) {
-		
-		return dao.ajouterFonction(fonction);
-	}
-
-
-	@Override
-	public void supprimerFonction(Long idFonction) {
-		
-		dao.supprimerFonction(idFonction);
-	}
-
-
-	@Override
-	public void modifierFonction(Fonction fonction) {
-		
-		dao.modifierFonction(fonction);
-	}
-
-
-	@Override
-	public Long ajouterAccompagnateur(Accompagnateur accompagnateur) {
-		
-		return dao.ajouterAccompagnateur(accompagnateur);
-	}
-
-
-	@Override
-	public void supprimerAccompagnateurs(Long idAccompagnateur) {
-		
-		dao.supprimerAccompagnateurs(idAccompagnateur);
-	}
-
-
-	@Override
-	public void modifierAccompagnateurs(Accompagnateur accompagnateur) {
-		
-		dao.modifierAccompagnateurs(accompagnateur);
-	}
-
-
-	@Override
-	public void ajouterEnfantsPourAccompagnateur(Long idEnfant,
-			Long idAccompagnateur) {
-		
-		dao.ajouterEnfantsPourAccompagnateur(idEnfant, idAccompagnateur);
-	}
-
-
-	@Override
-	public Long ajouterInscription(Inscription inscription) {
-		
-		return dao.ajouterInscription(inscription);
-	}
-
-
-	@Override
-	public void supprimerInscriptions(Long idInscription) {
-		
-		dao.supprimerInscriptions(idInscription);
-		
-	}
-
-
-	@Override
-	public void modifierInscriptions(Inscription inscription) {
-		dao.modifierInscriptions(inscription);
-		
-		
-	}
-
-
-	@Override
-	public void ajouterInscriptionsPourEnfantPourClasse(Long idInscription,
-			Long idEnfant, Long idclass) {
-		
-		dao.ajouterInscriptionsPourEnfantPourClasse(idInscription, idEnfant, idclass);
-		
-	}
-
-
-	@Override
-	public void ajouterEnfantsPourInscriptionPourClasse(Long idEnfant,
-			Long idInscription, Long idclass) {
-		
-		dao.ajouterEnfantsPourInscriptionPourClasse(idEnfant, idInscription, idclass);
-	}
-
-
-	@Override
-	public void ajouterClassesPourInscriptionPourEnfant(Long idclass,
-			Long idInscription, Long idEnfant) {
-		
-		dao.ajouterClassesPourInscriptionPourEnfant(idclass, idInscription, idEnfant);
-	}
-
-
-	@Override
-	public void ajouterPlanningHorrairsPourInscription(
-			Long idPlanningHorraires, Long idInscription) {
-		
-		dao.ajouterPlanningHorrairsPourInscription(idPlanningHorraires, idInscription);
-	}
-
-
-	@Override
-	public Long ajouterParent(Parent parent) {
-		
-		return dao.ajouterParent(parent);
-	}
-
-
-	@Override
-	public void supprimerParent(Long idParent) {
-		
-		dao.supprimerParent(idParent);
-	}
-
-
-	@Override
-	public void modifierParent(Parent parent) {
-		dao.modifierParent(parent);
-		
-	}
-
-
-	@Override
-	public void ajouterEnfantsPourParent(Long idEnfant, Long idParent) {
-		
-		dao.ajouterEnfantsPourParent(idEnfant, idParent);
-	}
-
-
-	@Override
-	public Long ajouterConsultation(Consultation consultation) {
-		
-		return dao.ajouterConsultation(consultation);
-	}
-
-
-	@Override
-	public void supprimerConsultations(Long idConsultation) {
-		
-		dao.supprimerConsultations(idConsultation);
-	}
-
-
-	@Override
-	public void modifierConsultations(Consultation consultation) {
-	
-		dao.modifierConsultations(consultation);
-	}
-
-
-	@Override
-	public void ajouterConsultationsPourEnfantPourEquipeSanitaire(
-			Long idConsultation, Long idEnfant, Long idEquipeSanitaire) {
-		
-		dao.ajouterConsultationsPourEnfantPourEquipeSanitaire(idConsultation, idEnfant, idEquipeSanitaire);
-	}
-
-
-	@Override
-	public void ajouterEnfantsPourConsultationPourEquipeSanitaire(
-			Long idEnfant, Long idConsultation, Long idEquipeSanitaire) {
-		
-		dao.ajouterEnfantsPourConsultationPourEquipeSanitaire(idEnfant, idConsultation, idEquipeSanitaire);
-	}
-
-
-	@Override
-	public void ajouterEquipeSanitairesPourConsultationPourEnfant(
-			Long idEquipeSanitaire, Long idConsultation, Long idEnfant) {
-		
-		dao.ajouterEquipeSanitairesPourConsultationPourEnfant(idEquipeSanitaire, idConsultation, idEnfant);
-		
-	}
-
-
-	@Override
-	public Long ajouterEvennement(Evennement evennement) {
-		
-		return dao.ajouterEvennement(evennement);
-	}
-
-
-	@Override
-	public void supprimerEvennements(Long idEvennement) {
-		
-		dao.supprimerEvennements(idEvennement);
-	}
-
-
-	@Override
-	public void modifierEvennements(Evennement evennement) {
-		
-		dao.modifierEvennements(evennement);
-	}
-
-
-	@Override
-	public void ajouterEnfantsPourEvennement(Long idEnfant, Long idEvennement) {
-		
-		dao.ajouterEnfantsPourEvennement(idEnfant, idEvennement);
-	}
-
-
-	@Override
-	public Long ajouterEnfant(Enfant enfant) {
-		
-		return dao.ajouterEnfant(enfant);
-	}
-
-
-	@Override
-	public void supprimerEnfant(Long idEnfant) {
-		
-		dao.supprimerEnfant(idEnfant);
-		
-	}
-
-
-	@Override
-	public void modifierEnfant(Enfant enfant) {
-		
-		dao.modifierEnfant(enfant);
-		
-	}
-
-
-	@Override
-	public void ajouterAccompagnateursPourEnfant(Long idAccompagnateur,
-			Long idEnfant) {
-		
-		dao.ajouterAccompagnateursPourEnfant(idAccompagnateur, idEnfant);
-	}
-
-
-	@Override
-	public void ajouterEvennementsPourEnfant(Long idEvennement, Long idEnfant) {
-		
-		dao.ajouterEvennementsPourEnfant(idEvennement, idEnfant);
-	}
-
-
-	@Override
-	public void ajouterParentsPourEnfant(Long idParent, Long idEnfant) {
-		
-		dao.ajouterParentsPourEnfant(idParent, idEnfant);
-	}
-
-
-	@Override
-	public Long ajouterFournisseur(Fournisseur fournisseur) {
-		
-		return dao.ajouterFournisseur(fournisseur);
-	}
-
-
-	@Override
-	public void supprimerFournisseur(Long idFournisseur) {
-		
-		dao.supprimerFournisseur(idFournisseur);
-		
-	}
-
-
-	@Override
-	public void modifierFournisseur(Fournisseur fournisseur) {
-		
-		dao.modifierFournisseur(fournisseur);
-		
-	}
-
-
-	@Override
-	public void ajouterMaterielsPourFournisseur(Long idMateriels,
-			Long idFournisseur) {
-		
-		dao.ajouterMaterielsPourFournisseur(idMateriels, idFournisseur);
-	}
-
-
-	@Override
-	public Long ajouterMateriels(Materiels materiels, Long idTypeMateriels,
-			Long idStock) {
-		
-		return dao.ajouterMateriels(materiels, idTypeMateriels, idStock);
-	}
-
-
-	@Override
-	public void supprimerMateriels(Long idMateriels) {
-		
-		dao.supprimerMateriels(idMateriels);
-	}
-
-
-	@Override
-	public void modifierMateriels(Materiels materiels) {
-		
-		dao.modifierMateriels(materiels);
-		
-	}
-
-
-	@Override
-	public void ajouterFournisseurPourMateriels(Long idFournisseur,
-			Long idMateriels) {
-		
-		dao.ajouterFournisseurPourMateriels(idFournisseur, idMateriels);
-		
-	}
-
-
-	@Override
-	public void ajouterEquipePourMateriels(Long idEquipe, Long idMateriels) {
-	
-		dao.ajouterEquipePourMateriels(idEquipe, idMateriels);
-		
-	}
-
-
-	@Override
-	public Long ajouterTypeMateriel(TypeMateriels typeMateriels) {
-		
-		return dao.ajouterTypeMateriel(typeMateriels);
-	}
-
-
-	@Override
-	public void supprimerTypeMateriels(Long idTypeMateriels) {
-		
-		dao.supprimerTypeMateriels(idTypeMateriels);
-	}
-
-
-	@Override
-	public void modifierTypeMateriels(TypeMateriels typeMateriels) {
-		
-		dao.modifierTypeMateriels(typeMateriels);
-	}
-
-
-	@Override
-	public Long ajouterStock(Stock stock) {
-		
-		return dao.ajouterStock(stock);
-	}
-
-
-	@Override
-	public void supprimerStock(Long idStock) {
-	
-		dao.supprimerStock(idStock);
-		
-	}
-
-
-	@Override
-	public void modifierStock(Stock stock) {
-	
-		dao.modifierStock(stock);
-	}
-
-
-	@Override
-	public List<Clubs> clubParcategorieClub(Long idCategorieClub) {
-		
-		return dao.clubParcategorieClub(idCategorieClub);
-	}
-
-
-	@Override
-	public Long ajouterCategorieClub(CategorieClub categorieClub) {
-	
-		return dao.ajouterCategorieClub(categorieClub);
-	}
-
-
-	@Override
-	public Long ajouterClubs(Clubs clubs, Long idInscription,
-			Long idCtagorieClubs) {
-		
-		return dao.ajouterClubs(clubs, idInscription, idCtagorieClubs);
-	}
-
-
-	@Override
-	public List<Parent> listParents(int position, int nbrParents) 
-	{
-		
-		return dao.listParents(position, nbrParents);
-	}
-
-
-	@Override
-	public long getNombreParents()
-	{
-		
-		return dao.getNombreParents();
-	}
-
-
-	@Override
-	public List<Enfant> listEnfants(int position, int nbrEnfants) {
-	
-		return dao.listEnfants(position, nbrEnfants);
-	}
-
-
-	@Override
-	public long getNombreEnfants() {
-		
-		return dao.getNombreEnfants();
-	}
-
-
-	@Override
-	public long getNombreEvennements() {
-		
-		return dao.getNombreEvennements();
-	}
-
-
-	@Override
-	public List<Evennement> listEvennements(int position, int nbrEvennements) {
-		
-		return dao.listEvennements(position, nbrEvennements);
-	}
-
-
-	@Override
-	public long getNombreEquipesSan() {
-		
-		return dao.getNombreEquipesSan();
-	}
-
-
-	@Override
-	public List<EquipeSanitaire> listEquipeSanitaires(int position,int nbrEquipesSan) {
-		
-		return dao.listEquipeSanitaires(position, nbrEquipesSan);
-	}
-
-
-	@Override
-	public long getNombreFournisseurs() 
-	{
-		
-		return dao.getNombreFournisseurs();
-	}
-
-
-	@Override
-	public List<Fournisseur> listFournisseurs(int position, int nbrFournisseurs) 
-	{
-		
-		return dao.listFournisseurs(position, nbrFournisseurs);
-	}
-
-
-	@Override
-	public List<Equipe> equipeParNom(String nom) {
-		
-		return dao.equipeParNom(nom);
-	}
-
-
-	@Override
-	public Equipe getEquipe(Long idEquipe) {
-		
-		return dao.getEquipe(idEquipe);
-	}
-
-
-	@Override
-	public List<Equipe> getMaterielByEquipe(Long idEquipe) {
-		
-		return dao.getMaterielByEquipe(idEquipe);
-	}
-
-
-	@Override
-	public long getNombreEquipes() {
-		
-		return dao.getNombreEquipes();
-	}
-
-
-	@Override
-	public List<Equipe> listEquipes() {
-		
-		return dao.listEquipes();
-	}
-
-
-	@Override
-	public List<Equipe> listEquipes(int position, int nbrEquipes) {
-		
-		return dao.listEquipes(position, nbrEquipes);
-	}
-
-
-	@Override
-	public Long ajouterEquipe(Equipe equipe) {
-		
-		return dao.ajouterEquipe(equipe);
-	}
-
-
-	@Override
-	public void supprimerEquipes(Long idEquipe) {
-		
-		dao.supprimerEquipes(idEquipe);
-		
-	}
-
-
-	@Override
-	public void modifierEquipes(Equipe equipe) {
-		
-		dao.modifierEquipes(equipe);
-		
-	}
-
-
-	@Override
-	public void ajouterMaterielPourEquipe(Long idMateriel, Long idEquipe) {
-		
-		dao.ajouterMaterielPourEquipe(idMateriel, idEquipe);
-		
-	}
-
-
-	@Override
-	public Personnage getPersonnage(Long idPersonnage) {
-		
-		return dao.getPersonnage(idPersonnage);
-	}
-
-
-	@Override
-	public long getNombrePersonnages() {
-		
-		return dao.getNombrePersonnages();
-	}
-
-
-	@Override
-	public List<Personnage> personnageParNom(String nom) {
-		
-		return dao.personnageParNom(nom);
-	}
-
-
-	@Override
-	public List<Personnage> listPersonnage(int position, int nbrPersonnage) {
-		
-		return dao.listPersonnage(position, nbrPersonnage);
-	}
-
-
-	@Override
-	public List<Personnage> listPersonnage() {
-		
-		return dao.listPersonnage();
-	}
-
-
-	@Override
-	public Long ajouterPersonnage(Personnage personnage) {
-		
-		return dao.ajouterPersonnage(personnage);
-	}
-
-
-	@Override
-	public void supprimerPersonnage(Long idPersonnage) {
-		dao.supprimerPersonnage(idPersonnage);
-		
-	}
-
-
-	@Override
-	public void modifierPersonnages(Personnage personnage) {
-		
-		dao.modifierPersonnages(personnage);
-		
-	}
-
-
-	@Override
-	public long getNombreFonctions() {
-		
-		return dao.getNombreFonctions();
-	}
-
-
-	@Override
-	public List<Fonction> listFonctions(int position, int nbrFonctions) {
-	
-		return dao.listFonctions(position, nbrFonctions);
-	}
-
-
-	@Override
-	public long getNombreCreches() {
-		
-		return dao.getNombreCreches();
-	}
-
-
-	@Override
-	public List<Creche> listCreches(int position, int nbrCreches) {
-		
-		return dao.listCreches(position, nbrCreches);
-	}
-
-
-	@Override
-	public long getNombreEquipesEdu() {
-		
-		return dao.getNombreEquipesEdu();
-	}
-
-
-	@Override
-	public List<EquipeEducatif> listEquipeEducatif(int position,int nbrEquipesEdu) {
-		
-		return dao.listEquipeEducatif(position, nbrEquipesEdu);
-	}
-
-
-	@Override
-	public long getNombreClasses() {
-		
-		return dao.getNombreClasses();
-	}
-
-
-	@Override
-	public List<Classe> listClasse(int position, int nbrClasses) {
-	
-		return dao.listClasse(position, nbrClasses);
-	}
-
-
-	@Override
-	public long getNombreTypesMateriels() {
-		
-		return dao.getNombreTypesMateriels();
-	}
-
-
-	@Override
-	public List<TypeMateriels> listTypeMateriels(int position,int nbrTypesMateriels) {
-		
-		return dao.listTypeMateriels(position, nbrTypesMateriels);
-	}
-
-
-	@Override
-	public long getNombreStocks() {
-		
-		return dao.getNombreStocks();
-	}
-
-
-	@Override
-	public List<Stock> listStock(int position, int nbrStocks) {
-		
-		return dao.listStock(position, nbrStocks);
-	}
-
-
-	@Override
-	public long getNombreCategorieClubs() {
-		
-		return dao.getNombreCategorieClubs();
-	}
-
-
-	@Override
-	public List<CategorieClub> listCategorieClubs(int position,int nbrCategorieClubs) 
-	{
-		
-		return dao.listCategorieClubs(position, nbrCategorieClubs);
-	}
-
-
-	@Override
-	public long getNombreGenrePlanning() {
-		
-		return dao.getNombreGenrePlanning();
-	}
-
-
-	@Override
-	public List<GenrePlanning> listGenrePlanning(int position,
-			int nbrGenrePlanning) {
-		
-		return dao.listGenrePlanning(position, nbrGenrePlanning);
-	}
-
-
-	@Override
-	public long getNombreInscriptions() {
-		
-		return dao.getNombreInscriptions();
-	}
-
-
-	@Override
-	public List<Inscription> listInscriptions(int position, int nbrInscriptions) {
-		
-		return dao.listInscriptions(position, nbrInscriptions);
-	}
-
-
-	@Override
-	public long getNombreConsultations() {
-		
-		return dao.getNombreConsultations();
-	}
-
-
-	@Override
-	public List<Consultation> listConsultations(int position,
-			int nbrConsultations) {
-	
-		return dao.listConsultations(position, nbrConsultations);
-	}
-
-
-	@Override
-	public long getNombreClubs() {
-		
-		return dao.getNombreClubs();
-	}
-
-
-	@Override
-	public List<Clubs> listClubs(int position, int nbrClubs) {
-		
-		return dao.listClubs(position, nbrClubs);
-	}
-
-
-	@Override
-	public long getNombrePlanningHorraires() {
-		
-		return dao.getNombrePlanningHorraires();
-	}
-
-
-	@Override
-	public List<PlanningHorraires> listPlanningHorraires(int position,int nbrPlanningHorraires) {
-		
-		return dao.listPlanningHorraires(position, nbrPlanningHorraires);
-	}
-
-
-	@Override
-	public long getNombreMateriels() {
-		
-		return dao.getNombreMateriels();
-	}
-
-
-	@Override
-	public List<Materiels> listMateriels(int position, int nbrMateriels) {
-		
-		return dao.listMateriels(position, nbrMateriels);
-	}
 	
 	
-
-}

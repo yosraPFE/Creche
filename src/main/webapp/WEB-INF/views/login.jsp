@@ -31,6 +31,9 @@
 </head>
 
 <body>
+
+
+
 <div class="ch-container">
     <div class="row">
         
@@ -58,7 +61,7 @@
 
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock red"></i></span>
-                        <input type="password" name="j_password" class="form-control" placeholder="Mot de passe">
+                        <input type="password" name="j_password" onkeypress="majuscule(event);" class="form-control" placeholder="Mot de passe">
                     </div>
                     <div class="clearfix"></div>
 
@@ -97,6 +100,19 @@
 <script src="<%=request.getContextPath()%>/resources/js/jquery.history.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/charisma.js"></script>
 
+<script>
+
+function majuscule(e)
+{
+var key = e.keyCode? e.keyCode : e.charCode;
+ 
+    if(key > 64 && key < 95)
+    {
+      alert("Majuscules Activé");
+    }
+ 
+}
+</script>
 
 </body>
 </html>

@@ -1,171 +1,171 @@
 package org.gestion.cr.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
-
+import javax.persistence.Transient;
 
 @Entity
-public class Creche implements Serializable
-{
-	/**
-	 * 
-	 * @author YOSRA
-	 *
-	 */
+public class Creche implements Serializable {
 	
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@EmbeddedId
+	private CrecheId id = new CrecheId();
+	
 
-	private long idCreche;
-	
-	@NotEmpty
 	private String nom;
-	@NotEmpty
+
 	private String adresse;
-	
-	private String siteWeb;
-	@NotEmpty
+
+	private String email;
+
 	private String ville;
-	
+
 	private String telephone;
-	
+
 	private String nomPhoto;
 	
 	
-	@Lob
-	private byte[] photo;
+	private double tarifInscription;
 	
-	/*puisque la classe Creche a une collection de EquipeTechnique  et dansla classe "EquipeTechnique" 
-	*on a un objet de type Creche qui s'appelle "creche" on le met pour le mapping :mappedBy="creche"
-	*et Lazy par defaut*/
+	private double tarifAssurance;
 	
 	
-	//mappedBy reference une propriété de l'entité cible
-	/*fetch=FetchType.LAZY: définit que les données peuvent être recuperé longtement et lourdement
-	 * fetch=FetchType.EAGER:indique que les donnée doit etre recuperé rapidement
-	*/
+	private double tarifParMois;
 	
 	
+
 	
-	//cascade=CascadeType.REMOVE:fonctionnement en cascade remove
-	
-	@OneToMany(mappedBy="creche",cascade=CascadeType.REMOVE)
-	private Collection<Classe> classes;
-	
-	
-	
-	//generation des guetteurs et des setteurs
-	public long getIdCreche() 
-	{
-		return idCreche;
+
+
+	public CrecheId getId() {
+		return id;
 	}
-	public void setIdCreche(long idCreche) 
-	{
-		this.idCreche = idCreche;
+
+	public void setId(CrecheId id) {
+		this.id = id;
 	}
-	
-	public String getNom() 
-	{
+
+	public String getNom() {
 		return nom;
 	}
-	
-	public void setNom(String nom) 
-	{
+
+	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public String getAdresse() 
-	{
+
+	public String getAdresse() {
 		return adresse;
 	}
-	public void setAdresse(String adresse) 
-	{
+
+	public void setAdresse(String adresse) {
 		this.adresse = adresse;
 	}
-	public String getSiteWeb() 
-	{
-		return siteWeb;
+
+	
+
+	public String getEmail() {
+		return email;
 	}
-	public void setSiteWeb(String siteWeb) 
-	{
-		this.siteWeb = siteWeb;
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
+
 	public String getVille() {
 		return ville;
 	}
-	public void setVille(String ville) 
-	{
+
+	public void setVille(String ville) {
 		this.ville = ville;
 	}
-	public String getTelephone() 
-	{
+
+	public String getTelephone() {
 		return telephone;
 	}
-	public void setTelephone(String telephone)
-	{
+
+	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-	
-	public Collection<Classe> getClasses() 
-	{
-		return classes;
-	}
-	public void setClasses(Collection<Classe> classes) 
-	{
-		this.classes = classes;
-	}
-	
-	
-	
+
 	public String getNomPhoto() {
 		return nomPhoto;
 	}
+
 	public void setNomPhoto(String nomPhoto) {
 		this.nomPhoto = nomPhoto;
 	}
-	public byte[] getPhoto() {
-		return photo;
-	}
-	public void setPhoto(byte[] photo) {
-		this.photo = photo;
-	}
-	//generation du constructeurs sans parametres
-	public Creche() 
-	{
-		super();
-		
-	}
-	//generation du constructeurs avec parametres
 	
-	public Creche(String nom, String adresse, String siteWeb, String ville,
-			String telephone, String nomPhoto, byte[] photo) {
-		super();
-		this.nom = nom;
-		this.adresse = adresse;
-		this.siteWeb = siteWeb;
-		this.ville = ville;
-		this.telephone = telephone;
-		this.nomPhoto = nomPhoto;
-		this.photo = photo;
-	}
 	
 	
 	
 
+	public double getTarifInscription() {
+		return tarifInscription;
+	}
+
+	public void setTarifInscription(double tarifInscription) {
+		this.tarifInscription = tarifInscription;
+	}
+
+	public double getTarifAssurance() {
+		return tarifAssurance;
+	}
+
+	public void setTarifAssurance(double tarifAssurance) {
+		this.tarifAssurance = tarifAssurance;
+	}
+
+	public double getTarifParMois() {
+		return tarifParMois;
+	}
+
+	public void setTarifParMois(double tarifParMois) {
+		this.tarifParMois = tarifParMois;
+	}
+
+	
+
+
+	
+
+	public Creche(String nom, String adresse, String email, String ville,
+			String telephone, String nomPhoto, double tarifInscription,
+			double tarifAssurance, double tarifParMois) {
+		super();
+		this.nom = nom;
+		this.adresse = adresse;
+		this.email = email;
+		this.ville = ville;
+		this.telephone = telephone;
+		this.nomPhoto = nomPhoto;
+		this.tarifInscription = tarifInscription;
+		this.tarifAssurance = tarifAssurance;
+		this.tarifParMois = tarifParMois;
+	}
+
+	public Creche() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+
+	@Transient
+	public String getAnnee() {
+		return getId().getAnnee();
+	}
+
+	public void setAnnee(String annee) {
+		getId().setAnnee(annee);
+	}
+
+	
 }

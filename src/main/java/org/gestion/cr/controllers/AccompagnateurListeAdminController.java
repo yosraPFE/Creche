@@ -32,42 +32,18 @@ public class AccompagnateurListeAdminController implements HandlerExceptionResol
 	 * @author YOSRA
 	 *
 	 */
-	private int page = 0;
-	private int nbrLignesAccompagnateurs = 4;
-	private int nbrPages;
-
 	@Autowired
 	private IAdminMetier metier;
-
-	public int getPage() {
-		return page;
-	}
-
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	public int getNbrLignesAccompagnateurs() {
-		return nbrLignesAccompagnateurs;
-	}
-
-	public void setNbrLignesAccompagnateurs(int nbrLignesAccompagnateurs) {
-		this.nbrLignesAccompagnateurs = nbrLignesAccompagnateurs;
-	}
-
-	public int getNbrPages() {
-		return nbrPages;
-	}
-
-	public void setNbrPages(int nbrPages) {
-		this.nbrPages = nbrPages;
-	}
+	
 
 	// index
 	@RequestMapping(value = "/index")
 	public String index(Model model) {
+		
 		model.addAttribute("accompagnateur", new Accompagnateur());
-		chargerModel(model);
+		model.addAttribute("accompagnateurs", metier.listAccompagnateurs());
+		
+		
 		return "accompagnateursListe";
 
 	}
@@ -78,7 +54,7 @@ public class AccompagnateurListeAdminController implements HandlerExceptionResol
 			throws IOException 
 	  {
 		if (bindingResult.hasErrors()) {
-			chargerModel(model);
+			model.addAttribute("accompagnateurs", metier.listAccompagnateurs());
 			return ("accompagnateursListe");
 		}
 		Long ref = accomp.getIdPerson();
@@ -104,7 +80,7 @@ public class AccompagnateurListeAdminController implements HandlerExceptionResol
 			}
 			metier.modifierAccompagnateurs(accomp);
 			model.addAttribute("accompagnateur", new Accompagnateur());
-			chargerModel(model);
+			model.addAttribute("accompagnateurs", metier.listAccompagnateurs());
 		}
 		return "accompagnateursListe";
 	}
@@ -114,7 +90,7 @@ public class AccompagnateurListeAdminController implements HandlerExceptionResol
 		Accompagnateur accomp = metier.getAccompagnateur(idAccompagnateur);
 		model.addAttribute("accompagnateur", accomp);
 
-		chargerModel(model);
+		model.addAttribute("accompagnateurs", metier.listAccompagnateurs());
 
 		return "accompagnateursListe";
 	}
@@ -132,35 +108,17 @@ public class AccompagnateurListeAdminController implements HandlerExceptionResol
 	public String supprimerListeAccompagnateur(Long idAccompagnateur,
 			Model model) {
 
-		setPage(page);
+		
 		metier.supprimerAccompagnateurs(idAccompagnateur);
 		model.addAttribute("accompagnateur", new Accompagnateur());
-		chargerModel(model);
+		model.addAttribute("accompagnateurs", metier.listAccompagnateurs());
 
 		return "accompagnateursListe";
 	}
 
-	@RequestMapping(value = "chargerModel")
-	public void chargerModel(Model model) {
+	
 
-		int pos = getNbrLignesAccompagnateurs() * getPage();
-		long nbAc = metier.getNombreAccompagnateurs();
-		setNbrPages((int) (nbAc / getNbrLignesAccompagnateurs()) + 1);
-
-		model.addAttribute("nbrPages", getNbrPages());
-		model.addAttribute("page", getPage());
-		model.addAttribute("accompagnateurs",
-				metier.listAccompagnateurs(pos, getNbrLignesAccompagnateurs()));
-
-	}
-
-	@RequestMapping(value = "/indexPage")
-	public String changerPage(Model model, int page) {
-		setPage(page);
-		model.addAttribute("accompagnateur", new Accompagnateur());
-		chargerModel(model);
-		return "accompagnateursListe";
-	}
+	
 
 	@RequestMapping
 	@Override
@@ -168,7 +126,7 @@ public class AccompagnateurListeAdminController implements HandlerExceptionResol
 			HttpServletResponse response, Object arg2, Exception ex) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("accompagnateur", new Accompagnateur());
-		mv.addObject("accompagnateurs", metier.listAccompagnateurs(0, 4));
+		mv.addObject("accompagnateurs", metier.listAccompagnateurs());
 		mv.addObject("exception", ex.getMessage());
 		mv.setViewName("accompagnateursListe");
 		return mv;

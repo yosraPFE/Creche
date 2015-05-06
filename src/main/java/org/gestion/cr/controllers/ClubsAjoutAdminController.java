@@ -2,10 +2,13 @@ package org.gestion.cr.controllers;
 
 import java.io.IOException;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import org.gestion.cr.entities.Clubs;
+
+import org.gestion.cr.entities.Club;
+
 import org.gestion.cr.metier.IAdminMetier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,9 +37,9 @@ public class ClubsAjoutAdminController implements HandlerExceptionResolver
 	public String index(Model model)
 	{
 		model.addAttribute("CategorieClubs",metier.listCategorieClubs());
-		model.addAttribute("inscriptions",metier.listInscriptions());
 		
-		model.addAttribute("club", new Clubs());
+		
+		model.addAttribute("club", new Club());
 		
 		
 		return "clubsAjout";
@@ -46,7 +49,7 @@ public class ClubsAjoutAdminController implements HandlerExceptionResolver
 	
 	
 	@RequestMapping(value="/ajouterClub")
-	public String ajouterClub(@Valid Clubs club,BindingResult bindingResult,
+	public String ajouterClub(@Valid Club club,BindingResult bindingResult,
 			Model model) throws IOException
 	{
 		
@@ -55,19 +58,22 @@ public class ClubsAjoutAdminController implements HandlerExceptionResolver
 		if(bindingResult.hasErrors())
 		{
 			model.addAttribute("CategorieClubs",metier.listCategorieClubs());
-			model.addAttribute("inscriptions",metier.listInscriptions());
-			model.addAttribute("club", new Clubs());
+			
+			model.addAttribute("club", new Club());
 			return("clubsAjout");
 		}
 		
-		model.addAttribute("CategorieClubs",metier.listCategorieClubs());
-		model.addAttribute("inscriptions",metier.listInscriptions());
 		
-		Long idClubs = metier.ajouterClubs(club, club.getCategorieClub().getIdCateg(), club.getInscription().getIdinscription());
+		
+		model.addAttribute("CategorieClubs",metier.listCategorieClubs());
+	
+		
+		
+		Long idClubs = metier.ajouterClubs(club, club.getCategorieClub().getIdCategorie());
 		
 		model.addAttribute("clubAjoute",metier.getClubs(idClubs));
 		
-		model.addAttribute("club", new Clubs());
+		model.addAttribute("club", new Club());
 		
 	
 	return "clubsAjout";
@@ -81,7 +87,7 @@ public class ClubsAjoutAdminController implements HandlerExceptionResolver
 	{
 		
 		ModelAndView mv=new ModelAndView();
-		mv.addObject("club", new Clubs());
+		mv.addObject("club", new Club());
 		
 		mv.addObject("exception", ex.getMessage());
 		mv.setViewName("clubsAjout");

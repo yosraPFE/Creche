@@ -5,7 +5,9 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
 import org.gestion.cr.entities.Inscription;
+import org.gestion.cr.entities.InscriptionId;
 import org.gestion.cr.metier.IAdminMetier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +27,7 @@ public class InscriptionsListeAdminController implements HandlerExceptionResolve
 	 *
 	 */
 	private int page = 0;
-	private int nbrLignesInscriptions = 4;
+	private int nbrLignesInscriptions = 5;
 	private int nbrPages;
 
 	@Autowired
@@ -75,14 +77,14 @@ public class InscriptionsListeAdminController implements HandlerExceptionResolve
 			chargerModel(model);
 			return ("inscriptionsListe");
 		}
-		Long ref = insc.getIdinscription();
+		//long ref = insc.getId();
 		String referrerAffiliateId = null;
-		if (ref != null) 
+		//if (ref != null) 
 		{
-			referrerAffiliateId = Long.toString(ref);
+			//referrerAffiliateId = Long.toString(ref);
 			
 			
-			metier.modifierInscriptions(insc);
+			//metier.modifierInscriptions(insc);
 			model.addAttribute("inscription", new Inscription());
 			chargerModel(model);
 		}
@@ -92,8 +94,8 @@ public class InscriptionsListeAdminController implements HandlerExceptionResolve
 	@RequestMapping(value = "/modifierListeInscription")
 	public String modifierListeInscription(Long idInscription, Model model) {
 		
-		Inscription insc = metier.getInscription(idInscription);
-		model.addAttribute("inscription", insc);
+	//	Inscription insc = metier.getInscription(idInscription);
+		//model.addAttribute("inscription", insc);
 
 		chargerModel(model);
 
@@ -107,7 +109,7 @@ public class InscriptionsListeAdminController implements HandlerExceptionResolve
 			Model model) {
 
 		setPage(page);
-		metier.supprimerInscriptions(idInscription);
+		//metier.supprimerInscriptions(idInscription);
 		model.addAttribute("inscription", new Inscription());
 		chargerModel(model);
 
@@ -142,7 +144,7 @@ public class InscriptionsListeAdminController implements HandlerExceptionResolve
 			HttpServletResponse response, Object arg2, Exception ex) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("inscription", new Inscription());
-		mv.addObject("inscriptions", metier.listInscriptions(0, 4));
+		mv.addObject("inscriptions", metier.listInscriptions(0, 5));
 		mv.addObject("exception", ex.getMessage());
 		mv.setViewName("inscriptionsListe");
 		return mv;

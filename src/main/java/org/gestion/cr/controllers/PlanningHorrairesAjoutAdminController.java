@@ -33,7 +33,7 @@ public class PlanningHorrairesAjoutAdminController  implements HandlerExceptionR
 	@RequestMapping(value="/index")
 	public String index(Model model)
 	{
-		model.addAttribute("genrePlannings",metier.listGenrePlanning());
+	
 		model.addAttribute("planningHorraire", new PlanningHorraires());
 		
 		
@@ -50,13 +50,13 @@ public class PlanningHorrairesAjoutAdminController  implements HandlerExceptionR
 		
 		if(bindingResult.hasErrors())
 		{
-			model.addAttribute("genrePlannings",metier.listGenrePlanning());
+			
 			model.addAttribute("planningHorraire", new PlanningHorraires());
 			return("planningHorrairesAjout");
 		}
 		
-		model.addAttribute("genrePlannings",metier.listGenrePlanning());
-		Long idPlanningHorraire = metier.ajouterPlanningHorraires(plHo, plHo.getGenresPlannings().getIdGenrePlanning());
+		
+		Long idPlanningHorraire = metier.ajouterPlanningHorraires(plHo);
 		
 		model.addAttribute("planningHorraireAjoute",metier.getPlanningHorraires(idPlanningHorraire));
 		

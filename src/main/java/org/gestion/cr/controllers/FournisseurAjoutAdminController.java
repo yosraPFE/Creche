@@ -53,15 +53,13 @@ public class FournisseurAjoutAdminController implements HandlerExceptionResolver
 			return("fournisseursAjout");
 		}
 		
-		
+		Long idFournisseur  = metier.ajouterFournisseur(four);
 		
 		if(!file.isEmpty())
 		{
 			
 			
 			String path = "C:/Users/YOSRA/Desktop/PFE/ImagesFournisseurs";
-			
-			Long idFournisseur  = metier.ajouterFournisseur(four);
 			file.transferTo(new File(path+"/"+"FOURNISSEUR_" + idFournisseur + "_" + file.getOriginalFilename()));
 			four.setNomPhoto(path+"/"+"FOURNISSEUR_" +idFournisseur + "_" + file.getOriginalFilename());
 			metier.modifierFournisseur(four);

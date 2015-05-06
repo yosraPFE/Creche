@@ -1,110 +1,78 @@
 package org.gestion.cr.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class PlanningHorraires implements Serializable
-{
-	/**
-	 * 
-	 * @author YOSRA
-	 *
-	 */
-	
+public class PlanningHorraires implements Serializable {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	
-	private long idPlanning;
-	
-	
-	
-	
-	
-	private double prix;
-	
-	
-	
-	@ManyToMany(mappedBy="planningHorraires") 
-    private Collection<Inscription> inscriptions;
-	
-	
-	@ManyToOne
-	@JoinColumn(name="idGenrePlanning")
-	private GenrePlanning genresPlannings;
-	
-	//generation du guetteurs et du setteurs
-	
-	
-	public long getIdPlanning() {
-		return idPlanning;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long idPlanningH;
+	private String typePlanning;
+	private double prixPlanning;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id.planningHorraires", cascade = CascadeType.ALL)
+	private Set<PlanningEnfant> planningEnfant = new HashSet<PlanningEnfant>(0);
+
+	/*
+	 * @ManyToMany(mappedBy="planningHorraires") private Set<Enfant> enfants =
+	 * new HashSet<Enfant>();
+	 */
+
+	public PlanningHorraires() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public void setIdPlanning(long idPlanning) {
-		this.idPlanning = idPlanning;
+	public Long getIdPlanningH() {
+		return idPlanningH;
 	}
 
-	
-
-	public double getPrix() {
-		return prix;
+	public void setIdPlanningH(Long idPlanningH) {
+		this.idPlanningH = idPlanningH;
 	}
 
-	public void setPrix(double prix) {
-		this.prix = prix;
+	public String getTypePlanning() {
+		return typePlanning;
 	}
 
-	
-	
-	
-	
-	public GenrePlanning getGenresPlannings() {
-		return genresPlannings;
+	public void setTypePlanning(String typePlanning) {
+		this.typePlanning = typePlanning;
 	}
 
-	public void setGenresPlannings(GenrePlanning genresPlannings) {
-		this.genresPlannings = genresPlannings;
-	}
-	
-	
-
-	public Collection<Inscription> getInscriptions() {
-		return inscriptions;
+	public double getPrixPlanning() {
+		return prixPlanning;
 	}
 
-	public void setInscriptions(Collection<Inscription> inscriptions) {
-		this.inscriptions = inscriptions;
+	public void setPrixPlanning(double prixPlanning) {
+		this.prixPlanning = prixPlanning;
 	}
 
-	//generation du constructeur sans parametres
-	public PlanningHorraires() 
-	{
+	public Set<PlanningEnfant> getPlanningEnfant() {
+		return planningEnfant;
+	}
+
+	public void setPlanningEnfant(Set<PlanningEnfant> planningEnfant) {
+		this.planningEnfant = planningEnfant;
+	}
+
+	public PlanningHorraires(String typePlanning, double prixPlanning) {
 		super();
-		
+		this.typePlanning = typePlanning;
+		this.prixPlanning = prixPlanning;
 	}
 
-	//generation du constructeur avec parametres
-	public PlanningHorraires( double prix) 
-	{
-		super();
-		
-		this.prix = prix;
-	}
+	
+	
 	
 
 }

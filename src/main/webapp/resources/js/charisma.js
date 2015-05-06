@@ -276,7 +276,7 @@ function docReady() {
         "sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'i><'col-md-12 center-block'p>>",
         "sPaginationType": "bootstrap",
         "oLanguage": {
-            "sLengthMenu": " "
+            "sLengthMenu": "_MENU_ records per page"
         }
     });
     $('.btn-close').click(function (e) {
@@ -371,7 +371,10 @@ $.extend($.fn.dataTableExt.oPagination, {
             };
 
             $(nPaging).addClass('pagination').append(
-                ''
+                '<ul class="pagination">' +
+                    '<li class="prev disabled"><a href="#">&larr; ' + oLang.sPrevious + '</a></li>' +
+                    '<li class="next disabled"><a href="#">' + oLang.sNext + ' &rarr; </a></li>' +
+                    '</ul>'
             );
             var els = $('a', nPaging);
             $(els[0]).bind('click.DT', { action: "previous" }, fnClickHandler);

@@ -1,4 +1,4 @@
-package org.gestion.cr.controllers;
+/*package org.gestion.cr.controllers;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,44 +29,18 @@ public class CrecheListeAdminController implements HandlerExceptionResolver
 	 * @author YOSRA
 	 *
 	 */
-	private int page = 0;
-	private int nbrLignesCreches = 4;
-	private int nbrPages;
-
+	
+/*
 	@Autowired
 	private IAdminMetier metier;
 
-	public int getPage() {
-		return page;
-	}
-
-	public void setPage(int page) {
-		this.page = page;
-	}
-
 	
-
-	public int getNbrLignesCreches() {
-		return nbrLignesCreches;
-	}
-
-	public void setNbrLignesCreches(int nbrLignesCreches) {
-		this.nbrLignesCreches = nbrLignesCreches;
-	}
-
-	public int getNbrPages() {
-		return nbrPages;
-	}
-
-	public void setNbrPages(int nbrPages) {
-		this.nbrPages = nbrPages;
-	}
 
 	// index
 	@RequestMapping(value = "/index")
 	public String index(Model model) {
 		model.addAttribute("creche", new Creche());
-		chargerModel(model);
+		model.addAttribute("creches", metier.listCreches());
 		return "crechesListe";
 
 	}
@@ -77,17 +51,17 @@ public class CrecheListeAdminController implements HandlerExceptionResolver
 			throws IOException 
 	  {
 		if (bindingResult.hasErrors()) {
-			chargerModel(model);
+			model.addAttribute("creches", metier.listCreches());
 			return ("crechesListe");
 		}
-		Long ref = crech.getIdCreche();
+		Long ref = crech.getId();
 		String referrerAffiliateId = null;
 		if (ref != null) 
 		{
 			referrerAffiliateId = Long.toString(ref);
 			if (file.isEmpty()) 
 			{
-				Creche creche = metier.getCreche(crech.getIdCreche());
+				//Creche creche = metier.getCreche(crech.getIdCreche());
 				crech.setNomPhoto(creche.getNomPhoto());
 			} 
 			else 
@@ -102,7 +76,7 @@ public class CrecheListeAdminController implements HandlerExceptionResolver
 			}
 			metier.modifierCreche(crech);
 			model.addAttribute("creche", new Creche());
-			chargerModel(model);
+			model.addAttribute("creches", metier.listCreches());
 		}
 		return "crechesListe";
 	}
@@ -112,7 +86,7 @@ public class CrecheListeAdminController implements HandlerExceptionResolver
 		Creche crech = metier.getCreche(idCreche);
 		model.addAttribute("creche", crech);
 
-		chargerModel(model);
+		model.addAttribute("creches", metier.listCreches());
 
 		return "crechesListe";
 	}
@@ -130,35 +104,15 @@ public class CrecheListeAdminController implements HandlerExceptionResolver
 	public String supprimerListeCreche(Long idCreche,
 			Model model) {
 
-		setPage(page);
+	
 		metier.supprimerCreche(idCreche);
 		model.addAttribute("creche", new Creche());
-		chargerModel(model);
+		model.addAttribute("creches", metier.listCreches());
 
 		return "crechesListe";
 	}
 
-	@RequestMapping(value = "chargerModel")
-	public void chargerModel(Model model) {
-
-		int pos = getNbrLignesCreches() * getPage();
-		long nbAc = metier.getNombreCreches();
-		setNbrPages((int) (nbAc / getNbrLignesCreches()) + 1);
-
-		model.addAttribute("nbrPages", getNbrPages());
-		model.addAttribute("page", getPage());
-		model.addAttribute("creches",
-				metier.listCreches(pos, getNbrLignesCreches()));
-
-	}
-
-	@RequestMapping(value = "/indexPage")
-	public String changerPage(Model model, int page) {
-		setPage(page);
-		model.addAttribute("creche", new Creche());
-		chargerModel(model);
-		return "crechesListe";
-	}
+	
 
 	@RequestMapping
 	@Override
@@ -166,11 +120,11 @@ public class CrecheListeAdminController implements HandlerExceptionResolver
 			HttpServletResponse response, Object arg2, Exception ex) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("creche", new Creche());
-		mv.addObject("creches", metier.listCreches(0, 4));
+		mv.addObject("creches", metier.listCreches());
 		mv.addObject("exception", ex.getMessage());
 		mv.setViewName("crechesListe");
 		return mv;
 	}
 
 
-}
+}*/

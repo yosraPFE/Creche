@@ -42,7 +42,7 @@ public class AccompagnateurAjoutAdminController implements HandlerExceptionResol
 		model.addAttribute("accompagnateur", new Accompagnateur());
 		
 		
-		return "accompagnateursAjout";
+		return "xxxaccompagnateursAjout";
 		
 	}
 	
@@ -56,7 +56,7 @@ public class AccompagnateurAjoutAdminController implements HandlerExceptionResol
 		if(bindingResult.hasErrors())
 		{
 			model.addAttribute("accompagnateur", new Accompagnateur());
-			return("accompagnateursAjout");
+			return("xxxaccompagnateursAjout");
 		}
 		
 		
@@ -83,7 +83,7 @@ public class AccompagnateurAjoutAdminController implements HandlerExceptionResol
 		
 		
 	
-	return "accompagnateursAjout";
+	return "xxxaccompagnateursAjout";
 	}
 	
 	@RequestMapping(value="photoAccomp",produces=MediaType.IMAGE_JPEG_VALUE)
@@ -107,7 +107,7 @@ public class AccompagnateurAjoutAdminController implements HandlerExceptionResol
 		mv.addObject("accompagnateur", new Accompagnateur());
 		
 		mv.addObject("exception", ex.getMessage());
-		mv.setViewName("accompagnateursAjout");
+		mv.setViewName("xxxaccompagnateursAjout");
 		
 		return mv;
 	}

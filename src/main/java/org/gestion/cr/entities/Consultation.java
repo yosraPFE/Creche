@@ -1,154 +1,93 @@
 package org.gestion.cr.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.Column;
+import javax.persistence.AssociationOverride;
+import javax.persistence.AssociationOverrides;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+
+import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-public class Consultation implements Serializable
-{
-	/**
-	 * 
-	 * @author YOSRA
-	 *
-	 */
-	
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	
-	private long idConsultation;
-	
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-	private Date date;
-	private float tailleEnfant;
-	private float poidsEnfants;
+@AssociationOverrides({
+		@AssociationOverride(name = "id.equipeSanitaire", joinColumns = @JoinColumn(name = "idequipeSanitaire")),
+		@AssociationOverride(name = "id.enfant", joinColumns = @JoinColumn(name = "idenfant")) })
+public class Consultation implements Serializable {
+
+	@EmbeddedId
+	private ConsultationId id = new ConsultationId();
+
+
+
 	private String description;
+
 	
+
+	public Consultation() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Consultation(String description
+			) {
+		super();
+		
+		this.description = description;
+		
+	}
+
+	public ConsultationId getId() {
+		return id;
+	}
+
+	public void setId(ConsultationId id) {
+		this.id = id;
+	}
+
 	
-	@ManyToMany
-	@JoinTable(name="CONSULT_ENFANT_EqSANI",joinColumns=@JoinColumn(name="idConsultation")
-	,inverseJoinColumns=@JoinColumn(name="ID_ENFANT"))
-	private Collection<Enfant> enfants;
-	
-	
-	@ManyToMany(mappedBy="consultations") 
-    private Collection<EquipeSanitaire> equipeSanitaires ;
 
-    //generation des guetteurs et des setteurs
-	public long getIdConsultation() 
-	{
-		return idConsultation;
-	}
-
-
-	public void setIdConsultation(long idConsultation) 
-	{
-		this.idConsultation = idConsultation;
-	}
-
-
-	public Date getDate() 
-	{
-		return date;
-	}
-
-
-	public void setDate(Date date)
-	{
-		this.date = date;
-	}
-
-
-	public float getTailleEnfant()
-	{
-		return tailleEnfant;
-	}
-
-
-	public void setTailleEnfant(float tailleEnfant) 
-	{
-		this.tailleEnfant = tailleEnfant;
-	}
-
-
-	public float getPoidsEnfants() 
-	{
-		return poidsEnfants;
-	}
-
-
-	public void setPoidsEnfants(float poidsEnfants) 
-	{
-		this.poidsEnfants = poidsEnfants;
-	}
- 
-	
 
 	public String getDescription() {
 		return description;
 	}
 
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-
-	public Collection<Enfant> getEnfants() 
-	{
-		return enfants;
+	@Transient
+	public EquipeSanitaire getEquipeSanitaire() {
+		return getId().getEquipeSanitaire();
 	}
 
-
-	public void setEnfants(Collection<Enfant> enfants)
-	{
-		this.enfants = enfants;
+	public void setEquipeSanitaire(EquipeSanitaire equipeSanitaire) {
+		getId().setEquipeSanitaire(equipeSanitaire);
 	}
 
-
-	public Collection<EquipeSanitaire> getEquipeSanitaires() 
-	{
-		return equipeSanitaires;
+	@Transient
+	public Enfant getEnfant() {
+		return getId().getEnfant();
 	}
 
-
-	public void setEquipeSanitaires(Collection<EquipeSanitaire> equipeSanitaires) 
-	{
-		this.equipeSanitaires = equipeSanitaires;
+	public void setEnfant(Enfant enfant) {
+		getId().setEnfant(enfant);
 	}
 
-   //Generation des constructeurs sans parametres
-	public Consultation() 
-	{
-		super();
-		
+	@Transient
+	public String getDate() {
+		return getId().getDate();
 	}
 
-	//Generation des constructeurs avec parametres
-
-
-	public Consultation(Date date, float tailleEnfant, float poidsEnfants,
-			String description) {
-		super();
-		this.date = date;
-		this.tailleEnfant = tailleEnfant;
-		this.poidsEnfants = poidsEnfants;
-		this.description = description;
+	public void setDate(String date) {
+		getId().setDate(date);
 	}
-	
+
 	
 
 }

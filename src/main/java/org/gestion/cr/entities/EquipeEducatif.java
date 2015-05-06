@@ -1,90 +1,118 @@
 package org.gestion.cr.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
+
+
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.persistence.OneToMany;
 
 @Entity
-@DiscriminatorValue("Equipe_Educatif")
-public class EquipeEducatif extends Equipe implements Serializable
-{
-	/**
-	 * 
-	 * @author YOSRA
-	 *
-	 */
+public class EquipeEducatif extends Equipe implements Serializable {
+
+	public EquipeEducatif() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public EquipeEducatif(String nom, String prenom, String nomPhoto,
+			 String dateNaissance, String lieuNaissance,
+			String sexe, String adresseDomicile, String nomUtilisateur,
+			String motPasse) {
+		super(nom, prenom, nomPhoto,  dateNaissance, lieuNaissance, sexe,
+				adresseDomicile, nomUtilisateur, motPasse);
+		// TODO Auto-generated constructor stub
+	}
 	
+
+	/*
+	@ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name="EqEducatif_CategorieClub", 
+                joinColumns={@JoinColumn(name="idEqEducatif")}, 
+                inverseJoinColumns={@JoinColumn(name="idCategorie")})
+	private Set<CategorieClub> categorieClubs = new HashSet<CategorieClub>();*/
+   
+	
+	
+/*
+	@ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name="EqEducatif_Classe", 
+                joinColumns={@JoinColumn(name="idEqEducatif")}, 
+                inverseJoinColumns={@JoinColumn(name="idClasse")})
+    private Set<Classe> classes = new HashSet<Classe>();*/
+	
+	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id.equipeEducatif", cascade=CascadeType.ALL)
+	private Set<MatrielUtiliser> materielEqEducatif = new HashSet<MatrielUtiliser>(0);
+	
+	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id.equipeEducatif", cascade=CascadeType.ALL)
+	private Set<ClasseEquipeEducatif> classeEquipeEducatif = new HashSet<ClasseEquipeEducatif>(0);
+	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id.equipeEducatif", cascade=CascadeType.ALL)
+	private Set<CategorieClubEquipeEducatif> categorieClubEquipeEducatif = new HashSet<CategorieClubEquipeEducatif>(0);
+
+
+
+
 	@ManyToOne
 	@JoinColumn(name="idFonction")
-	private Fonction fonction;
+		private Fonction fonction;
+
+
 	
-	
-	
-	@ManyToMany
-	@JoinTable(name="EQEDU_CLASS",joinColumns=@JoinColumn(name="ID_EQ_EDU"),
-	inverseJoinColumns=@JoinColumn(name="idClass"))
-	private Collection<Classe> classes;
-	
-	
-    //generation des guetteurs et des setteurs
-	public Fonction getFonction() 
-	{
+
+	public Set<ClasseEquipeEducatif> getClasseEquipeEducatif() {
+		return classeEquipeEducatif;
+	}
+
+	public void setClasseEquipeEducatif(
+			Set<ClasseEquipeEducatif> classeEquipeEducatif) {
+		this.classeEquipeEducatif = classeEquipeEducatif;
+	}
+
+	public Fonction getFonction() {
 		return fonction;
 	}
 
-	public void setFonction(Fonction fonction)
-	{
-		this.fonction = fonction;	
-	}
-	public Collection<Classe> getClasses() 
-	{
-		return classes;
+	public void setFonction(Fonction fonction) {
+		this.fonction = fonction;
 	}
 
-	public void setClasses(Collection<Classe> classes) 
-	{
-		this.classes = classes;
+	public Set<MatrielUtiliser> getMaterielEqEducatif() {
+		return materielEqEducatif;
 	}
+
+	public void setMaterielEqEducatif(Set<MatrielUtiliser> materielEqEducatif) {
+		this.materielEqEducatif = materielEqEducatif;
+	}
+
+	public Set<CategorieClubEquipeEducatif> getCategorieClubEquipeEducatif() {
+		return categorieClubEquipeEducatif;
+	}
+
+	public void setCategorieClubEquipeEducatif(
+			Set<CategorieClubEquipeEducatif> categorieClubEquipeEducatif) {
+		this.categorieClubEquipeEducatif = categorieClubEquipeEducatif;
+	}
+
 	
 	
 
 	
 
-	//generation du constructeur sans parametres
-	public EquipeEducatif() 
-	{
-		super();
-		
-	}
-	  //generation du constructeur avec parametres
-
-	public EquipeEducatif(String nom, String prenom, byte[] photo,
-			String nomPhoto, String dateNaissance, String lieuNaissance,
-			String sexe, String adresseDomicile, String nomUtilisateur,
-			String motPasse) {
-		super(nom, prenom, photo, nomPhoto, dateNaissance, lieuNaissance, sexe,
-				adresseDomicile, nomUtilisateur, motPasse);
-	}
-
-	@Override
-	public String toString() {
-		
-		return "Equipe Educatif";
-	}
-	
-	
 }

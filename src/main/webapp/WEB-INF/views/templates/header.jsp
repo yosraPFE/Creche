@@ -1,5 +1,5 @@
 
-    <!-- !!!!!!!!!!! -->
+ 
 
 <!-- The styles table and menu -->
 <link id="<%=request.getContextPath()%>/resources/bs-css"

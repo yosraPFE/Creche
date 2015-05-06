@@ -2,6 +2,8 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="f"%>
 
 
+
+
 <html>
 <head>
 
@@ -9,9 +11,78 @@
 
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/resources/css1/styl.css">
+	
+	
 
 <!-- header -->
 <%@ include file="/WEB-INF/views/templates/header.jsp"%>
+
+
+<!--  -->
+
+<link href='<%=request.getContextPath()%>/resources/css/jquery.ui.css'
+	rel='stylesheet'>
+<!-- jQuery -->
+<script
+	src="<%=request.getContextPath()%>/resources/bower_components/jquery/jquery.min.js"></script>
+
+<!-- jQuery -->
+<script
+	src="<%=request.getContextPath()%>/resources/bower_components/jquery/jquery.min.js"></script>
+	
+	
+	<link
+	href="<%=request.getContextPath()%>/resources/css/bootstrap-cerulean.min.css"
+	rel="stylesheet">
+<link
+	href="<%=request.getContextPath()%>/resources/css/charisma-app.css"
+	rel="stylesheet">
+<link
+	href="<%=request.getContextPath()%>/resources/bower_components/fullcalendar/dist/fullcalendar.css"
+	rel="stylesheet">
+<link
+	href="<%=request.getContextPath()%>/resources/bower_components/fullcalendar/dist/fullcalendar.print.css"
+	rel="stylesheet" media="print">
+<link
+	href="<%=request.getContextPath()%>/resources/bower_components/chosen/chosen.min.css"
+	rel="stylesheet">
+<link
+	href="<%=request.getContextPath()%>/resources/bower_components/colorbox/example3/colorbox.css"
+	rel="stylesheet">
+  <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/jquery-ui.css">
+
+<link
+	href="<%=request.getContextPath()%>/resources/bower_components/responsive-tables/responsive-tables.css"
+	rel='stylesheet'>
+<link
+	href='<%=request.getContextPath()%>/resources/bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css'
+	rel='stylesheet'>
+<link href='<%=request.getContextPath()%>/resources/css/jquery.noty.css'
+	rel='stylesheet'>
+<link
+	href='<%=request.getContextPath()%>/resources/css/noty_theme_default.css'
+	rel='stylesheet'>
+<link
+	href='<%=request.getContextPath()%>/resources/css/elfinder.min.css'
+	rel='stylesheet'>
+<link
+	href='<%=request.getContextPath()%>/resources/css/elfinder.theme.css'
+	rel='stylesheet'>
+<link
+	href='<%=request.getContextPath()%>/resources/css/jquery.iphone.toggle.css'
+	rel='stylesheet'>
+<link href='<%=request.getContextPath()%>/resources/css/uploadify.css'
+	rel='stylesheet'>
+<link href='<%=request.getContextPath()%>/resources/css/animate.min.css'
+	rel='stylesheet'>
+
+<link href='<%=request.getContextPath()%>/resources/css/jquery.ui.css'
+	rel='stylesheet'>
+<!-- jQuery -->
+<script
+	src="<%=request.getContextPath()%>/resources/bower_components/jquery/jquery.min.js"></script>
+
+
 
 <title>Liste Enfants</title>
 </head>
@@ -26,6 +97,42 @@
 
 
 
+   
+
+
+
+ 
+ 
+<c:if test="${InscriAjoute == 0}">									
+
+<div  id="p" title="Affectation Enfant à une Classe">
+    <p>Echec! L'enfant est deja affecter à une classe </p>
+</div>
+</c:if>
+
+
+<!--  
+<div  id="p" title="Affectation Enfant à une Classe">
+    <p>Echec! L'enfant est deja affecter à une classe </p>
+</div>-->
+
+
+
+<c:if test="${ConsuAjoute == 1}">									
+
+<div  id="p" title="Affectation Enfant à une Classe">
+    <p>Succés! L'enfant a realisé une consultation</p>
+</div>
+
+</c:if>
+
+
+
+
+
+
+
+
 	<!-- table -->
 
 
@@ -34,9 +141,33 @@
 
 
 		<div id="content" class="col-lg-10 col-sm-10">
+<ul class="breadcrumb">
 
-
-			<div></div>
+			<a class="btn btn-info btn-round btn-lg" href="<c:url value="/adminEnf/index"/>"> <strong><i
+									class=" glyphicon glyphicon-user"> </i> Liste Enfants</strong></a>
+									
+									
+									<a class="btn btn-primary btn-round btn-lg" href="<c:url value="/adminEF2/index"/>"> <strong><i
+									class="glyphicon glyphicon-plus"> </i> Nouveau Enfant</strong></a>
+									
+									
+									<a class="btn btn-primary btn-round btn-lg" href="<c:url value="/adminEnfClubPlanning/index"/>"> <strong><i
+									class=" glyphicon glyphicon-music"> </i> <i
+									class=" glyphicon glyphicon-time"> </i> Clubs et Planning Horraires</strong></a>
+									
+									
+								
+									
+									<a class="btn btn-primary btn-round btn-lg" href="<c:url value="/adminEnfEven/index"/>"> <strong><i
+									class="glyphicon glyphicon-screenshot"> </i> Evennements</strong></a>
+									
+									
+									<a class="btn btn-primary btn-round btn-lg" href="<c:url value="/adminEnfConsulta/index"/>"> <strong><i
+									class="glyphicon glyphicon-filter"> </i> Consultations Medicales</strong></a>
+									
+							</ul>		
+									
+									
 
 			<div class="row">
 				<div class="box col-md-12">
@@ -58,12 +189,14 @@
 
 							</div>
 						</div>
-						<c:if test="${enfant.idPerson!=0}">
+						<c:if test="${enfant.idPerson!=null}">
 							<div class="box-content" style="display: none;">
 						</c:if>
-						<c:if test="${enfant.idPerson==0}">
+						<c:if test="${enfant.idPerson==null}">
 							<div class="box-content">
 						</c:if>
+						
+						
 
 						<table
 							class="table table-striped table-bordered bootstrap-datatable datatable responsive">
@@ -71,37 +204,38 @@
 								<tr>
 									<!--  <th >Id</th>-->
 									<th>Photo</th>
-									<th>Nom</th>
-									<th>Prenom</th>
-									<th>Date Naissance</th>
+									<th style="width: 182px;">Nom & Prenom</th>
+									<th >Classe </th>
+									<th style="width: 250px;">Date D'Inscription</th>
+									
+									<!--  <th>Date de Naissance</th>-->
 									<th>Certifié?</th>
 									<th>Autorisé photos?</th>
-									<th>Situation Parentale</th>
-									<th>Actions</th>
+									
+									
+									<th style="width: 300px;">Actions</th>
 
 								</tr>
 							</thead>
 
 							<tbody>
 
-								<c:forEach items="${enfants}" var="en">
+								<c:forEach items="${enfants}" var="en" varStatus="cpt">
 									<tr>
 
-
-
-
-
-
-										<!--  <td>${en.idPerson}</td>-->
+			
 
 										<td width=100px><img
 											src="photoEnf?idEnfant=${en.idPerson}" class="images_petit"
 											title="Cliquer pour voir la photo" data-toggle="tooltip"
 											onclick="window.open('photoEnf?idEnfant=${en.idPerson}','nom_de_ma_popup','menubar=no, scrollbars=no, top=100, left=100, width=400, height=500')"
 											class="images_petit" /></td>
-										<td class="center">${en.nom}</td>
-										<td class="center">${en.prenom}</td>
-										<td class="center">${en.dateNaissance}</td>
+										<td class="center">${en.nom}
+										${en.prenom}</td>
+										
+										<td class="center">${listNomsClassesFn[cpt.index]} </td>
+										<td class="center">${listDatesInscriptions[cpt.index]}</td>
+										<!--  <td class="center">${en.dateNaissance}</td>-->
 
 
 										<c:if test="${en.certificatMedicale==true}">
@@ -137,22 +271,93 @@
 
 
 
-										<td class="center">${en.situationParentale}</td>
+										
 
-										<td><a class="btn btn-danger" title="Supprimer Enfant"
+										<td>
+										
+										
+										
+										 
+										 
+										 <a  class="btn btn-success" title="Affichage Details"
+											data-toggle="tooltip" href="<c:url value="/adminDetail/detailEnfant?idEnf=${en.idPerson}"/>">
+											
+													<i class="glyphicon glyphicon-zoom-in icon-white"></i>
+										
+										</a>
+										 
+										 
+										
+										 
+										 
+										 
+										 
+										
+										
+										 <a class="btn btn-info" title="Modification"
+											data-toggle="tooltip"
+											href="modifierListeEnfant?idEnfant=${en.idPerson}"
+											onclick="modifierListeEnfant?idEnfant=${en.idPerson}"> <i
+												class="glyphicon glyphicon-edit icon-white"></i>
+														
+										 </a> 
+										 
+										  
+										 
+										 
+										
+										
+										<c:if test="${listDatesInscriptions[cpt.index]=='Pas Inscrit'}">
+										
+										
+										<a  class="btn btn-warning" title="Affectation  d'une inscription"
+											data-toggle="tooltip" href="<c:url value="/inscription/affecterEnfantAClasse?idEnf=${en.idPerson}"/>">
+											
+													<i class="glyphicon glyphicon-briefcase"></i>
+										
+										</a></c:if>
+										
+										
+										
+										  
+										
+										<a  class="btn btn-primary" title="Paiement  Mensuel "
+											data-toggle="tooltip" href="<c:url value="/adminPay/loadPayments?idEnf=${en.idPerson}"/>">
+											
+													<i class="glyphicon glyphicon-usd"></i>
+										
+										</a>
+										
+										
+										
+										
+										
+										
+										 
+										
+										<a class="btn btn-danger" title="suppression "
 											data-toggle="tooltip"
 											href="supprimerListeEnfant?idEnfant=${en.idPerson}"
 											onclick="return confirm('Êtes-vous sûr de vouloir supprimer ${en.nom} ${en.prenom} ?');">
 												<i class="glyphicon glyphicon-trash icon-white"></i>
-										</a> <a class="btn btn-info" title="Modifier Enfant"
-											data-toggle="tooltip"
-											href="modifierListeEnfant?idEnfant=${en.idPerson}"
-											onclick="modifierListeEnfant?idEnfant=${en.idPerson}"> <i
-												class="glyphicon glyphicon-edit icon-white"></i></a> <a
-											class="btn btn-success" title="Voir details"
-											data-toggle="tooltip" href="#"> <i
-												class="glyphicon glyphicon-zoom-in icon-white"></i></a></td>
+										</a>
+										
+										
+									
+										
+												
+												
+										
+										
+										</td>
 									</tr>
+									
+									
+									
+									
+									
+									
+									
 								</c:forEach>
 							</tbody>
 
@@ -162,51 +367,16 @@
 
 
 
-
-
-						<div style="text-align: center">
-
-
-							<c:if test="${page!=0}">
-
-								<span> <a class="btn btn-primary btn-xs"
-									href="indexPage?page=${page-1}"><< Précédent</a>
-								</span>
-							</c:if>
-							<c:forEach begin="0" end="${nbrPages-1}" var="p">
-
-
-
-								<c:choose>
-
-									<c:when test="${(p)==page}">
-										<span><a class="btn btn-info btn-xs">Page ${p+1}</a></span>
-									</c:when>
-									<c:otherwise>
-
-										<span> <a class="btn btn-primary btn-xs"
-											href="indexPage?page=${p}">Page ${p+1}</a>
-										</span>
-
-									</c:otherwise>
-
-								</c:choose>
-							</c:forEach>
-
-							<c:if test="${page!=nbrPages-1}">
-
-								<span> <a class="btn btn-primary btn-xs"
-									href="indexPage?page=${page+1}">Suivant >></a>
-								</span>
-							</c:if>
-
-						</div>
+ 
 
 					</div>
 
 
 
-					<c:if test="${enfant.idPerson!=0}">
+					<c:if test="${enfant.idPerson != null}">
+
+
+
 						<div id="content" class="col-lg-12 col-sm-12">
 							<!-- content starts -->
 							<div></div>
@@ -217,8 +387,9 @@
 										<div class="box-header well" data-original-title="">
 											<h2>
 												<i class="glyphicon glyphicon-pencil"></i> <font
-													color="#8C001A">Modification de l'Enfant :
-													${enfant.nom} ${enfant.prenom}</font>
+													color="#8C001A">Modification de l'Enfant :</font> <font
+													color="#000099">
+													${enfant.nom}  ${enfant.prenom} </font>
 											</h2>
 
 
@@ -247,29 +418,38 @@
 
 
 
+                   
+                
 
 													<tr>
-														<td> <i class="glyphicon glyphicon-tag  blue">
-									</i><font color="#585858"><strong> Nom
-																	: * </strong></font></td>
-														<td><f:input path="nom" /></td>
-														<td><f:errors path="nom" cssClass="errors" /></td>
+														<td><i class="glyphicon glyphicon-tag  blue"> </i><font
+															color="#585858"><strong> Nom : * </strong></font></td>
+														<td><f:input path="nom"   class="form-control" /></td>
+														
+														
+														<td> <f:errors path="nom" cssClass="errors" /></td>
 													</tr>
+													
+													
+													
+													
+													
+													
+						
 
 													<tr>
-														<td> <i class="glyphicon glyphicon-barcode  blue">
-									</i> <font color="#585858"><strong> Prenom
-																	: *</strong></font></td>
-														<td><f:input path="prenom" /></td>
+														<td><i class="glyphicon glyphicon-tags  blue">
+														</i> <font color="#585858"><strong> Prenom : *</strong></font></td>
+														<td><f:input path="prenom"  class="form-control"/></td>
 														<td><f:errors path="prenom" cssClass="errors" /></td>
 													</tr>
 
 
 													<tr>
-														<td> <i class="glyphicon glyphicon-camera blue">
-									</i> <font color="#585858"><strong> Photo
-																	: * </strong></font></td>
-														<td><c:if test="${enfant.idPerson!=null}">
+														<td><i class="glyphicon glyphicon-camera blue"> </i>
+															<font color="#585858"><strong> Photo : *
+															</strong></font></td>
+														<td><c:if test="${enfant.idPerson!=null}" >
 																<img src="photoEnf?idEnfant=${enfant.idPerson}"
 																	class="images_petit" />
 
@@ -277,42 +457,55 @@
 														<td><input type="file" name="file" /><br> <!--<f:textarea
 								path="nomPhoto" readonly="true" />--></td>
 													</tr>
+													
+													
+													
+													
+													
+													
+													
+													
+													
+													
 
 
-
+  
 													<tr>
-														<td> <i class=" glyphicon glyphicon-user  blue">
-									</i> <font color="#585858"><strong> Sexe
-																	:</strong></font></td>
-														<td><f:radiobutton path="sexe" value="Homme" /> Homme
-															<f:radiobutton path="sexe" value="Femme" /> Femme</td>
+														<td><i class=" glyphicon glyphicon-user  blue"> </i>
+															<font color="#585858"><strong> Sexe :</strong></font></td>
+														<td><f:radiobutton path="sexe" value="Homme"  checked="true"/>
+															Homme <f:radiobutton path="sexe" value="Femme" /> Femme
+															
+															
+															
+															</td>
+															
+															
 													</tr>
 
 
 													<tr>
-														<td> <i class="glyphicon glyphicon-calendar  blue">
-									</i> <font color="#585858"><strong>Date
+														<td><i class="glyphicon glyphicon-calendar  blue">
+														</i> <font color="#585858"><strong>Date
 																	Naissance : *</strong></font></td>
-														<td><f:input type="date" path="dateNaissance" /></td>
+														<td><f:input id="datepicker" path="dateNaissance"  class="form-control" /></td>
 														<td><f:errors path="dateNaissance" cssClass="errors" /></td>
 													</tr>
 
 													<tr>
-														<td> <i class=" glyphicon glyphicon-home  blue">
-									</i><font color="#585858"> <strong>Lieu
-																	Naissance:</strong></font></td>
-														<td><f:input path="lieuNaissance" /></td>
+														<td><i class=" glyphicon glyphicon-home  blue"> </i><font
+															color="#585858"> <strong>Lieu Naissance:</strong></font></td>
+														<td><f:input path="lieuNaissance"  class="form-control" /></td>
 														<td><f:errors path="lieuNaissance" cssClass="errors" /></td>
 													</tr>
 
 
 
 													<tr>
-														<td> <i class="glyphicon glyphicon-flag  blue">
-									</i> <font color="#585858"><strong>Langue
-																	: *</strong></font></td>
+														<td><i class="glyphicon glyphicon-flag  blue"> </i> <font
+															color="#585858"><strong>Langue : *</strong></font></td>
 														<td><f:select path="langue" id="selectError"
-																data-rel="chosen">
+																data-rel="chosen "  class="form-control">
 																<f:option value="Arabe" />
 																<f:option value="Français" />
 																<f:option value="Anglais" />
@@ -322,10 +515,10 @@
 
 
 													<tr>
-														<td> <i class=" glyphicon glyphicon-list-alt  blue">
-									</i> <font color="#585858"> <strong>Antecedants
+														<td><i class=" glyphicon glyphicon-list-alt  blue">
+														</i> <font color="#585858"> <strong>Antecedants
 																	Medicaux</strong></font></td>
-														<td><f:textarea path="antecedantsMedicaux" /></td>
+														<td><f:textarea path="antecedantsMedicaux"  class="form-control"/></td>
 														<td><f:errors path="antecedantsMedicaux"
 																cssClass="errors" /></td>
 													</tr>
@@ -333,21 +526,26 @@
 
 
 													<tr>
-														<td> <i class="glyphicon glyphicon-heart  blue">
-									</i> <font color="#585858"> <strong>Situation
+														<td><i class="glyphicon glyphicon-cog  blue"> </i>
+															<font color="#585858"> <strong>Situation
 																	Parentale :</strong></font></td>
 														<td><f:radiobutton path="situationParentale"
-																value="Marie" /> Mariés <f:radiobutton
+																value="Marie"  checked="true" /> Mariés <f:radiobutton
 																path="situationParentale" value="Divorce" /> Divorcés <f:radiobutton
-																path="situationParentale" value="Pere veuf" /> Père
+																path="situationParentale" value="Pereveuf" /> Père
 															Veuve <f:radiobutton path="situationParentale"
-																value="Mere veuve" /> Mère Veuve</td>
+																value="Mereveuve" /> Mère Veuve</td>
 													</tr>
+													
+													
+													
+													
+													
 
 
 													<tr>
-														<td> <i class="glyphicon glyphicon-thumbs-up  blue">
-									</i> <font color="#585858"> <strong>Certifié?
+														<td><i class="glyphicon glyphicon-thumbs-up  blue">
+														</i> <font color="#585858"> <strong>Certifié?
 															</strong></font></td>
 														<td><f:checkbox path="certificatMedicale" /></td>
 														<td><f:errors path="certificatMedicale"
@@ -355,74 +553,63 @@
 													</tr>
 
 													<tr>
-														<td> <i class=" glyphicon glyphicon-facetime-video  blue">
-									</i> <font color="#585858"> <strong>Autorisé
-																	pour la prise Photo?</strong></font></td>
+														<td><i
+															class=" glyphicon glyphicon-facetime-video  blue"> </i> <font
+															color="#585858"> <strong>Autorisé pour la
+																	prise Photo?</strong></font></td>
 														<td><f:checkbox path="autorisationPrisePhoto" /></td>
 														<td><f:errors path="autorisationPrisePhoto"
 																cssClass="errors" /></td>
 													</tr>
 
 													<tr>
-														<td> <i class="glyphicon glyphicon-briefcase  blue">
-									</i><font color="#585858"> <strong>Nom
-																	& prenom Pediatre : </strong></font></td>
-														<td><f:input path="nomPrenomPediatre" /></td>
+														<td><i class="glyphicon glyphicon-briefcase  blue">
+														</i><font color="#585858"> <strong>Nom Et
+																	prenom Pediatre : </strong></font></td>
+														<td><f:input path="nomPrenomPediatre" class="form-control" /></td>
 														<td><f:errors path="nomPrenomPediatre"
 																cssClass="errors" /></td>
 													</tr>
 
 													<tr>
-														<td> <i class="glyphicon glyphicon-phone  blue">
-									</i> <font color="#585858"> <strong>Telephone
+														<td><i class="glyphicon glyphicon-phone  blue"> </i>
+															<font color="#585858"> <strong>Telephone
 																	Portable Pediatre : </strong></font></td>
-														<td><f:input path="telephonePortablePediatre" /></td>
+														<td><f:input path="telephonePortablePediatre"  class="form-control" /></td>
 														<td><f:errors path="telephonePortablePediatre"
 																cssClass="errors" /></td>
 													</tr>
-
+													
+													
 													<tr>
-														<td> <i class="glyphicon glyphicon-tree-conifer blue">
-									</i> <font color="#585858"> <strong>Nombre
-																	Frères : </strong></font></td>
-														<td><f:input path="nombreFreres" /></td>
-														<td><f:errors path="nombreFreres" cssClass="errors" /></td>
+													<td><i class="glyphicon glyphicon-phone blue"> </i> <font
+														color="#585858"><strong> Date Pre Inscription
+																 : </strong></font></td>
+													<td><f:input path="datePreInscription" class="form-control" placeholder="Tapez numero telephone pediatre"/></td>
+													<td><f:errors path="datePreInscription"
+															cssClass="errors" /></td>
+												</tr>
+
+													
+
+
+<tr>
+													<td>
+
+
+														<div class="control-group" align="center" >
+
+															<div class="controls" >
+																<button  type="submit" class="btn btn-success"
+																	title="Modifier et Enregistrer" data-toggle="tooltip">Valider</button>
+																<a class="btn btn-danger"
+																	title="Annuler et retourner à la liste des Enfants"
+																	data-toggle="tooltip"
+																	href="<c:url value="/adminEnf/index"/>">Annuler</a>
+															</div>
+														</div>
+													</td>
 													</tr>
-
-													<tr>
-														<td> <i class="glyphicon glyphicon-tree-deciduous blue">
-									</i> <font color="#585858"><strong>Nombre
-																	Soeurs : </strong></font></td>
-														<td><f:input path="nombreSoeur" /></td>
-														<td><f:errors path="nombreSoeur" cssClass="errors" /></td>
-													</tr>
-
-
-
-													<tr>
-
-														<td>
-
-															<button type="submit" class="btn btn-success"
-																title="Enregistrer la modification"
-																data-toggle="tooltip">
-																<i class=" glyphicon glyphicon-ok"></i> Valider
-															</button>
-														</td>
-
-														<td>
-
-															<button type="submit" class="btn btn-danger"
-																title="Annuler et retourner à la liste des Enfants"
-																data-toggle="tooltip"
-																href="<c:url value="/adminEnf/index"/>">
-																<i class=" glyphicon glyphicon-remove"></i> Annuler
-															</button>
-														</td>
-
-													</tr>
-
-
 
 												</table>
 
@@ -458,8 +645,69 @@
 	</div>
 	</div>
 	
+
+
 	<!-- footer -->
+	<script
+		src="<%=request.getContextPath()%>/resources/js/jquery-ui.min.js"></script>
+	<!-- multiple file upload plugin -->
+	
+	<script src="<%=request.getContextPath()%>/resources/js/jquery-ui.js"></script>
+	<script src="<%=request.getContextPath()%>/resources/js/1.10.2.js"></script>
+	<script>
+													
+													
+													
+													
+													 
+													 $(function() {
+															// définition de la boîte de dialogue
+															// la méthode jQuery dialog() permet de transformer un div en boîte de dialogue et de définir ses boutons
+															$("#p").dialog({
+																autoOpen : true,
+																width : 700,
+																buttons : [ {
+																	
+																	text : "fermer",
+																	click : function() {
+																		$(this).dialog("close");
+																		
+																		
+																		
+																		
+																		
+																		
+																	}
+																
+																
+																} ]
+															});}
+														);
+													
+													
+													
+													
+													
+													
+													
+													
+													
+												</script>
+												
+								
 
 	<%@ include file="/WEB-INF/views/templates/footer.jsp"%>
+	
+	
+	
+<script>
+$(function() {
+    $( "#datepicker" ).datepicker({
+      changeMonth: true,
+      changeYear: true
+    });
+  });
+  </script>
+
 </body>
 </html>

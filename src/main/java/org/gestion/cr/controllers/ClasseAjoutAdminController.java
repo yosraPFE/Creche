@@ -32,11 +32,13 @@ public class ClasseAjoutAdminController implements HandlerExceptionResolver
 	@RequestMapping(value="/index")
 	public String index(Model model)
 	{
-		model.addAttribute("creches",metier.listCreches());
+		
 		model.addAttribute("classe", new Classe());
 		
 		
 		return "classesAjout";
+		
+		
 		
 	}
 	
@@ -49,13 +51,13 @@ public class ClasseAjoutAdminController implements HandlerExceptionResolver
 		
 		if(bindingResult.hasErrors())
 		{
-			model.addAttribute("creches",metier.listCreches());
+			
 			model.addAttribute("classe", new Classe());
 			return("classesAjout");
 		}
 		
-		model.addAttribute("creches",metier.listCreches());
-		Long idClass = metier.ajouterClasse(cla, cla.getCreche().getIdCreche());
+	
+		Long idClass = metier.ajouterClasse(cla);
 		
 		model.addAttribute("classeAjoute",metier.getClasse(idClass));
 		
@@ -68,6 +70,9 @@ public class ClasseAjoutAdminController implements HandlerExceptionResolver
 	}
 	
 	
+	
+	
+	
 
     
 	@Override
@@ -78,7 +83,7 @@ public class ClasseAjoutAdminController implements HandlerExceptionResolver
 		mv.addObject("classe", new Classe());
 		
 		mv.addObject("exception", ex.getMessage());
-		mv.setViewName("classesAjout");
+		mv.setViewName("Classe");
 		
 		return mv;
 	}

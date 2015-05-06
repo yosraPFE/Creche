@@ -1,4 +1,4 @@
-package org.gestion.cr.controllers;
+/*package org.gestion.cr.controllers;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,7 +28,7 @@ public class CrecheAjoutAdminController implements HandlerExceptionResolver
 	 * 
 	 * @author YOSRA
 	 *
-	 */
+	 *//*
 	
 	@Autowired
 	private IAdminMetier metier;
@@ -58,7 +58,7 @@ public class CrecheAjoutAdminController implements HandlerExceptionResolver
 			return("crechesAjout");
 		}
 		
-		
+		//Long idCreche  = metier.ajouterCreche(crech);
 		
 		if(!file.isEmpty())
 		{
@@ -66,12 +66,14 @@ public class CrecheAjoutAdminController implements HandlerExceptionResolver
 			
 			String path = "C:/Users/YOSRA/Desktop/PFE/ImagesCreches";
 			
-			Long idCreche  = metier.ajouterCreche(crech);
+			
 			file.transferTo(new File(path+"/"+"CRECH_" + idCreche + "_" + file.getOriginalFilename()));
-			crech.setNomPhoto(path+"/"+"CRECH_" +idCreche + "_" + file.getOriginalFilename());
+		    crech.setNomPhoto(path+"/"+"CRECH_" +idCreche + "_" + file.getOriginalFilename());
 			metier.modifierCreche(crech);
 			
 		}
+		
+		
 		
 	
 		
@@ -114,4 +116,4 @@ public class CrecheAjoutAdminController implements HandlerExceptionResolver
 
 
 
-}
+}*/

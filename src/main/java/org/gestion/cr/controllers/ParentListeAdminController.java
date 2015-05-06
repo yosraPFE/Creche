@@ -28,17 +28,20 @@ public class ParentListeAdminController implements HandlerExceptionResolver
 {
 
 	   /**
-	    * 
+	    * 		
 	    * @author YOSRA
 	    *
 	    */
+	
+	@Autowired
+	private IAdminMetier metier;
+	/*
  
 		private int page = 0;
 		private int nbrLignesParents = 4;
-		private int nbrPages;
+		private int nbrPages ;
 
-		@Autowired
-		private IAdminMetier metier;
+		
 
 		public int getPage() {
 			return page;
@@ -64,13 +67,13 @@ public class ParentListeAdminController implements HandlerExceptionResolver
 
 		public void setNbrPages(int nbrPages) {
 			this.nbrPages = nbrPages;
-		}
+		}*/
 
 		// index
 		@RequestMapping(value = "/index")
 		public String index(Model model) {
 			model.addAttribute("parent", new Parent());
-			chargerModel(model);
+			model.addAttribute("parents", metier.listParents());
 			return "parentsListe";
 
 		}
@@ -81,7 +84,7 @@ public class ParentListeAdminController implements HandlerExceptionResolver
 				throws IOException 
 		  {
 			if (bindingResult.hasErrors()) {
-				chargerModel(model);
+				model.addAttribute("parents", metier.listParents());
 				return ("parentsListe");
 			}
 			Long ref = par.getIdPerson();
@@ -89,6 +92,7 @@ public class ParentListeAdminController implements HandlerExceptionResolver
 			if (ref != null) 
 			{
 				referrerAffiliateId = Long.toString(ref);
+				//String referrerAffiliateId = Long.toString(ref);
 				if (file.isEmpty()) 
 				{
 					Parent paren = metier.getParent(par
@@ -108,7 +112,7 @@ public class ParentListeAdminController implements HandlerExceptionResolver
 				
 				metier.modifierParent(par);
 				model.addAttribute("parent", new Parent());
-				chargerModel(model);
+				model.addAttribute("parents", metier.listParents());
 			}
 			return "parentsListe";
 		}
@@ -118,7 +122,7 @@ public class ParentListeAdminController implements HandlerExceptionResolver
 			Parent par = metier.getParent(idParent);
 			model.addAttribute("parent", par);
 
-			chargerModel(model);
+			model.addAttribute("parents", metier.listParents());
 
 			return "parentsListe";
 		}
@@ -136,35 +140,15 @@ public class ParentListeAdminController implements HandlerExceptionResolver
 		public String supprimerListeParent(Long idParent,
 				Model model) {
 
-			setPage(page);
+			
 			metier.supprimerParent(idParent);
 			model.addAttribute("parent", new Parent());
-			chargerModel(model);
+			model.addAttribute("parents", metier.listParents());
 
 			return "parentsListe";
 		}
 
-		@RequestMapping(value = "chargerModel")
-		public void chargerModel(Model model) {
-
-			int pos = getNbrLignesParents() * getPage();
-			long nbAc = metier.getNombreParents();
-			setNbrPages((int) (nbAc / getNbrLignesParents()) + 1);
-
-			model.addAttribute("nbrPages", getNbrPages());
-			model.addAttribute("page", getPage());
-			model.addAttribute("parents",
-					metier.listParents(pos, getNbrLignesParents()));
-
-		}
-
-		@RequestMapping(value = "/indexPage")
-		public String changerPage(Model model, int page) {
-			setPage(page);
-			model.addAttribute("parent", new Parent());
-			chargerModel(model);
-			return "parentsListe";
-		}
+		
 
 		@RequestMapping
 		@Override
@@ -172,7 +156,7 @@ public class ParentListeAdminController implements HandlerExceptionResolver
 				HttpServletResponse response, Object arg2, Exception ex) {
 			ModelAndView mv = new ModelAndView();
 			mv.addObject("parent", new Parent());
-			mv.addObject("parents", metier.listParents(0, 4));
+			mv.addObject("parents", metier.listParents());
 			mv.addObject("exception", ex.getMessage());
 			mv.setViewName("parentsListe");
 			return mv;

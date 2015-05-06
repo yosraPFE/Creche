@@ -25,42 +25,21 @@ public class FonctionsListeAdminController implements HandlerExceptionResolver
 	 * @author YOSRA
 	 *
 	 */
-	private int page = 0; 
-	private int nbrLignesFonction = 4;
-	private int nbrPages;
+	
 
 	@Autowired
 	private IAdminMetier metier;
 
-	public int getPage() {
-		return page;
-	}
+	
 
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	public int getNbrLignesFonction() {
-		return nbrLignesFonction;
-	}
-
-	public void setNbrLignesFonction(int nbrLignesFonction) {
-		this.nbrLignesFonction = nbrLignesFonction;
-	}
-
-	public int getNbrPages() {
-		return nbrPages;
-	}
-
-	public void setNbrPages(int nbrPages) {
-		this.nbrPages = nbrPages;
-	}
 
 	// index
 	@RequestMapping(value = "/index")
 	public String index(Model model) {
 		model.addAttribute("fonction", new Fonction());
-		chargerModel(model);
+		model.addAttribute("fonctions", metier.listFonctions());
+		
+		model.addAttribute("fonctions", metier.listFonctions());
 		return "fonctionsListe";
 
 	}
@@ -71,7 +50,7 @@ public class FonctionsListeAdminController implements HandlerExceptionResolver
 			throws IOException 
 	  {
 		if (bindingResult.hasErrors()) {
-			chargerModel(model);
+			model.addAttribute("fonctions", metier.listFonctions());
 			return ("fonctionsListe");
 		}
 		Long ref = fonc.getIdFonction();
@@ -83,7 +62,7 @@ public class FonctionsListeAdminController implements HandlerExceptionResolver
 			
 			metier.modifierFonction(fonc);
 			model.addAttribute("fonction", new Fonction());
-			chargerModel(model);
+			model.addAttribute("fonctions", metier.listFonctions());
 		}
 		return "fonctionsListe";
 	}
@@ -94,7 +73,7 @@ public class FonctionsListeAdminController implements HandlerExceptionResolver
 		Fonction fonc = metier.getFonction(idFonction);
 		model.addAttribute("fonction", fonc);
 
-		chargerModel(model);
+		model.addAttribute("fonctions", metier.listFonctions());
 
 		return "fonctionsListe";
 	}
@@ -105,35 +84,16 @@ public class FonctionsListeAdminController implements HandlerExceptionResolver
 	public String supprimerListeFonction(Long idFonction,
 			Model model) {
 
-		setPage(page);
+		
 		metier.supprimerFonction(idFonction);
 		model.addAttribute("fonction", new Fonction());
-		chargerModel(model);
+		model.addAttribute("fonctions", metier.listFonctions());
 
 		return "fonctionsListe";
 	}
 
-	@RequestMapping(value = "chargerModel")
-	public void chargerModel(Model model) {
+	
 
-		int pos = getNbrLignesFonction() * getPage();
-		long nbAc = metier.getNombreFonctions();
-		setNbrPages((int) (nbAc / getNbrLignesFonction()) + 1);
-
-		model.addAttribute("nbrPages", getNbrPages());
-		model.addAttribute("page", getPage());
-		model.addAttribute("fonctions",
-				metier.listFonctions(pos, getNbrLignesFonction()));
-
-	}
-
-	@RequestMapping(value = "/indexPage")
-	public String changerPage(Model model, int page) {
-		setPage(page);
-		model.addAttribute("fonction", new Fonction());
-		chargerModel(model);
-		return "fonctionsListe";
-	}
 
 	@RequestMapping
 	@Override
@@ -141,7 +101,7 @@ public class FonctionsListeAdminController implements HandlerExceptionResolver
 			HttpServletResponse response, Object arg2, Exception ex) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("fonction", new Fonction());
-		mv.addObject("fonctions", metier.listFonctions(0, 4));
+		mv.addObject("fonctions", metier.listFonctions());
 		mv.addObject("exception", ex.getMessage());
 		mv.setViewName("fonctionsListe");
 		return mv;

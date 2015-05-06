@@ -1,151 +1,152 @@
 package org.gestion.cr.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class Classe implements Serializable
-{
-	/**
-	 * 
-	 * @author YOSRA
-	 *
-	 */
-	
-	
-	
+public class Classe implements Serializable {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	
-	private long idClass;
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long idClasse;
 	private String nom;
 	private int nombrePlaces;
 	
+	/*
+	@ManyToMany(mappedBy = "classes")
+	private Set<EquipeEducatif> equipeEducatifs = new HashSet<EquipeEducatif>();*/
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id.classe", cascade = CascadeType.ALL)
+	private Set<Inscription> inscriptions = new HashSet<Inscription>();
 	
 	
 	
-	@ManyToMany
-	@JoinTable(name="CLASS_INSC_ENF",joinColumns=@JoinColumn(name="idClass")
-	,inverseJoinColumns=@JoinColumn(name="idinscription"))
-	private Collection<Inscription> inscriptions;
-	
-	
-	
-	@ManyToMany(mappedBy="classes")
-	private Collection<EquipeEducatif> equipeEducatifs;
-	
-	@ManyToOne
-	@JoinColumn(name="idCreche")
-	private Creche creche;
-	
-	
-	
-	@ManyToMany
-	@JoinTable(name="CLASS_INSC_ENF",joinColumns=@JoinColumn(name="idClass")
-	,inverseJoinColumns=@JoinColumn(name="ID_ENFANT"))
-	private Collection<Enfant> enfants;
-	
-	
-	
-	/* 
-	 * cascade=CascadeType.ALL:toutes les opérations en cascade
-	 * cascade=CascadeType.REFRESH:cascade opération de rafraîchissement
-	 * cascade=CascadeType.REMOVE:fonctionnement en cascade remove
-	 */
-	
-	
-	
-	//Generation des guetteurs et des setteurs
-	public long getIdClass() 
-	{
-		return idClass;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "id.classe", cascade = CascadeType.ALL)
+	private Set<ClasseEquipeEducatif> classeEquipeEducatif = new HashSet<ClasseEquipeEducatif>(
+			0);
+
+	public Classe() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-	public void setIdClass(long idClass) 
-	{
-		this.idClass = idClass;
+
+	public Long getIdClasse() {
+		return idClasse;
 	}
-	public int getNombrePlaces() 
-	{
-		return nombrePlaces;
+
+	public void setIdClasse(Long idClasse) {
+		this.idClasse = idClasse;
 	}
-	public void setNombrePlaces(int nombrePlaces) 
-	{
-		this.nombrePlaces = nombrePlaces;
-	}
-	
-	
-	public Collection<Inscription> getInscriptions() {
-		return inscriptions;
-	}
-	public void setInscriptions(Collection<Inscription> inscriptions) {
-		this.inscriptions = inscriptions;
-	}
-	public Collection<EquipeEducatif> getEquipeEducatifs() 
-	{
-		return equipeEducatifs;
-	}
-	public void setEquipeEducatifs(Collection<EquipeEducatif> equipeEducatifs) 
-	{
-		this.equipeEducatifs = equipeEducatifs;
-	}
-	public Creche getCreche() 
-	{
-		return creche;
-	}
-	public void setCreche(Creche creche) 
-	{
-		this.creche = creche;
-	}
-	public Collection<Enfant> getEnfants() 
-	{
-		return enfants;
-	}
-	public void setEnfants(Collection<Enfant> enfants) 
-	{
-		this.enfants = enfants;
-	}
-	
-	
-	
-	public String getNom()
-	{
+
+	public String getNom() {
 		return nom;
 	}
-	public void setNom(String nom)
-	{
+
+	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	//generation du constructeur sans parametres
-	public Classe() 
-	{
-		super();
-		
+
+	public int getNombrePlaces() {
+		return nombrePlaces;
 	}
-	//generation du constructeur avec parametres
-	public Classe(String nom, int nombrePlaces) 
-	{
+
+	public void setNombrePlaces(int nombrePlaces) {
+		this.nombrePlaces = nombrePlaces;
+	}
+
+	
+	public Set<ClasseEquipeEducatif> getClasseEquipeEducatif() {
+		return classeEquipeEducatif;
+	}
+
+	public void setClasseEquipeEducatif(
+			Set<ClasseEquipeEducatif> classeEquipeEducatif) {
+		this.classeEquipeEducatif = classeEquipeEducatif;
+	}
+
+	public Set<Inscription> getInscriptions() {
+		return inscriptions;
+	}
+
+	public void setInscriptions(Set<Inscription> inscriptions) {
+		this.inscriptions = inscriptions;
+	}
+
+	public Classe(String nom, int nombrePlaces) {
 		super();
 		this.nom = nom;
 		this.nombrePlaces = nombrePlaces;
 	}
-	
-	
-	
-	
+
 	
 	
 	
 	
 
 }
+
+/*
+ * @ManyToOne
+ * 
+ * @JoinColumn(name="idCreche") private Creche creche;
+ * 
+ * 
+ * @OneToMany(fetch = FetchType.LAZY, mappedBy
+ * ="id.class",cascade=CascadeType.ALL) private Set <Inscription> inscriptions
+ * =new HashSet<Inscription>();
+ * 
+ * 
+ * @ManyToMany(cascade = {CascadeType.ALL})
+ * 
+ * @JoinTable(name="Classe_EqEduc", joinColumns={@JoinColumn(name="idClasse")},
+ * inverseJoinColumns={@JoinColumn(name="idEqEducatif")}) private
+ * Set<EquipeEducatif> equipeEducatifs = new HashSet<EquipeEducatif>();
+ */
+/*
+ * 
+ * 
+ * 
+ * public Classe() { }
+ * 
+ * } public Long getIdClass() { return idClass; }
+ * 
+ * public void setIdClass(Long idClass) { this.idClass = idClass; }
+ * 
+ * public String getNom() { return nom; } public void setNom(String nom) {
+ * this.nom = nom; }
+ * 
+ * public int getNombrePlaces() { return nombrePlaces; }
+ * 
+ * public void setNombrePlaces(int nombrePlaces) { this.nombrePlaces =
+ * nombrePlaces; }
+ * 
+ * public Creche getCreche() { return creche; }
+ * 
+ * public void setCreche(Creche creche) { this.creche = creche; }
+ * 
+ * 
+ * public Set<EquipeEducatif> getEquipeEducatifs() { return equipeEducatifs; }
+ * 
+ * 
+ * public void setEquipeEducatifs(Set<EquipeEducatif> equipeEducatifs) {
+ * this.equipeEducatifs = equipeEducatifs; }
+ * 
+ * 
+ * 
+ * }
+ */

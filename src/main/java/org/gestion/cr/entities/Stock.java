@@ -1,39 +1,26 @@
 package org.gestion.cr.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 @Entity
-public class Stock implements Serializable
-{
-
-	/**
-	 * 
-	 * @author YOSRA
-	 *
-	 */
-
-	@Id	
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	
+public class Stock implements Serializable {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idStock;
-	
-	private float quantite;	
-	
-	@OneToMany(mappedBy="stock",fetch=FetchType.LAZY)
-	private Collection<Materiels> materiels;
 
-	//Generation des guetteurs et des setteurs
+	private float quantite;
+
+	@OneToMany(mappedBy = "stock")
+	private Set<Materiel> materiels = new HashSet<Materiel>();
+
 	public long getIdStock() {
 		return idStock;
 	}
@@ -50,32 +37,22 @@ public class Stock implements Serializable
 		this.quantite = quantite;
 	}
 
-	public Collection<Materiels> getMateriels() {
-		return materiels;
-	}
-
-	public void setMateriels(Collection<Materiels> materiels) {
-		this.materiels = materiels;
-	}
-	
-	
-	
-	//generation des constructeurs sans parametres
-
-	
-
-	public Stock() 
-	{
+	public Stock() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
-	//generation des constructeurs avec parametres
 
-	public Stock( float quantite) {
+	public Stock(float quantite) {
 		super();
-		
 		this.quantite = quantite;
 	}
 
-	
+	public Set<Materiel> getMateriels() {
+		return materiels;
+	}
+
+	public void setMateriels(Set<Materiel> materiels) {
+		this.materiels = materiels;
+	}
 
 }

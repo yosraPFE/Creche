@@ -31,42 +31,16 @@ public class FournisseurListeAdminController implements HandlerExceptionResolver
 	private IAdminMetier metier;
 
 	
-	private int page = 0;
-	private int nbrLignesFournisseurs = 4;
-	private int nbrPages;
-
 	
-	public int getPage() {
-		return page;
-	}
-
-	public void setPage(int page) {
-		this.page = page;
-	}
-
 	
 
-	public int getNbrLignesFournisseurs() {
-		return nbrLignesFournisseurs;
-	}
-
-	public void setNbrLignesFournisseurs(int nbrLignesFournisseurs) {
-		this.nbrLignesFournisseurs = nbrLignesFournisseurs;
-	}
-
-	public int getNbrPages() {
-		return nbrPages;
-	}
-
-	public void setNbrPages(int nbrPages) {
-		this.nbrPages = nbrPages;
-	}
 
 	// index
 	@RequestMapping(value = "/index")
 	public String index(Model model) {
 		model.addAttribute("fournisseur", new Fournisseur());
-		chargerModel(model);
+		
+		model.addAttribute("fournisseurs", metier.listFournisseurs());
 		return "fournisseursListe";
 
 	}
@@ -77,7 +51,7 @@ public class FournisseurListeAdminController implements HandlerExceptionResolver
 			throws IOException 
 	  {
 		if (bindingResult.hasErrors()) {
-			chargerModel(model);
+			model.addAttribute("fournisseurs", metier.listFournisseurs());
 			return ("fournisseursListe");
 		}
 		Long ref = four.getIdPerson();
@@ -103,7 +77,7 @@ public class FournisseurListeAdminController implements HandlerExceptionResolver
 			}
 			metier.modifierFournisseur(four);
 			model.addAttribute("fournisseur", new Fournisseur());
-			chargerModel(model);
+			model.addAttribute("fournisseurs", metier.listFournisseurs());
 		}
 		return "fournisseursListe";
 	}
@@ -113,7 +87,7 @@ public class FournisseurListeAdminController implements HandlerExceptionResolver
 		Fournisseur four = metier.getFournisseur(idFournisseur);
 		model.addAttribute("fournisseur", four);
 
-		chargerModel(model);
+		model.addAttribute("fournisseurs", metier.listFournisseurs());
 
 		return "fournisseursListe";
 	}
@@ -131,35 +105,16 @@ public class FournisseurListeAdminController implements HandlerExceptionResolver
 	public String supprimerListeFournisseur(Long idFournisseur,
 			Model model) {
 
-		setPage(page);
+		
 		metier.supprimerFournisseur(idFournisseur);
 		model.addAttribute("fournisseur", new Fournisseur());
-		chargerModel(model);
+		model.addAttribute("fournisseurs", metier.listFournisseurs());
 
 		return "fournisseursListe";
 	}
 
-	@RequestMapping(value = "chargerModel")
-	public void chargerModel(Model model) {
+	
 
-		int pos = getNbrLignesFournisseurs() * getPage();
-		long nbAc = metier.getNombreFournisseurs();
-		setNbrPages((int) (nbAc / getNbrLignesFournisseurs()) + 1);
-
-		model.addAttribute("nbrPages", getNbrPages());
-		model.addAttribute("page", getPage());
-		model.addAttribute("fournisseurs",
-				metier.listFournisseurs(pos, getNbrLignesFournisseurs()));
-
-	}
-
-	@RequestMapping(value = "/indexPage")
-	public String changerPage(Model model, int page) {
-		setPage(page);
-		model.addAttribute("fournisseur", new Fournisseur());
-		chargerModel(model);
-		return "fournisseursListe";
-	}
 	
 
 	@RequestMapping
@@ -168,7 +123,7 @@ public class FournisseurListeAdminController implements HandlerExceptionResolver
 			HttpServletResponse response, Object arg2, Exception ex) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("fournisseur", new Fournisseur());
-		mv.addObject("fournisseurs", metier.listFournisseurs(0, 4));
+		mv.addObject("fournisseurs", metier.listFournisseurs());
 		mv.addObject("exception", ex.getMessage());
 		mv.setViewName("fournisseursListe");
 		return mv;

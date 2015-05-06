@@ -31,7 +31,7 @@
 <bean  id="entityManagerFactory"
        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="persistenceUnitManager" ref="persistenceUnitManager"></property>
-        <property name="persistenceUnitName" value="UC_Creche"></property>
+        <property name="persistenceUnitName" value="Ud_Creche"></property>
        
 </bean>     
 <bean  id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -42,102 +42,118 @@
 <tx:annotation-driven transaction-manager="transactionManager"/>
 <context:annotation-config></context:annotation-config>
   
+
+ 
 <bean id="dao" class="org.gestion.cr.dao.CrecheDaoImpl"></bean>
 <bean id="metier"  class="org.gestion.cr.metier.CrecheMetierImpl">
 
 <property name="dao" ref="dao"></property>
 </bean>
- 
- 
- 
   
+
+ 
 <s:http auto-config="true" use-expressions="true">
  
   <s:intercept-url  pattern="/test/**" access="hasRole('Role_Admin')"/>
   
-  <!-- Liste des Accompagnateurs -->
+  
   <s:intercept-url  pattern="/admin/**" access="hasRole('Role_Admin')"/>
-  <!-- Ajout Accompagnateurs -->
+  
   <s:intercept-url  pattern="/adminAccomp/**" access="hasRole('Role_Admin')"/>
-  <!-- Ajout Categories -->
+  
   <s:intercept-url  pattern="/adminCateg/**" access="hasRole('Role_Admin')"/>
-  <!-- Liste Categories -->
+  
   <s:intercept-url  pattern="/adminCategC/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Classe -->
+  
   <s:intercept-url  pattern="/adminClas/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Classe -->
+  
   <s:intercept-url  pattern="/adminClasLi/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Club -->
+ 
   <s:intercept-url  pattern="/adminClub/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Club -->
+  
   <s:intercept-url  pattern="/adminClubLi/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Consultation -->
-  <s:intercept-url  pattern="/adminConsA/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Consultation -->
-  <s:intercept-url  pattern="/adminConsu/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Creche -->
-  <s:intercept-url  pattern="/adminCrech/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Creche -->
-  <s:intercept-url  pattern="/adminCr/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Enfant -->
-  <s:intercept-url  pattern="/adminE/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Enfant -->
-  <s:intercept-url  pattern="/adminEnf/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Equipe Educatif -->
-  <s:intercept-url  pattern="/adminEqEdu/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Equipe Educatif -->
-  <s:intercept-url  pattern="/adminListEdu/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Equipe Sanitaire  -->
-  <s:intercept-url  pattern="/adminEqSan/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Equipe Sanitaire  -->
-  <s:intercept-url  pattern="/adminListSan/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Equipe Sanitaire  -->
-  <s:intercept-url  pattern="/adminEqSan/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Evennement -->
-  <s:intercept-url  pattern="/adminEvenAj/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Evennement -->
-  <s:intercept-url  pattern="/adminEv/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Fonction -->
-  <s:intercept-url  pattern="/adminfoncAj/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Fonction -->
-  <s:intercept-url  pattern="/adminFonc/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Fournisseur -->
-  <s:intercept-url  pattern="/adminF/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Fournisseur -->
-  <s:intercept-url  pattern="/adminFou/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Genre -->
-  <s:intercept-url  pattern="/adminGenAj/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Genre -->
-  <s:intercept-url  pattern="/adminGen/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Inscription -->
-  <s:intercept-url  pattern="/adminInsA/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Inscription -->
-  <s:intercept-url  pattern="/adminInsc/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Materiel -->
-  <s:intercept-url  pattern="/adminMater/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Materiel -->
-  <s:intercept-url  pattern="/adminMaterielLi/**" access="hasRole('Role_Admin')"/>
-  <!--Ajout Parent -->
-  <s:intercept-url  pattern="/adminParent/**" access="hasRole('Role_Admin')"/>
-  <!--Liste Parent -->
-  <s:intercept-url  pattern="/adminPa/**" access="hasRole('Role_Admin')"/>
-  <!-- Ajout Planning Horraires -->
-  <s:intercept-url  pattern="/adminPlan/**" access="hasRole('Role_Admin')"/>
-  <!-- Liste Planning Horraires -->
-  <s:intercept-url  pattern="/adminPlanLi/**" access="hasRole('Role_Admin')"/>
-  <!-- Ajout Stocks -->
-  <s:intercept-url  pattern="/adminStocAj/**" access="hasRole('Role_Admin')"/>
-  <!-- Liste Stocks -->
-  <s:intercept-url  pattern="/adminStoc/**" access="hasRole('Role_Admin')"/>
-  <!-- Ajout Type Materiel -->
-  <s:intercept-url  pattern="/admintypAj/**" access="hasRole('Role_Admin')"/>
-  <!-- Liste Type Materiel -->
-  <s:intercept-url  pattern="/adminTypM/**" access="hasRole('Role_Admin')"/>
-  <!-- Ajouter Enfant Avec Accompagnateur -->
-  <s:intercept-url  pattern="/adminEPA/**" access="hasRole('Role_Admin')"/>
+  
+  
+  
+  
+  
+ <s:intercept-url  pattern="/adminEnfConsult/**" access="hasRole('Role_Admin')"/>
   
  
+  <s:intercept-url  pattern="/adminCrech/**" access="hasRole('Role_Admin')"/>
  
+  <s:intercept-url  pattern="/adminCr/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminE/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminEnf/**" access="hasRole('Role_Admin')"/>
+
+  <s:intercept-url  pattern="/adminEqEdu/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminListEdu/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminEqSan/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminListSan/**" access="hasRole('Role_Admin')"/>
+  
+  <s:intercept-url  pattern="/adminEqSan/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminEvenAj/**" access="hasRole('Role_Admin')"/>
+  
+  <s:intercept-url  pattern="/adminEv/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminfoncAj/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminFonc/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminF/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminFou/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminGenAj/**" access="hasRole('Role_Admin')"/>
+  
+  <s:intercept-url  pattern="/adminGen/**" access="hasRole('Role_Admin')"/>
+ 
+ 
+  
+  <s:intercept-url  pattern="/adminMater/**" access="hasRole('Role_Admin')"/>
+  
+  <s:intercept-url  pattern="/adminMaterielLi/**" access="hasRole('Role_Admin')"/>
+  
+  <s:intercept-url  pattern="/adminParent/**" access="hasRole('Role_Admin')"/>
+
+  <s:intercept-url  pattern="/adminPa/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminPlan/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminPlanLi/**" access="hasRole('Role_Admin')"/>
+ 
+  <s:intercept-url  pattern="/adminStocAj/**" access="hasRole('Role_Admin')"/>
+  
+  <s:intercept-url  pattern="/adminStoc/**" access="hasRole('Role_Admin')"/>
+  
+  <s:intercept-url  pattern="/admintypAj/**" access="hasRole('Role_Admin')"/>
+  
+  <s:intercept-url  pattern="/adminTypM/**" access="hasRole('Role_Admin')"/>
+
+  <s:intercept-url  pattern="/adminEF/**" access="hasRole('Role_Admin')"/>
+  
+   <s:intercept-url  pattern="/adminEC/**" access="hasRole('Role_Admin')"/>
+   
+   <s:intercept-url  pattern="/adminEF2/**" access="hasRole('Role_Admin')"/>
+   
+    <s:intercept-url  pattern="/adminEF2/**" access="hasRole('Role_Admin')"/>
+    
+    <s:intercept-url  pattern="/adminInsA/**" access="hasRole('Role_Admin')"/>
+    
+    <s:intercept-url  pattern="/adminInsc/**" access="hasRole('Role_Admin')"/>
+    
+    <s:intercept-url  pattern="/adminClubPlan/**" access="hasRole('Role_Admin')"/>
+    <s:intercept-url  pattern="/adminEf/**" access="hasRole('Role_Admin')"/>
+    
+     <s:intercept-url  pattern="/adminppp/**" access="hasRole('Role_Admin')"/>
+    
+   
  
  
  <s:form-login login-page="/login" default-target-url="/test/index"  authentication-failure-url="/login"/>
@@ -161,7 +177,6 @@
 
  </s:authentication-provider>
  
- </s:authentication-manager>
-
+ </s:authentication-manager> 
 
 </beans>

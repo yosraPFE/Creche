@@ -34,7 +34,7 @@
 
 						
 
-						<div class="box-header well" data-original-title="">
+						<div class="box-header well" data-original-title="" >
 							<h2>
 								<i class="glyphicon glyphicon-picture"></i> <font color="#8C001A">Bienvenue à notre Crèche l'Excellence
 									</font>
@@ -46,7 +46,7 @@
 							
 						</div>
 						
-						<img alt="<%=request.getContextPath()%>/resources/Charisma Logo" src="<%=request.getContextPath()%>/resources/img/creche.png" class="hidden-xs"/>
+						<img style="width: 100%;heigth:30%;" alt="<%=request.getContextPath()%>/resources/Charisma Logo"  src="<%=request.getContextPath()%>/resources/img/PHO6908ada4-cc3b-11e2-a3c6-772827f74e0f-805x453.jpg" class="hidden-xs"/>
 						
 					</div>
 					

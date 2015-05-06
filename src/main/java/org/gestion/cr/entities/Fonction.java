@@ -1,101 +1,82 @@
 package org.gestion.cr.entities;
 
 import java.io.Serializable;
-import java.util.Collection;
 
-import javax.persistence.Column;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-public class Fonction implements Serializable
-{
+public class Fonction implements Serializable {
 	/**
 	 * 
 	 * @author YOSRA
 	 *
 	 */
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY )
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idFonction;
-	
-	
+
 	private String labelle;
-	
-	//mappedBy reference une propriété de l'entité cible
-	
-	
-	@OneToMany(mappedBy="fonction",fetch=FetchType.LAZY)
-	private Collection<EquipeSanitaire> equipeSanitaires;
-	
-	
-	
-	@OneToMany(mappedBy="fonction",fetch=FetchType.LAZY)
-	private Collection<EquipeEducatif>  equipeEducatifs;
-	
-	
-	//generation du guetteurs et du setteurs
-	public long getIdFonction() 
-	{
+
+	// generation du guetteurs et du setteurs
+	public long getIdFonction() {
 		return idFonction;
 	}
-	public void setIdFonction(long idFonction) 
-	{
+
+	public void setIdFonction(long idFonction) {
 		this.idFonction = idFonction;
 	}
-	public String getLabelle()
-	{
+
+	public String getLabelle() {
 		return labelle;
 	}
-	
-	public void setLabelle(String labelle) 
-	{
+
+	public void setLabelle(String labelle) {
 		this.labelle = labelle;
 	}
-	public Collection<EquipeSanitaire> getEquipeSanitaires() 
-	{
-		return equipeSanitaires;
+
+	@OneToMany(mappedBy = "fonction")
+	private Set<EquipeEducatif> equipeEducatifs = new HashSet<EquipeEducatif>();
+
+	@OneToMany(mappedBy = "fonction")
+	private Set<EquipeSanitaire> equipeSanitaires = new HashSet<EquipeSanitaire>();
+
+	// generation du constructeurs sans parametres
+	public Fonction() {
+		super();
+
 	}
-	public void setEquipeSanitaires(Collection<EquipeSanitaire> equipeSanitaires) 
-	{
-		this.equipeSanitaires = equipeSanitaires;
+
+	// generation du constructeurs avec parametres
+	public Fonction(String labelle) {
+		super();
+		this.labelle = labelle;
 	}
-	
-	public Collection<EquipeEducatif> getEquipeEducatifs() 
-	{
+
+	public Set<EquipeEducatif> getEquipeEducatifs() {
 		return equipeEducatifs;
 	}
-	public void setEquipeEducatifs(Collection<EquipeEducatif> equipeEducatifs)
-	{
+
+	public void setEquipeEducatifs(Set<EquipeEducatif> equipeEducatifs) {
 		this.equipeEducatifs = equipeEducatifs;
 	}
-	
-	
-	//generation du constructeurs sans parametres
-	public Fonction() 
-	{
-		super();
-		
+
+	public Set<EquipeSanitaire> getEquipeSanitaires() {
+		return equipeSanitaires;
 	}
-	
-	//generation du constructeurs avec parametres
-	public Fonction(String labelle) 
-	{
-		super();
-		this.labelle = labelle;
+
+	public void setEquipeSanitaires(Set<EquipeSanitaire> equipeSanitaires) {
+		this.equipeSanitaires = equipeSanitaires;
 	}
-	
-	
-	
-	
 
 }
